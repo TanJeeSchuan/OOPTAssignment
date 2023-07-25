@@ -18,7 +18,9 @@ public class stationeryPos {
 
         System.out.print("Hello World!");
         System.out.print("Hello World 2!");
-
+        
+        Inventory inv = new Inventory();
+        inv.addItem(1234, "TESTNAME", 23);
     }
     
 }
