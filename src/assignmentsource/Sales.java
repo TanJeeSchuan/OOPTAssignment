@@ -34,4 +34,18 @@ public class Sales {
         return null;
     }
     
+    public void addTransaction(List<Item> soldItems)    //create transaction based on list of sold items
+    {
+        transactionList.add(new transaction(soldItems));
+    }
+    
+    public void deleteTransaction(int transactionID)
+    {
+        for (transaction t : transactionList)
+        {
+            if (transactionID == t.transactionID)
+                transactionList.remove(t);
+        }
+    }
+    
 }

@@ -10,11 +10,9 @@ import java.util.List;
  * @author Tan Jee Schuan
  */
 public class transaction {
-    static int globalTransactionID = 0;
-    
+    static int globalTransactionID = 1;
     int transactionID;
-    List<Item> soldItems = new ArrayList();
-    double total;
+    double total = 0;
     
     //constructor
     transaction(List<Item> soldItemsList)
@@ -22,7 +20,7 @@ public class transaction {
         transactionID = globalTransactionID;
         globalTransactionID++;
         
-        for (Item i : soldItems)
+        for (Item i : soldItemsList)
         {
             total += i.quantity * i.price;
         }
