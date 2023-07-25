@@ -12,12 +12,14 @@ public class Item {
     public int barcode;
     public String itemName;
     public int quantity;
+    public double price;
     
-    Item(int barcode, String itemName,int quantity)
+    Item(int barcode, String itemName,int quantity, double price)
     {
         this.barcode = barcode;
         this.itemName = itemName;
         this.quantity = quantity;
+        this.price = price;
     }
     
     public void modifyQuantity(int q)

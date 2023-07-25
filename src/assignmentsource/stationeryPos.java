@@ -17,7 +17,7 @@ public class stationeryPos {
     public static void main(String[] args) {
         
         Inventory inv = new Inventory();
-        inv.addItem(1234, "TESTNAME", 23);
+        inv.addItem(1234, "TESTNAME", 23, 2.50);
         
         inv.getItem(1234).modifyQuantity(-4);
         

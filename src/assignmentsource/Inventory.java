@@ -22,9 +22,9 @@ public class Inventory{
         
     }
     
-    public void addItem(int barcode, String itemName,int quantity)
+    public void addItem(int barcode, String itemName,int quantity, double price)
     {
-        Item newItem = new Item(barcode, itemName, quantity);
+        Item newItem = new Item(barcode, itemName, quantity, price);
         itemList.add(newItem);
     }
     
