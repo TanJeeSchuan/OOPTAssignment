@@ -35,6 +35,8 @@ public class Inventory{
             if (barcode == var.barcode)
                 return var;
         }
+        
+        return null;
     }
     
     public List getItem()

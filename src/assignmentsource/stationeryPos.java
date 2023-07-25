@@ -15,12 +15,13 @@ public class stationeryPos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        System.out.print("Hello World!");
-        System.out.print("Hello World 2!");
         
         Inventory inv = new Inventory();
         inv.addItem(1234, "TESTNAME", 23);
+        
+        inv.getItem(1234).modifyQuantity(-4);
+        
+        System.out.println(inv.getItem(1234).quantity);
     }
     
 }
