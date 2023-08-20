@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
 
-//testTESTTESTTSETES
+
 
 public class StaffRegister {
 
