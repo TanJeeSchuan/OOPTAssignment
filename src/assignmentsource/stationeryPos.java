@@ -18,8 +18,10 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
-public class stationeryPos {
+public class stationeryPos{
 
+    Inventory inv;
+    Sales sales;
     /**
      * @param args the command line arguments
      */
@@ -44,6 +46,9 @@ public class stationeryPos {
         sales.addTransaction(soldItemsList);
         
         System.out.println(sales.getTransaction(2).total);
+        
+        PhysicalSale ps = new PhysicalSale();
+        ps.
     }
     
 }

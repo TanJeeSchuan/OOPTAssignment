@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Inventory{
     
-    List<Item> itemList = new ArrayList<Item>();
+    List<Item> itemList;
     
     //constructor
 
     Inventory()
     {
-        
+        itemList = new ArrayList<Item>();
     }
     
     public void addItem(int barcode, String itemName,int quantity, double price)

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Tan Jee Schuan
  */
-public class transaction {
+public class transaction{
     static int globalTransactionID = 1;
     int transactionID;
     double total = 0;
@@ -24,5 +24,9 @@ public class transaction {
         {
             total += i.quantity * i.price;
         }
+    }
+    
+    transaction()
+    {
     }
 }
