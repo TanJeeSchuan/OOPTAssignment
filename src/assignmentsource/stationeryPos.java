@@ -48,7 +48,7 @@ public class stationeryPos{
         System.out.println(sales.getTransaction(2).total);
         
         PhysicalSale ps = new PhysicalSale();
-        ps.
+        
     }
     
 }
