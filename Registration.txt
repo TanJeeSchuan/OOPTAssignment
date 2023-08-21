@@ -1,0 +1,8 @@
+
+Registration Form
+1. StaffName: Yeoh Ming Zhe
+2. StaffPassword: Y000001
+3. StaffID: S99933
+4. Staff Email: mingzhe0302@gmail.com
+5. Phone No: 6016-2783782
+6. Staff Position: IT
