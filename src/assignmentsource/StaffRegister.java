@@ -135,17 +135,6 @@ class Register {
     private String email;
     private String password;
 
-    public Register(String name, String staffID, String phoneNo, String position, String email, String password) {
-        this.name = name;
-        this.staffID = staffID;
-        this.phoneNo = phoneNo;
-        this.position = position;
-        this.email = email;
-        this.password = password;
-    }
-
-    
-    
     //getter or accessor
     public String getName() {
         return name;
