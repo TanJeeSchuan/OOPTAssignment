@@ -14,10 +14,17 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.System.exit;
 
 public class Inventory {
 
     public static void main(String[] args) {
+
+        // Read the last stored item's ID from the file
+        int lastItemID = readLastItemID();
+
+        // Set the Item's itemID to the last stored item's ID + 1
+        Item.itemID = lastItemID + 1;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -34,18 +41,31 @@ public class Inventory {
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
-
+            
             switch (choice) {
-                case 1 ->
-                    addItem();
-                case 2 ->
+                case 1:
+                    System.out.print("Enter the number of items you want to add: ");
+                    int numItems = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+                    for (int i = 0; i <= numItems; i++) {
+                        addItem();
+                        
+                        System.out.print("Do you want to add more items? (yes/no): ");
+                        String option = scanner.nextLine().trim().toLowerCase();
+                        if (!option.equals("yes")) {
+                            break;
+                        }
+                    }   break;
+                case 2:
                     searchItem();
-                case 3 -> {
+                    break;
+                    
+                case 3:
                     System.out.println("Exiting the program.");
-                    return;
-                }
-                default ->
-                    System.out.println("Invalid choice. Please choose again.");
+                    
+                default:
+                    System.out.println("Invalid option");
+                    break;
             }
         }
 
@@ -58,13 +78,13 @@ public class Inventory {
 
         String barcode = generateBarcode(Item.itemID);
 
-        System.out.print("Enter item name: ");
+        System.out.print("Enter item name : ");
         String itemName = scanner.nextLine();
 
         System.out.print("Enter quantity: ");
         int quantity = scanner.nextInt();
 
-        System.out.print("Enter price (per item): RM");
+        System.out.print("Enter price (per item): RM ");
         double price = scanner.nextDouble();
 
         // Create an Item object
@@ -73,7 +93,7 @@ public class Inventory {
         // Save item to file
         saveItemToFile(newItem);
 
-        Item.itemID++;
+        saveLastItemID(Item.itemID);
 
         System.out.println("Item added successfully.");
     }
@@ -125,6 +145,28 @@ public class Inventory {
     public static String generateBarcode(int itemID) {
         String formattedItemID = String.format("%05d", itemID); // Format itemID as a 5-digit number
         return "BAR" + formattedItemID; // Combine with "BAR" prefix
+    }
+
+    // Read the last stored item's ID from the file
+    public static int readLastItemID() {
+        int lastItemID = 10000; // Default value if the file doesn't exist or can't be read
+        try (BufferedReader reader = new BufferedReader(new FileReader("lastItemID.txt"))) {
+            String line = reader.readLine();
+            if (line != null) {
+                lastItemID = Integer.parseInt(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lastItemID;
+    }
+
+    public static void saveLastItemID(int lastItemID) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("lastItemID.txt"))) {
+            writer.write(String.valueOf(lastItemID));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
