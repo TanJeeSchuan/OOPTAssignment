@@ -1,0 +1,14 @@
+
+
+Pen,1,100,RM 3.0,BAR00001
+NoteBook,2,100,RM 8.0,BAR00002
+Highligher Set,3,100,RM 200.0,BAR00003
+Sticky notes,4,100,RM 2.0,BAR00004
+
+
+Mechanical Pencil,1,100,RM 8.5,BAR00001
+Correction Tape,2,100,RM 9.0,BAR00002
+Binder Clips,3,100,RM 1.5,BAR00003
+WhiteBoard Marker,4,100,RM 10.0,BAR00004
+Index Tabs,5,100,RM 2.0,BAR00005
+Paper Cutter,6,100,RM 5.5,BAR00006

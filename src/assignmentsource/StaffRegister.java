@@ -1,3 +1,5 @@
+package assignmentsource;
+
 //mingzhe
 
 import java.util.Scanner;
@@ -25,7 +27,7 @@ public class StaffRegister {
 
                 for (int i = 0; i < staffArray.length; i++) {
 
-                    Register reg = new Register();    //instance
+                    Register reg = new Register();    
 
                     System.out.print("Please enter a name =>  ");
                     String Name = sc.nextLine();
