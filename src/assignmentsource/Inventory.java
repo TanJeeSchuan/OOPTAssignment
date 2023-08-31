@@ -71,8 +71,6 @@ public class Inventory {
         Item newItem = new Item(Item.itemID, barcode, quantity, price, itemName);
 
         // Save item to file
-        
-        
         saveItemToFile(newItem);
 
         Item.itemID++;
