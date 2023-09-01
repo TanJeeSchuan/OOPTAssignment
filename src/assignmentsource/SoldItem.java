@@ -10,6 +10,7 @@ package assignmentsource;
  */
 public class SoldItem{
     
+    public Item soldItem;
     public int quatity;
     
 }
