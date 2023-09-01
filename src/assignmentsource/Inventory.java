@@ -3,6 +3,7 @@ package assignmentsource;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Inventory {
     private ArrayList<Item> itemList;
@@ -52,16 +53,24 @@ public class Inventory {
     }
 
     public void deleteItem(String itemName) {
-        for (Item item : itemList) {
-            if (item.getItemName().equalsIgnoreCase(itemName)) {
-                itemList.remove(item);
-                saveItemsToFile(); // Save the updated list after removing the item.
-                System.out.println("Item deleted.");
-                return; // Item found and deleted, so exit the loop.
-            }
+    boolean itemsRemoved = false;
+    Iterator<Item> iterator = itemList.iterator();
+
+    while (iterator.hasNext()) {
+        Item item = iterator.next();
+        if (item.getItemName().equalsIgnoreCase(itemName)) {
+            iterator.remove();
+            itemsRemoved = true;
         }
-        System.out.println("Item not found.");
     }
+
+    if (itemsRemoved) {
+        saveItemsToFile(); // Save the updated list after removing items.
+        System.out.println("Items with the name '" + itemName + "' deleted.");
+    } else {
+        System.out.println("No items with the name '" + itemName + "' found.");
+    }
+}
 
     private void loadItemsFromFile() {
     try (BufferedReader reader = new BufferedReader(new FileReader("Inventory.txt"))) {
