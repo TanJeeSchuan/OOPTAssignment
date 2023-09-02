@@ -6,7 +6,7 @@ package assignmentsource;
  */
 public class Item {
     
-    public static int itemID = 00001;
+    public int itemID;
     public String barcode;
     public String itemName;
     public int quantity;
@@ -15,7 +15,7 @@ public class Item {
     
     Item(int itemID, String barcode, int quantity, double price, String itemName)
     {
-        Item.itemID = itemID;
+        this.itemID = itemID;
         this.barcode = barcode;
         this.itemName = itemName;
         this.quantity = quantity;
@@ -49,7 +49,7 @@ public class Item {
     //setter
 
     public void setItemID(int itemID) {
-        Item.itemID = itemID;
+        this.itemID = itemID;
     }
 
     public void setBarcode(String barcode) {
@@ -70,7 +70,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return getItemName() + "," + getItemID()+ "," + getQuantity() + "," + "RM " + getPrice() + "," + getBarcode(); 
+        return getItemID() + "," + getItemName()+ "," + getQuantity() + "," + "RM " + getPrice() + "," + getBarcode(); 
     }
     
 }

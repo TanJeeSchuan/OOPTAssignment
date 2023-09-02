@@ -1,8 +1,7 @@
 package assignmentsource;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 public class Inventory {
 
@@ -13,18 +12,28 @@ public class Inventory {
         Inventory inventory = new Inventory();
 
         // Create some sample items and add them to the inventory
-        Item item1 = new Item(00001, "BAR00001", 10, 19.99, "Item 1");
-        Item item2 = new Item(00002, "BAR00002", 5, 29.99, "Item 2");
-        Item item3 = new Item(00003, "BAR00003", 8, 83.33, "Item 3");
-        Item item4 = new Item(00004, "BAR00004", 32, 59.99, "Item 4");
-        Item item5 = new Item(00005, "BAR00005", 20, 60.00, "Item 5");
+        Item item1 = new Item(10001, "BAR00001", 10, 19.99, "Item 1");
+        Item item2 = new Item(10002, "BAR00002", 5, 29.99, "Item 2");
+        Item item3 = new Item(10003, "BAR00003", 8, 83.33, "Item 3");
+        Item item4 = new Item(10004, "BAR00004", 32, 59.99, "Item 4");
+        Item item5 = new Item(10005, "BAR00005", 20, 60.00, "Item 5");
+        Item item6 = new Item(10006, "BAR00006", 20, 60.00, "Item 6");
+        Item item7 = new Item(10007, "BAR00007", 20, 60.00, "Item 7");
+        Item item8 = new Item(10008, "BAR00008", 20, 60.00, "Item 8");
+        Item item9 = new Item(10009, "BAR00009", 20, 60.00, "Item 9");
+        
 
         inventory.addItem(item1);
         inventory.addItem(item2);
         inventory.addItem(item3);
         inventory.addItem(item4);
         inventory.addItem(item5);
+        inventory.addItem(item6);
+        inventory.addItem(item7);
+        inventory.addItem(item8);
+        inventory.addItem(item9);
 
+        /**
         // Search for an item by name
         System.out.println("Searching for 'Item 1':");
         System.out.println(inventory.searchItem("Item 1").toString());
@@ -37,13 +46,17 @@ public class Inventory {
         System.out.println("\nSearching for 'Item 2':");
         inventory.searchItem("Item 2");
 
+        
         System.out.println("\nModify for 'item 3':");
         inventory.modifyItemToFile(item3, item5);
         System.out.println(inventory.seachItem(item5));
 
         System.out.println("\n\n");
-        inventory.displayAllItems();
-
+        inventory.displayAllItemsSortedByID();
+        */
+        
+        System.out.println("\n\n");
+        inventory.displayAllItemsSortedByID();
     }
 
     public Inventory() {
@@ -145,13 +158,41 @@ public class Inventory {
         }
     }
 
-    public void displayAllItems() {
+    public void displayAllItemsSortedByID() {
+        loadItemsFromFile();
+        
         try (BufferedReader reader = new BufferedReader(new FileReader("Inventory.txt"))) {
             String line;
-            System.out.println("Inventory Items:");
+            ArrayList<Item> items = new ArrayList<>();
+
             while ((line = reader.readLine()) != null) {
-                // Print each line from the text file
-                System.out.println(line);
+                // Parse each line from the text file and create Item objects
+                String[] parts = line.split(",");
+                if (parts.length == 5) {
+                    int itemID = Integer.parseInt(parts[0].trim());
+                    String barcode = parts[4].trim();
+                    String itemName = parts[1].trim();
+                    int quantity = Integer.parseInt(parts[2].trim());
+
+                    // Remove the currency symbol "RM " from the price string before parsing it
+                    double price = Double.parseDouble(parts[3].trim().replace("RM ", ""));
+
+                    Item item = new Item(itemID, barcode, quantity, price, itemName);
+                    items.add(item);
+                }
+            }
+
+            // Sort the items by itemID
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item item1, Item item2) {
+                    return Integer.compare(item1.getItemID(), item2.getItemID());
+                }
+            });
+
+            System.out.println("Inventory Items (Sorted by ItemID):");
+            for (Item item : items) {
+                System.out.println(item);
             }
         } catch (IOException e) {
             System.err.println("Error reading items from file: " + e.getMessage());
@@ -165,9 +206,9 @@ public class Inventory {
                 // Parse each line from the text file and create Item objects
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
-                    int itemID = Integer.parseInt(parts[1].trim());
+                    int itemID = Integer.parseInt(parts[0].trim());
                     String barcode = parts[4].trim();
-                    String itemName = parts[0].trim();
+                    String itemName = parts[1].trim();
                     int quantity = Integer.parseInt(parts[2].trim());
 
                     // Remove the currency symbol "RM " from the price string before parsing it
