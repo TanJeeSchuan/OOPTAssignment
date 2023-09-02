@@ -11,6 +11,11 @@ package assignmentsource;
 public class SoldItem{
     
     public Item soldItem;
-    public int quatity;
+    public int quantity;
+    
+    public double calculate_subtotal()
+    {
+        return soldItem.getPrice() * quantity;
+    }
     
 }

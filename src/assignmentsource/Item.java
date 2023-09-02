@@ -6,11 +6,11 @@ package assignmentsource;
  */
 public class Item {
     
-    public int itemID;
-    public String barcode;
-    public String itemName;
-    public int quantity;
-    public double price;
+    private int itemID;
+    private String barcode;
+    private String itemName;
+    private int quantity;
+    private double price;
     
     
     Item(int itemID, String barcode, int quantity, double price, String itemName)
