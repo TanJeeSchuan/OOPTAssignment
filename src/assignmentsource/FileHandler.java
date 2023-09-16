@@ -1,77 +1,77 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignmentsource;
 
-/**
- *
- * @author CHA WAN XUN
- */
-//testing
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-//for searching
 import java.util.Collections;
 import java.util.Scanner;
-//for automatically to create content ,write file 
+
+//use to manage the data and textfile
+//id all is int only
 public class FileHandler{
-    //filepath
-    private static final String filePath = "src/data";
-    //file name
+    //file path
+    private static final String filePath = "src/data/";
+    
+    //textfilename
+    public static final String INVENTORY_DB = "inventory";
     public static final String CUSTOMER_DB = "customers";
     public static final String SALES_DB = "sales";
     public static final String TRANSACTION_DB = "transactions";
-
-    
-    //read the file from specific file path
-    public static ArrayList<String> readFile(String path){//file name
-        ArrayList<String> content = new ArrayList<>();//the new array list
-
+ 
+    //reportname
+    //cus activity log 
+    //datetime,description 
+    public static final String ACTIVITY_LOG = "activities-log";   
+    public static final String SALES_LOG = "sales-log";   
+    public static final String PAYMENTS_LOG = "payments-log";
+    //customerid ,updat time
+    public static final String BLACKLIST_DB = "blacklist";
+//=====================================================
+//read
+    public static ArrayList<String> readFile(String path){
+        ArrayList<String> content = new ArrayList<>();
+        
         try{
-            //myfile for reading the specific file
+            
             File myFile = new File(path);
+            //for read file
             Scanner myReader = new Scanner(myFile);
-
-            //loop to check whether new line to read
-            //if yes ,add the content to list
+            
+            //loop until no hasNextLine
             while(myReader.hasNextLine()){
                 String data = myReader.nextLine();
                 content.add(data);
             }
-            myReader.close();//close the scanner
+            myReader.close();
         }catch(Exception e){
-            //print message if reading error 
             System.out.println(e.getMessage());
         }
         return content;
     }
-//read file to array 
+
     public static ArrayList<String[]> readFileToArray(String filename){
-       //normally filename will be “src/customerfile.txt
         String path = filePath + filename + ".txt";
         ArrayList<String[]> content = new ArrayList<>();
         ArrayList<String> fileContent = readFile(path);
-        //check the end of the variable
+        
         for(String ele : fileContent){
-            //seperate the each variable with ","
             content.add(ele.split(","));
         }
         return content;
     }
-//write file for create file
+//=====================================================    
+//write
     public static void writeFile(String filename, String content){
         try{
             String path = filePath + filename + ".txt";
             File myFile = new File(path);
-            //check the present of the file
+             //check the present of the file
             if(!myFile.exists()){
                 //if no exist will auto create a file
                 myFile.createNewFile();
             }
-        
+            //to add new content
             FileWriter myWriter = new FileWriter(path, true);
             //line by line content
             myWriter.write(content + "\n");
@@ -80,25 +80,46 @@ public class FileHandler{
             System.out.println(e.getMessage());
         }
     }
-//for update data
-     public static boolean updateDataByID(String filename, String id, String type, String data){
+
+    public static void writeArrToFile(String filename, String[] data){
+        String content = String.join(",", data);
+        writeFile(filename, content);
+    }
+
+    public static boolean writeArrToFile(String filename, ArrayList<String[]> data){
+        for(String[] ele : data){
+            writeArrToFile(filename, ele);
+        }
+        return true;
+    }
+//=====================================================
+    public static boolean updateDataByID(String filename, String id, String type, String data){
         ArrayList<String[]> fileContent = readFileToArray(filename);
         String[] header = fileContent.get(0);
         int index = getDataColumn(header, type);
-        //i=1 ,to skip the title
+
         for(int i = 1; i < fileContent.size(); i++){
-            //check id element
             if(fileContent.get(i)[0].equals(id)){
                 fileContent.get(i)[index] = data;
                 break;
             }
         }
-        //true for updating success
         return rewriteFile(filename, fileContent);
     }
 
-//for searching
-     public static ArrayList<String> getRowByType(String filename, String type, String value) {
+    public static ArrayList<String> getRowByMainID(String filename, String id) {
+        ArrayList<String[]> fileContent = readFileToArray(filename);
+        ArrayList<String> row = new ArrayList<>();
+        for(int i = 1; i < fileContent.size(); i++){
+            if(fileContent.get(i)[0].equals(id)){
+                Collections.addAll(row, fileContent.get(i));
+                break;
+            }
+        }
+        return row;
+    }
+
+    public static ArrayList<String> getRowByType(String filename, String type, String value) {
         ArrayList<String[]> fileContent = readFileToArray(filename);
         ArrayList<String> row = new ArrayList<>();
         int index = getDataColumn(fileContent.get(0), type);
@@ -114,24 +135,11 @@ public class FileHandler{
     public static ArrayList<String> getColumnByType(String filename, String type) {
         ArrayList<String[]> fileContent = readFileToArray(filename);
         ArrayList<String> column = new ArrayList<>();
-        //check for the type
         int index = getDataColumn(fileContent.get(0), type);
         for(int i = 1; i < fileContent.size(); i++){
             column.add(fileContent.get(i)[index]);
         }
         return column;
-    }
-    
-    public static void writeArrToFile(String filename, String[] data){
-        String content = String.join(",", data);
-        writeFile(filename, content);
-    }
-
-    public static boolean writeArrToFile(String filename, ArrayList<String[]> data){
-        for(String[] ele : data){
-            writeArrToFile(filename, ele);
-        }
-        return true;
     }
 
     public static boolean rewriteFile(String filename, ArrayList<String[]> data){
@@ -140,7 +148,6 @@ public class FileHandler{
         return writeArrToFile(filename, data);
     }
 
-    //private？
     public static int getDataColumn(String[] header, String type){
         int index = 0;
         for(int i = 0; i < header.length; i++){
@@ -156,19 +163,7 @@ public class FileHandler{
         ArrayList<String> fileContent = getRowByMainID(filename, id);
         return fileContent.size() > 0;
     }
-    
-    public static ArrayList<String> getRowByMainID(String filename, String id) {
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        ArrayList<String> row = new ArrayList<>();
-        for(int i = 1; i < fileContent.size(); i++){
-            if(fileContent.get(i)[0].equals(id)){
-                Collections.addAll(row, fileContent.get(i));
-                break;
-            }
-        }
-        return row;
-    }
-    
+
     public static int getLastRowID(String filename){
         ArrayList<String[]> fileContent = readFileToArray(filename);
         //remove header
@@ -191,6 +186,4 @@ public class FileHandler{
         }
         return rewriteFile(filename, fileContent);
     }
- 
 }
-
