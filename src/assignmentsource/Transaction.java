@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignmentsource;
 
-/**
- *
- * @author user
- */
-public class Transaction {
+
+public class Transaction implements ITransaction{
     private int transactionID;
     private int customerID;
     private Customer customer;
@@ -16,10 +9,9 @@ public class Transaction {
     private int installmentTimes;
     private int timesLeft;
     private double totalAmount;
-    //private Sales sales;
+    private Sales sales;
 
     //used to create new transaction
-    //transactionID,customerID,installmentTimes,balanceLeft,timesLeft,totalAmount
     public Transaction(int customerID, double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
         this.transactionID = Tools.getNewID(FileHandler.TRANSACTION_DB);
         this.customerID = customerID;
@@ -28,8 +20,9 @@ public class Transaction {
         this.installmentTimes = installmentTimes;
         this.timesLeft = timesLeft;
         this.totalAmount = totalAmount;
-       // this.sales = StaticContainer.currentSale;
+        this.sales = StaticContainer.currentSale;
         FileHandler.writeFile(FileHandler.TRANSACTION_DB, this.toString());
+        generateLog();
     }
 
     public Transaction(int transactionID, int customerID, double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
@@ -40,10 +33,8 @@ public class Transaction {
         this.installmentTimes = installmentTimes;
         this.timesLeft = timesLeft;
         this.totalAmount = totalAmount;
-       
+        this.sales = new Sales(this.transactionID);
     }
-    
-    //array constructor
 
     public int getTransactionID() {
         return transactionID;
@@ -101,7 +92,13 @@ public class Transaction {
         this.totalAmount = totalAmount;
     }
 
- //insltamment
+    public Sales getSales(){
+        return this.sales;
+    }
+
+    public void setSales(Sales sales){
+        this.sales = sales;
+    }
 
     public double getMonthlyPayment(){
         return Math.round(this.totalAmount / this.installmentTimes * 100.0) / 100.0;
@@ -112,8 +109,6 @@ public class Transaction {
         this.balanceLeft = Math.round((this.balanceLeft - this.getMonthlyPayment()) * 100.0) / 100.0;
         updateTransaction();
     }
-    
-    //public void payMonthly(double amountPaid);
 
     public String toString(){
         return this.transactionID + "," + this.customerID + "," + this.installmentTimes + "," + this.balanceLeft + ","  + this.timesLeft + "," + this.totalAmount;
@@ -132,8 +127,15 @@ public class Transaction {
                 "balanceLeft",
                 String.valueOf(this.balanceLeft)
         );
+        generateLog();
     }
 
+    private void generateLog(){
+        Tools.generatePaymentLog(
+                this.customer.getName(),
+                getMonthlyPayment(),
+                this.installmentTimes == 1 ? "One-time Payment" : "Installment"
+        );
+    }
 
 }
-

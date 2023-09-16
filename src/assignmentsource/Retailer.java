@@ -1,14 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignmentsource;
 
-/**
- *
- * @author user
- */
-public class Retailer extends Customer{
+public class Retailer extends Customer {
 
     public Retailer(int customerID) {
         super(customerID);
@@ -22,8 +14,7 @@ public class Retailer extends Customer{
         super(customerID, name, phoneNumber, currentPoints, role);
     }
 
-    public static double getDiscount(double price){
-        return Math.floor(price / 200);  //each 200 discount 1
+    public static double getDiscount(double points){
+        return Math.floor(points / 200);  //each 200 points discount 1
     }
 }
-

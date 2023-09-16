@@ -1,236 +1,84 @@
 package assignmentsource;
 
-import java.io.*;
-import java.util.*;
+import java.util.List;
 
-public class Inventory {
+public class Inventory implements IInventory{
 
-    private ArrayList<Item> itemList;
+    private List<Item> itemList;
 
-    public static void main(String[] args) {
-        // Create an instance of the Inventory class
-        Inventory inventory = new Inventory();
-
-        // Create some sample items and add them to the inventory
-        Item item1 = new Item(10001, "BAR00001", 10, 19.99, "Item 1");
-        Item item2 = new Item(10002, "BAR00002", 5, 29.99, "Item 2");
-        Item item3 = new Item(10003, "BAR00003", 8, 83.33, "Item 3");
-        Item item4 = new Item(10004, "BAR00004", 32, 59.99, "Item 4");
-        Item item5 = new Item(10005, "BAR00005", 20, 60.00, "Item 5");
-        Item item6 = new Item(10006, "BAR00006", 20, 60.00, "Item 6");
-        Item item7 = new Item(10007, "BAR00007", 20, 60.00, "Item 7");
-        Item item8 = new Item(10008, "BAR00008", 20, 60.00, "Item 8");
-        Item item9 = new Item(10009, "BAR00009", 20, 60.00, "Item 9");
-        
-
-        inventory.addItem(item1);
-        inventory.addItem(item2);
-        inventory.addItem(item3);
-        inventory.addItem(item4);
-        inventory.addItem(item5);
-        inventory.addItem(item6);
-        inventory.addItem(item7);
-        inventory.addItem(item8);
-        inventory.addItem(item9);
-
-        /**
-        // Search for an item by name
-        System.out.println("Searching for 'Item 1':");
-        System.out.println(inventory.searchItem("Item 1").toString());
-
-        // Delete an item by name
-        System.out.println("\nDeleting 'Item 2':");
-        inventory.deleteItem("Item 2");
-
-        // Search for the deleted item to confirm it's not in the inventory
-        System.out.println("\nSearching for 'Item 2':");
-        inventory.searchItem("Item 2");
-
-        
-        System.out.println("\nModify for 'item 3':");
-        inventory.modifyItemToFile(item3, item5);
-        System.out.println(inventory.seachItem(item5));
-
-        System.out.println("\n\n");
-        inventory.displayAllItemsSortedByID();
-        */
-        
-        System.out.println("\n\n");
-        inventory.displayAllItemsSortedByID();
+    public Inventory(List<Item> itemList) {
+        this.itemList = itemList;
     }
 
-    public Inventory() {
-        itemList = new ArrayList<>();
-        loadItemsFromFile(); // Load items from the text file when the Inventory object is created.
-    }
-
-    public ArrayList getItem() {
+    @Override
+    public List<Item> getItemList() {
         return itemList;
     }
 
-    public void addItem(Item item) {
-        itemList.add(item);
-        saveItemsToFile(); // Save items to the text file when a new item is added.
-    }
-
-    public Item seachItem(Item newItem) {
+    @Override
+    public Item getItem(int itemID) {
         for (Item item : itemList) {
-            if (item.equals(newItem)) {
+            if (item.getItemID() == itemID) {
                 return item;
             }
         }
         return null;
     }
 
-    public Item searchItem(String itemName) {
+    @Override
+    public void addItem(Item item) {
+        itemList.add(item);
+        FileHandler.writeFile(FileHandler.INVENTORY_DB, item.toString());
+    }
+
+    @Override
+    public void removeItem(Item item) {
+        itemList.remove(item);
+    }
+
+    @Override
+    public void removeItem(int itemID) {
+        if (isItemExist(itemID)) {
+            removeItem(getItem(itemID));
+            FileHandler.removeRowByID(FileHandler.INVENTORY_DB, String.valueOf(itemID));
+        } else {
+            System.out.println("\nItem with id " + itemID + " not found\n");
+        }
+    }
+
+    @Override
+    public boolean isItemExist(int itemID){
         for (Item item : itemList) {
-            if (item.getItemName().equalsIgnoreCase(itemName)) {
-                return item; // Found the item, so exit the loop.
+            if (item.getItemID() == itemID) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
-    public void deleteItem(String itemName) {
-        boolean itemsRemoved = false;
-        Iterator<Item> iterator = itemList.iterator();
-
-        while (iterator.hasNext()) {
-            Item item = iterator.next();
-            if (item.getItemName().equalsIgnoreCase(itemName)) {
-                iterator.remove();
-                itemsRemoved = true;
-            }
+    @Override
+    public void displayInventory() {
+        System.out.printf("\n%-10s%-15s%-20s%-10s%-10s%-10s\n", "Item ID", "Barcode", "Item Name", "Quantity", "Price", "Bulk Price");
+        System.out.println("---------------------------------------------------------------------------");
+        for (Item item : itemList) {
+            System.out.printf("%-10d%-15s%-20s%-10d%-10.2f%10.2f\n",
+                    item.getItemID(), item.getBarCode(), item.getItemName(),
+                    item.getQuantity(), item.getPrice(), item.getBulkPrice()
+            );
         }
-
-        if (itemsRemoved) {
-            saveItemsToFile(); // Save the updated list after removing items.
-            System.out.println("Items with the name '" + itemName + "' deleted.");
-        } else {
-            System.out.println("No items with the name '" + itemName + "' found.");
-        }
+        System.out.println("---------------------------------------------------------------------------\n");
     }
 
-    public void modifyItemToFile(Item targetItem, Item newItem) {
-        boolean itemModified = false;
-
-        for (int i = 0; i < itemList.size(); i++) {
-            Item currentItem = itemList.get(i);
-            if (currentItem.getItemName().equalsIgnoreCase(targetItem.getItemName())) {
-                // Replace the current item with the new item's details
-                currentItem.setItemID(newItem.getItemID());
-                currentItem.setBarcode(newItem.getBarcode());
-                currentItem.setQuantity(newItem.getQuantity());
-                currentItem.setPrice(newItem.getPrice());
-
-                itemModified = true;
-                break; // Exit the loop once the item is found and modified.
-            }
+    @Override
+    public void simpleItemList(){
+        System.out.printf("\n%-10s%-20s%-10s%-10s\n", "Item ID", "Item Name", "Price", "Bulk Price");
+        System.out.println("-----------------------------------------------------");
+        for (Item item : itemList) {
+            System.out.printf("%-10d%-20s%-10.2f%-10.2f\n",
+                    item.getItemID(), item.getItemName(),
+                    item.getPrice(), item.getBulkPrice()
+            );
         }
-
-        if (itemModified) {
-            saveItemsToFile(); // Save the updated list after modifying the item.
-            System.out.println("Item '" + targetItem.getItemName() + "' modified.");
-        } else {
-            System.out.println("Item '" + targetItem.getItemName() + "' not found.");
-        }
-    }
-
-    public void modifyItemToFile(String itemName, Item newItem) {
-
-        boolean itemModified = false;
-
-        for (int i = 0; i < itemList.size(); i++) {
-            Item item = itemList.get(i);
-            if (item.getItemName().equalsIgnoreCase(itemName)) {
-                //Replace the item with the new item
-                itemList.set(i, newItem);
-                itemModified = true;
-                break;
-            }
-        }
-
-        if (itemModified) {
-            saveItemsToFile();
-            System.out.println("The Item: " + itemName + " has been modified.");
-        } else {
-            System.out.println("Item with the name: " + itemName + " not found!");
-        }
-    }
-
-    public void displayAllItemsSortedByID() {
-        loadItemsFromFile();
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader("Inventory.txt"))) {
-            String line;
-            ArrayList<Item> items = new ArrayList<>();
-
-            while ((line = reader.readLine()) != null) {
-                // Parse each line from the text file and create Item objects
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    int itemID = Integer.parseInt(parts[0].trim());
-                    String barcode = parts[4].trim();
-                    String itemName = parts[1].trim();
-                    int quantity = Integer.parseInt(parts[2].trim());
-
-                    // Remove the currency symbol "RM " from the price string before parsing it
-                    double price = Double.parseDouble(parts[3].trim().replace("RM ", ""));
-
-                    Item item = new Item(itemID, barcode, quantity, price, itemName);
-                    items.add(item);
-                }
-            }
-
-            // Sort the items by itemID
-            Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item item1, Item item2) {
-                    return Integer.compare(item1.getItemID(), item2.getItemID());
-                }
-            });
-
-            System.out.println("Inventory Items (Sorted by ItemID):");
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading items from file: " + e.getMessage());
-        }
-    }
-
-    private void loadItemsFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("Inventory.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Parse each line from the text file and create Item objects
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    int itemID = Integer.parseInt(parts[0].trim());
-                    String barcode = parts[4].trim();
-                    String itemName = parts[1].trim();
-                    int quantity = Integer.parseInt(parts[2].trim());
-
-                    // Remove the currency symbol "RM " from the price string before parsing it
-                    double price = Double.parseDouble(parts[3].trim().replace("RM ", ""));
-
-                    Item item = new Item(itemID, barcode, quantity, price, itemName);
-                    itemList.add(item);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error loading items from file: " + e.getMessage());
-        }
-    }
-
-    private void saveItemsToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Inventory.txt"))) {
-            for (Item item : itemList) {
-                writer.write(item.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving items to file: " + e.getMessage());
-        }
+        System.out.println("-----------------------------------------------------\n");
     }
 }

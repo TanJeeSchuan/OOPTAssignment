@@ -1,47 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignmentsource;
 
-/**
- *
- * @author Cha Wan Xun
- */
 import java.util.ArrayList;
 
 public class Customer {
+
     private int customerID;
     private String name;
     private String phoneNumber;
     private int currentPoints;
-    //no have role !
     private String role;
+//role for wholesaler and retailer
+//wholesaler no track point 
+//retailer track point and use for discount
     
-//array list customerID,customerName,phoneNumber,currentPoints,role
-    //filehandle， try catch
     public Customer(int customerID) {
         ArrayList<String> customerInfo = FileHandler.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(customerID));
         this.customerID = customerID;
-        this.name = customerInfo.get(1);//get as 1
+        this.name = customerInfo.get(1);
         this.phoneNumber = customerInfo.get(2);
         this.currentPoints = Integer.parseInt(customerInfo.get(3));
         this.role = customerInfo.get(4);
     }
-//create or registration for new customer
+
+    //used to create new customer
     public Customer(String name, String phoneNumber, String role) {
-        //tool class to create new id
         this.customerID = Tools.getNewID(FileHandler.CUSTOMER_DB);
         this.name = name;
         this.phoneNumber = phoneNumber;
-        //initial point set as zero
         this.currentPoints = 0;
         this.role = role;
-        //write into file
         FileHandler.writeFile(FileHandler.CUSTOMER_DB, this.toString());
     }
-    
-    //constructor to create object from array
+
+    public Customer(String[] data) {
+        this.customerID = Integer.parseInt(data[0]);
+        this.name = data[1];
+        this.phoneNumber = data[2];
+        this.currentPoints = Integer.parseInt(data[3]);
+        this.role = data[4];
+    }
 
     public Customer(int customerID, String name, String phoneNumber, int currentPoints, String role) {
         this.customerID = customerID;
@@ -50,8 +47,7 @@ public class Customer {
         this.currentPoints = currentPoints;
         this.role = role;
     }
-    
-//getter setter part
+//getter setter
     public int getCustomerID() {
         return customerID;
     }
@@ -83,7 +79,7 @@ public class Customer {
     public void setCurrentPoints(int currentPoints) {
         this.currentPoints = currentPoints;
     }
-//role may cancel !
+
     public String getRole() {
         return role;
     }
@@ -92,7 +88,7 @@ public class Customer {
         this.role=role;
     }
 
-//update current points
+    //update point
     public void updateCurrentPoints(int points) {
         this.currentPoints += points;
 
@@ -103,7 +99,7 @@ public class Customer {
                 String.valueOf(this.currentPoints)
         );
     }
-//display list
+//display
     public void displayCustomerInfo(){
         System.out.println("\n-----------------------------------");
         System.out.printf("Customer ID: %d\n", this.customerID);
@@ -117,5 +113,5 @@ public class Customer {
     public String toString() {
         return this.customerID + "," + this.name + "," + this.phoneNumber + "," + this.currentPoints + "," + this.role;
     }
+    //testing
 }
-

@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignmentsource;
 
-/**
- *
- * @author user
- */
 
-//noo
-public class Wholesaler extends Customer{
+public class Wholesaler extends Customer {
 
-    private final double pointsPer = 0.5;
+    private final double points = 0.5;
 
     public Wholesaler(int customerID) {
         super(customerID);
@@ -30,4 +21,3 @@ public class Wholesaler extends Customer{
         return 150;
     }
 }
-
