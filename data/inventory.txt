@@ -1,0 +1,4 @@
+itemID,barCode,itemName,quantity,price,bulkPrice
+1,8718114711,Apple Pencil,1199,250,240
+2,8718114712,Coding Book,400,25,24
+
