@@ -1,0 +1,2 @@
+saleID,timeOfSale,customerID,soldItemsID,quantities
+1,2023-09-16 22:46:53,13,4,40

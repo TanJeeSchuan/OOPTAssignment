@@ -1,0 +1,2 @@
+transactionID,customerID,installmentTimes,balanceLeft,timesLeft,totalAmount
+1,13,6,466.65,1,2800.0
