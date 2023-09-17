@@ -14,7 +14,7 @@ public class Sales implements ISales{
     private List<Integer> soldItemsQuantity;
 
     public Sales(){
-        this.saleID = Tools.getNewID(FileHandler.SALES_DB);
+        this.saleID = Tools.getNewID(FileHandler.SALES_DB);      //不错
         this.timeOfSale = Tools.getCurrentDateTime();
         this.customerID = 0;
         this.soldItemsID = new ArrayList<>();
@@ -143,8 +143,8 @@ public class Sales implements ISales{
 
     public String toString() {
         return this.saleID + "," + this.timeOfSale + "," +
-                this.customerID + "," + Tools.intListToString(this.soldItemsID) + "," +
-                Tools.intListToString(this.soldItemsQuantity);
+                this.customerID + "," + Init.intListToString(this.soldItemsID) + "," +
+                Init.intListToString(this.soldItemsQuantity);
     }
 
     public void storeSale(){

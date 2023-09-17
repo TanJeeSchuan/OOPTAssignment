@@ -6,7 +6,7 @@ public class CustomerList implements ICustomerList {
     private List<Customer> customerList;
 
     public CustomerList(){
-        this.customerList = Tools.initCustomers();
+        this.customerList = Init.initCustomers();
     }
 
     public Customer getCustomer(int customerID){

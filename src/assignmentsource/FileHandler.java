@@ -32,8 +32,8 @@ public class FileHandler{
     public static ArrayList<String> readFile(String path){
         ArrayList<String> content = new ArrayList<>();
         
-        try{
-            
+        try
+        {
             File myFile = new File(path);
             //for read file
             Scanner myReader = new Scanner(myFile);
@@ -44,12 +44,15 @@ public class FileHandler{
                 content.add(data);
             }
             myReader.close();
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
         return content;
     }
 
+    //read CSV to array
     public static ArrayList<String[]> readFileToArray(String filename){
         String path = filePath + filename + ".txt";
         ArrayList<String[]> content = new ArrayList<>();
@@ -62,6 +65,8 @@ public class FileHandler{
     }
 //=====================================================    
 //write
+    
+    //write string to file (auto newline)
     public static void writeFile(String filename, String content){
         try{
             String path = filePath + filename + ".txt";
@@ -76,7 +81,9 @@ public class FileHandler{
             //line by line content
             myWriter.write(content + "\n");
             myWriter.close();
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
     }
@@ -119,19 +126,25 @@ public class FileHandler{
         return row;
     }
 
+    //return first row with column with value
     public static ArrayList<String> getRowByType(String filename, String type, String value) {
         ArrayList<String[]> fileContent = readFileToArray(filename);
-        ArrayList<String> row = new ArrayList<>();
+        ArrayList<String> foundRow = new ArrayList<>();
+        
+        //get column index of 2d array to search
         int index = getDataColumn(fileContent.get(0), type);
+        
+        //iterate thorugh selected column index of all rows to find value
         for(int i = 1; i < fileContent.size(); i++){
             if(fileContent.get(i)[index].equals(value)){
-                row.addAll(Arrays.asList(fileContent.get(i)));
+                foundRow.addAll(Arrays.asList(fileContent.get(i)));
                 break;
             }
         }
-        return row;
+        return foundRow;
     }
 
+    //return all columns of header name
     public static ArrayList<String> getColumnByType(String filename, String type) {
         ArrayList<String[]> fileContent = readFileToArray(filename);
         ArrayList<String> column = new ArrayList<>();
@@ -158,6 +171,12 @@ public class FileHandler{
         }
         return index;
     }
+    
+    //custom
+    public static boolean checkColumnExist(String filename, String column){
+        ArrayList<String> fileContent = getColumnByType(filename, column);
+        return fileContent.size() > 0;
+    }
 
     public static boolean checkIDExist(String filename, String id){
         ArrayList<String> fileContent = getRowByMainID(filename, id);
@@ -168,11 +187,15 @@ public class FileHandler{
         ArrayList<String[]> fileContent = readFileToArray(filename);
         //remove header
         fileContent.remove(0);
-        if (fileContent.size() == 0) {
+        
+        if (fileContent.size() == 0) //if is empty, return 0
+        {
             return 0;
         }
+        
         String lastLineID = fileContent.get(fileContent.size() - 1)[0];
         String lastID = lastLineID.replaceAll("[^0-9]", "");
+        
         return Integer.parseInt(lastID);
     }
 

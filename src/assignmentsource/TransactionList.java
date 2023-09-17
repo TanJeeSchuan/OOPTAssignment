@@ -9,7 +9,7 @@ public class TransactionList {
     private List<Transaction> transactionList;
 
     public TransactionList(){
-        this.transactionList = Tools.initTransactions();
+        this.transactionList = Init.initTransactions();
     }
 
     public Transaction getTransaction(int transactionID){

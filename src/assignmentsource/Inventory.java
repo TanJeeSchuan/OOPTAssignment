@@ -1,17 +1,22 @@
 package assignmentsource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory implements IInventory{
 
-    private List<Item> itemList;
+    private ArrayList<Item> itemList;
 
-    public Inventory(List<Item> itemList) {
+    public Inventory(ArrayList<Item> itemList) {
         this.itemList = itemList;
+    }
+    
+    public Inventory() {
+        itemList = new ArrayList<Item>();
     }
 
     @Override
-    public List<Item> getItemList() {
+    public ArrayList<Item> getItemList() {
         return itemList;
     }
 
@@ -54,6 +59,16 @@ public class Inventory implements IInventory{
             }
         }
         return false;
+    }
+    
+    //custom
+    public void updateFile(){
+        ArrayList<String[]> dataString = new ArrayList<>();
+        for (Item eItem: itemList)
+        {
+            dataString.add(eItem.toString().split(", "));
+        }
+        FileHandler.rewriteFile(FileHandler.INVENTORY_DB, dataString);
     }
 
     @Override

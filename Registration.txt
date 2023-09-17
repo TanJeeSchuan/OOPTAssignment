@@ -6,3 +6,11 @@ Registration Form
 4. Staff Email: mingzhe0302@gmail.com
 5. Phone No: 6016-2783782
 6. Staff Position: IT
+
+Registration Form
+1. StaffName: Tan Jee Schuan
+2. StaffPassword: 123456
+3. StaffID: S1213
+4. Staff Email: tan@gmail.com
+5. Phone No: 1234-1234567
+6. Staff Position: Admin

@@ -10,101 +10,100 @@ import java.io.IOException;
 
 public class StaffRegister {
 
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-
-        try (sc) {
-
-            boolean continueRegister = true;
-
-            while (continueRegister) {
-
-                System.out.print("Please enter a number of staff members: ");
-                int numofStaff = sc.nextInt();
-                sc.nextLine();
-                Register[] staffArray = new Register[numofStaff];
-
-                for (int i = 0; i < staffArray.length; i++) {
-
-                    Register reg = new Register();    
-
-                    System.out.print("Please enter a name =>  ");
-                    String Name = sc.nextLine();
-                    while (!isValidName(Name)) {
-                        System.out.print("Please enter a valid name =>  ");
-                        Name = sc.nextLine();
-                    }
-                    reg.setName(Name);
-
-                    System.out.print("Enter a password(6 to 8 character) => ");
-                    String password = sc.nextLine();
-                    while (!isValidPassword(password)) {
-                        System.out.print("Invalid password. Please enter a valid password (between 6 to 8 character) => ");
-                        password = sc.nextLine();
-                    }
-                    reg.setPassword(password);
-
-                    System.out.print("Enter the staffID(Ex: S22012) => ");
-                    String staffID = sc.nextLine();
-                    while (!isValidID(staffID)) {
-                        System.out.print("Invalid staff ID. Please enter a valid ID (starts with 'S', max 7 characters)=> ");
-                        staffID = sc.nextLine();
-                    }
-                    reg.setStaffID(staffID);
-
-                    System.out.print("Enter the phone number(Ex: 6016-1234567) => ");
-                    String phoneNo = sc.nextLine();
-                    while (!isValidPhone(phoneNo)) {
-                        System.out.print("Enter the phone number(Ex: 6016-1234567) => ");
-                        phoneNo = sc.nextLine();
-                    }
-                    reg.setPhoneNo(phoneNo);
-
-                    System.out.print("Enter the email(Ex: abc123@gmail.com) => ");
-                    String email = sc.nextLine();
-                    while (!isValidEmail(email)) {
-                        System.out.print("Enter the email(Ex: abc123@gmail.com) => ");
-                        email = sc.nextLine();
-                    }
-                    reg.setEmail(email);
-
-                    System.out.print("Enter the position => ");
-                    String position = sc.nextLine();
-                    reg.setPosition(position);
-
-                    System.out.printf("\n");
-                    System.out.println("Registration Form\n");
-                    System.out.println(reg.toString());
-
-                    staffArray[i] = reg;
-
-                    try (FileWriter fileWriter = new FileWriter("Registration.txt", true)) {
-
-                        fileWriter.write("\n");
-                        fileWriter.write("Registration Form\n");
-                        fileWriter.write(staffArray[i].toString());
-
-                        System.out.println("User information has been written to Registration.txt....");
-                    } catch (IOException e) {
-                        System.out.println("An error occurred while writing to Registration.txt.");
-                    }
-
-                    System.out.print("Do you want to register more staff members? (yes/no): ");
-                    String continueChoice = sc.nextLine();
-                    if (continueChoice.equalsIgnoreCase("no")) {
-                        continueRegister = false;
-                    }
-
-                }
-            }
-             System.out.println("Thank you for using the Staff Register.");
-
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        Scanner sc = new Scanner(System.in);
+//
+//        try (sc) {
+//
+//            boolean continueRegister = true;
+//
+//            while (continueRegister) {
+//
+//                System.out.print("Please enter a number of staff members: ");
+//                int numofStaff = sc.nextInt();
+//                sc.nextLine();
+//                Register[] staffArray = new Register[numofStaff];
+//
+//                for (int i = 0; i < staffArray.length; i++) {
+//
+//                    Register reg = new Register();    
+//
+//                    System.out.print("Please enter a name =>  ");
+//                    String Name = sc.nextLine();
+//                    while (!isValidName(Name)) {
+//                        System.out.print("Please enter a valid name =>  ");
+//                        Name = sc.nextLine();
+//                    }
+//                    reg.setName(Name);
+//
+//                    System.out.print("Enter a password(6 to 8 character) => ");
+//                    String password = sc.nextLine();
+//                    while (!isValidPassword(password)) {
+//                        System.out.print("Invalid password. Please enter a valid password (between 6 to 8 character) => ");
+//                        password = sc.nextLine();
+//                    }
+//                    reg.setPassword(password);
+//
+//                    System.out.print("Enter the staffID(Ex: S22012) => ");
+//                    String staffID = sc.nextLine();
+//                    while (!isValidID(staffID)) {
+//                        System.out.print("Invalid staff ID. Please enter a valid ID (starts with 'S', max 7 characters)=> ");
+//                        staffID = sc.nextLine();
+//                    }
+//                    reg.setStaffID(staffID);
+//
+//                    System.out.print("Enter the phone number(Ex: 6016-1234567) => ");
+//                    String phoneNo = sc.nextLine();
+//                    while (!isValidPhone(phoneNo)) {
+//                        System.out.print("Enter the phone number(Ex: 6016-1234567) => ");
+//                        phoneNo = sc.nextLine();
+//                    }
+//                    reg.setPhoneNo(phoneNo);
+//
+//                    System.out.print("Enter the email(Ex: abc123@gmail.com) => ");
+//                    String email = sc.nextLine();
+//                    while (!isValidEmail(email)) {
+//                        System.out.print("Enter the email(Ex: abc123@gmail.com) => ");
+//                        email = sc.nextLine();
+//                    }
+//                    reg.setEmail(email);
+//
+//                    System.out.print("Enter the position => ");
+//                    String position = sc.nextLine();
+//                    reg.setPosition(position);
+//
+//                    System.out.printf("\n");
+//                    System.out.println("Registration Form\n");
+//                    System.out.println(reg.toString());
+//
+//                    staffArray[i] = reg;
+//
+//                    try (FileWriter fileWriter = new FileWriter("Registration.txt", true)) {
+//
+//                        fileWriter.write("\n");
+//                        fileWriter.write("Registration Form\n");
+//                        fileWriter.write(staffArray[i].toString());
+//
+//                        System.out.println("User information has been written to Registration.txt....");
+//                    } catch (IOException e) {
+//                        System.out.println("An error occurred while writing to Registration.txt.");
+//                    }
+//
+//                    System.out.print("Do you want to register more staff members? (yes/no): ");
+//                    String continueChoice = sc.nextLine();
+//                    if (continueChoice.equalsIgnoreCase("no")) {
+//                        continueRegister = false;
+//                    }
+//
+//                }
+//            }
+//             System.out.println("Thank you for using the Staff Register.");
+//
+//        }
+//    }
 
     //validation part
-    //check staff name 
     public static boolean isValidName(String staffName) {
         return staffName != null && !staffName.isEmpty() && !staffName.matches(".*\\d.*");   //name must be all character and cannot be null
     }
