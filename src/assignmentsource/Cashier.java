@@ -4,6 +4,8 @@
  */
 package assignmentsource;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Tan Jee Schuan
@@ -16,7 +18,19 @@ public class Cashier extends User{
     
     @Override
     public void mainMenu() {
-        System.out.print("Cashier\n1. New Sales\n2. View Items\n3. Logout");
+        Scanner sc = new Scanner(System.in);
+        
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+        
+        System.out.print("Cashier\n1. New Sales\n2. View Items\n3. Logout\n\n");
+        switch(sc.nextInt())
+        {
+            case 1:
+                break;
+            case 2:
+                System.out.println(sPOS.cust.toString());
+                break;
+        }
     }
     
 }
