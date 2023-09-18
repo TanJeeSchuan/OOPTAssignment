@@ -1,0 +1,2 @@
+saleID,installmentTimes,balanceLeft,timesLeft,totalAmount
+1,6,466.65,1,2800.00

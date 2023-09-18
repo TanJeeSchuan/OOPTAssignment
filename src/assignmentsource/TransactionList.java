@@ -64,8 +64,8 @@ public class TransactionList {
         template();
         for(Transaction transaction : transactionList){
             System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
-            System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
-            System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
+            //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
+            //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
             System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
             if (transaction.getInstallmentTimes() == 1) {
                 System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
@@ -95,8 +95,8 @@ public class TransactionList {
         installmentTemplate(activeInstallment);
         for (Transaction transaction : activeInstallment) {
             System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
-            System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
-            System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
+            //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
+            //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
             System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
             System.out.printf("%-20s%-20s\n", "Installment Period:", transaction.getInstallmentTimes()+" months");
             System.out.printf("%-20s%-20s\n", "Time Left:", transaction.getTimesLeft());

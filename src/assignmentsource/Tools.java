@@ -17,7 +17,7 @@ public class Tools {
     }
 
     public static int getNewID(String db) {
-        return FileHandler.getLastRowID(db) + 1;
+        return CSVFile.getLastRowID(db) + 1;
     }
 
     public static List<Integer> stringToIntList(String str) {
@@ -31,7 +31,7 @@ public class Tools {
 
 
     public static Customer getCustomerByID(int id) {
-        ArrayList<String> customerInfo = FileHandler.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(id));
+        ArrayList<String> customerInfo = CSVFile.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(id));
 
         return new Customer(
                 id, customerInfo.get(1),
@@ -61,12 +61,12 @@ public class Tools {
     }
 
     public static void removeFromBlacklist(int id) {
-        FileHandler.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(id));
+        CSVFile.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(id));
     }
 
     public static boolean checkCustomerIsBlacklisted(int id) {
         //check the customerID exist in blacklist or not
-        ArrayList<String> result = FileHandler.getRowByMainID(FileHandler.BLACKLIST_DB, Integer.toString(id));
+        ArrayList<String> result = CSVFile.getRowByMainID(FileHandler.BLACKLIST_DB, Integer.toString(id));
         return result.size() > 0;
     }
 

@@ -14,7 +14,7 @@ public class Customer {
 //retailer track point and use for discount
     
     public Customer(int customerID) {
-        ArrayList<String> customerInfo = FileHandler.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(customerID));
+        ArrayList<String> customerInfo = CSVFile.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(customerID));
         this.customerID = customerID;
         this.name = customerInfo.get(1);
         this.phoneNumber = customerInfo.get(2);
@@ -92,7 +92,7 @@ public class Customer {
     public void updateCurrentPoints(int points) {
         this.currentPoints += points;
 
-        FileHandler.updateDataByID(
+        CSVFile.updateDataByID(
                 FileHandler.CUSTOMER_DB,
                 String.valueOf(this.customerID),
                 "currentPoints",

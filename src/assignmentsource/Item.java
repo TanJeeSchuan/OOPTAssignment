@@ -11,7 +11,7 @@ public class Item {
     private double bulkPrice;
 
     public Item(int itemID) {
-        List<String> itemInfo = FileHandler.getRowByMainID(FileHandler.INVENTORY_DB, String.valueOf(itemID));
+        List<String> itemInfo = CSVFile.getRowByMainID(FileHandler.INVENTORY_DB, String.valueOf(itemID));
         this.itemID = itemID;
         this.barCode = itemInfo.get(1);
         this.itemName = itemInfo.get(2);
@@ -36,6 +36,22 @@ public class Item {
         this.quantity = quantity;
         this.price = price;
         this.bulkPrice = bulkPrice;
+    }
+    
+    public Item(String[] itemData)
+    {
+        if (itemData.length != 6)
+            throw new IllegalArgumentException("Item initialisation array length must be 6");
+        
+        else
+        {
+            this.itemID = Integer.parseInt(itemData[0]);
+            this.barCode = itemData[1];
+            this.itemName = itemData[2];
+            this.quantity = Integer.parseInt(itemData[3]);
+            this.price = Double.parseDouble(itemData[4]);
+            this.bulkPrice = Double.parseDouble(itemData[5]);
+        }
     }
 
     public int getItemID() {
@@ -93,17 +109,17 @@ public class Item {
 
     public void updatePrice(double price) {
         this.price = price;
-        FileHandler.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "price", String.valueOf(price));
+        CSVFile.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "price", String.valueOf(price));
     }
 
     public void updateBulkPrice(double bulkPrice) {
         this.bulkPrice = bulkPrice;
-        FileHandler.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "bulkPrice", String.valueOf(bulkPrice));
+        CSVFile.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "bulkPrice", String.valueOf(bulkPrice));
     }
 
     public void updateQuantity(int quantity) {
         this.quantity += quantity;
-        FileHandler.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "quantity", String.valueOf(this.quantity));
+        CSVFile.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "quantity", String.valueOf(this.quantity));
     }
 
     public String toString() {

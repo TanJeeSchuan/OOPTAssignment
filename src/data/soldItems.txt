@@ -1,0 +1,3 @@
+saleID,itemID,Qty
+1,2,30
+1,8,2

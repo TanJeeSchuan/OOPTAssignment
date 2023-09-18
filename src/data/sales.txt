@@ -1,0 +1,2 @@
+saleID,timeOfSale,customerID
+1,2022-08-12T15:50:52,1

@@ -1,40 +1,43 @@
 package assignmentsource;
 
 
-public class Transaction implements ITransaction{
+public class Transaction{
     private int transactionID;
-    private int customerID;
-    private Customer customer;
-    private double balanceLeft;
     private int installmentTimes;
+    private double balanceLeft;
     private int timesLeft;
     private double totalAmount;
-    private Sales sales;
 
+    //reading from file
+    public Transaction(String[] transactionString) {
+        this.transactionID = Integer.parseInt(transactionString[0]);
+        this.installmentTimes = Integer.parseInt(transactionString[1]);
+        this.balanceLeft = Double.parseDouble(transactionString[2]);
+        this.timesLeft = Integer.parseInt(transactionString[3]);
+        this.totalAmount = Double.parseDouble(transactionString[4]);
+//        generateLog();
+    }
+    
     //used to create new transaction
-    public Transaction(int customerID, double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
+    public Transaction(double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
         this.transactionID = Tools.getNewID(FileHandler.TRANSACTION_DB);
-        this.customerID = customerID;
-        this.customer = StaticContainer.customerList.getCustomer(customerID); //get customer object from customer list
         this.balanceLeft = balanceLeft;
         this.installmentTimes = installmentTimes;
         this.timesLeft = timesLeft;
         this.totalAmount = totalAmount;
-        this.sales = StaticContainer.currentSale;
-        FileHandler.writeFile(FileHandler.TRANSACTION_DB, this.toString());
         generateLog();
     }
 
-    public Transaction(int transactionID, int customerID, double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
-        this.transactionID = transactionID;
-        this.customerID = customerID;
-        this.customer = StaticContainer.customerList.getCustomer(customerID); //get customer object from customer list
-        this.balanceLeft = balanceLeft;
-        this.installmentTimes = installmentTimes;
-        this.timesLeft = timesLeft;
-        this.totalAmount = totalAmount;
-        this.sales = new Sales(this.transactionID);
-    }
+//    public Transaction(int transactionID, int customerID, double balanceLeft, int installmentTimes, int timesLeft, double totalAmount) {
+//        this.transactionID = transactionID;
+//        this.customerID = customerID;
+//        this.customer = StaticContainer.customerList.getCustomer(customerID); //get customer object from customer list
+//        this.balanceLeft = balanceLeft;
+//        this.installmentTimes = installmentTimes;
+//        this.timesLeft = timesLeft;
+//        this.totalAmount = totalAmount;
+//        this.sales = new Sales(this.transactionID);
+//    }
 
     public int getTransactionID() {
         return transactionID;
@@ -42,22 +45,6 @@ public class Transaction implements ITransaction{
 
     public void setTransactionID(int transactionID) {
         this.transactionID = transactionID;
-    }
-
-    public int getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
-    }
-
-    public Customer getCustomer(){
-        return this.customer;
-    }
-
-    public void setCustomer(Customer customer){
-        this.customer = customer;
     }
 
     public double getBalanceLeft() {
@@ -92,14 +79,6 @@ public class Transaction implements ITransaction{
         this.totalAmount = totalAmount;
     }
 
-    public Sales getSales(){
-        return this.sales;
-    }
-
-    public void setSales(Sales sales){
-        this.sales = sales;
-    }
-
     public double getMonthlyPayment(){
         return Math.round(this.totalAmount / this.installmentTimes * 100.0) / 100.0;
     }
@@ -111,17 +90,17 @@ public class Transaction implements ITransaction{
     }
 
     public String toString(){
-        return this.transactionID + "," + this.customerID + "," + this.installmentTimes + "," + this.balanceLeft + ","  + this.timesLeft + "," + this.totalAmount;
+        return this.transactionID + "," + this.installmentTimes + "," + this.balanceLeft + ","  + this.timesLeft + "," + this.totalAmount;
     }
 
     private void updateTransaction(){
-        FileHandler.updateDataByID(
+        CSVFile.updateDataByID(
                 FileHandler.TRANSACTION_DB,
                 String.valueOf(this.transactionID),
                 "timesLeft",
                 String.valueOf(this.timesLeft)
         );
-        FileHandler.updateDataByID(
+        CSVFile.updateDataByID(
                 FileHandler.TRANSACTION_DB,
                 String.valueOf(this.transactionID),
                 "balanceLeft",
@@ -131,11 +110,12 @@ public class Transaction implements ITransaction{
     }
 
     private void generateLog(){
-        Tools.generatePaymentLog(
-                this.customer.getName(),
-                getMonthlyPayment(),
-                this.installmentTimes == 1 ? "One-time Payment" : "Installment"
-        );
+//        Tools.generatePaymentLog(
+//                this.customer.getName(),
+//                getMonthlyPayment(),
+//                this.installmentTimes == 1 ? "One-time Payment" : "Installment"
+//        );
+        ;
     }
 
 }
