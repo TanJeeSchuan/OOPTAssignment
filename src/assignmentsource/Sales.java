@@ -55,7 +55,7 @@ public class Sales implements Selectable{
     }
     
     //for new sales created by user?
-    public Sales(Customer customer, ArrayList<SoldItem> soldItems){
+    public Sales(Customer customer, ArrayList<SoldItem> soldItems, int installmentTimes){
         this.saleID = newSaleID();
         this.dateTimeOfSale = LocalDateTime.now().truncatedTo( ChronoUnit.SECONDS).toString();
         
@@ -67,6 +67,9 @@ public class Sales implements Selectable{
         }
         
         FileHandler.writeFile(FileHandler.SALES_DB, this.toCSV());
+        
+        //for every sale, must have transaction
+        transaction = new Transaction(this.saleID, installmentTimes, calculateTotal());
     }
 
     public int getSaleID() {
@@ -88,6 +91,7 @@ public class Sales implements Selectable{
     public ArrayList<SoldItem> getSoldItems() {
         return soldItems;
     }
+
     
     public double calculateTotal() {
         double total = 0;
@@ -115,10 +119,13 @@ public class Sales implements Selectable{
         if (customer != null){
             if (!"wholesaler".equals(customer.getRole())){
                 points = calculateTotal() / 10;
+//                ((Retailer)customer).;
             }
             
             return 0;
         }
+        
+        return 0;
     }
     
     public static int newSaleID(){
@@ -126,7 +133,10 @@ public class Sales implements Selectable{
     }
 
     public String toCSV(){
-        return String.valueOf(saleID) + "," + dateTimeOfSale + "," + String.valueOf(customer.getCustomerID());
+        if(customer != null)
+            return String.valueOf(saleID) + "," + dateTimeOfSale + "," + String.valueOf(customer.getCustomerID());
+        else
+            return String.valueOf(saleID) + "," + dateTimeOfSale + "," + "0";
     }
     
     @Override

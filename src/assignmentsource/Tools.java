@@ -42,12 +42,12 @@ public class Tools {
         );
     }
 
-    public static double getCustomerTypePrice(SoldItem soldItem) {
-        return StaticContainer.currentSale.getCustomer() instanceof Retailer
-                ? soldItem.getSoldItem().getPrice()
-                : //return normal price
-                soldItem.getSoldItem().getBulkPrice();  //return bulk price
-    }
+//    public static double getCustomerTypePrice(SoldItem soldItem) {
+//        return StaticContainer.currentSale.getCustomer() instanceof Retailer
+//                ? soldItem.getSoldItem().getPrice()
+//                : //return normal price
+//                soldItem.getSoldItem().getBulkPrice();  //return bulk price
+//    }
 
     public static String getCurrentDateTime() {
         return java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

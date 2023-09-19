@@ -21,6 +21,7 @@ public class Main {
         
         ArrayList<User> users = Init.initUsers();
 
+        sPOS.sales.get(0).getTransaction().completePayment();
         
 //        Selectable a = Tools.objectSelection(sPOS.cust);
 //        Customer i = ((Customer) a);

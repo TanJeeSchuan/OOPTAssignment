@@ -22,7 +22,7 @@ public class Management extends User{
         
         StationaryPOS sPOS = StationaryPOS.getInstance();
         
-        System.out.print("Management\n\n1. Manage Sales\n2. Manage Customers\n3. Logout\n\n");
+        System.out.print("Management\n\n1. Manage Transactions\n2. Manage Customers\n3. Logout\n\n");
         switch(sc.nextInt())
         {
             case 1:
@@ -30,7 +30,7 @@ public class Management extends User{
                 break;
                 
             case 2:
-                System.out.println(sPOS.inv);
+                sPOS.viewTransactionList();
                 break;
                 
             case 3:
@@ -49,5 +49,12 @@ public class Management extends User{
 
         for(Sales s: sPOS.sales)
             System.out.println(s.toFormattedString()+ '\n');
+    }
+    
+    public static void viewAllTransactions() {
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+
+        for(Sales s: sPOS.sales)
+            System.out.println(s.getTransaction().toFormattedString()+ '\n');
     }
 }

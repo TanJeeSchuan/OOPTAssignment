@@ -1,2 +1,4 @@
-saleID,installmentTimes,balanceLeft,timesLeft,totalAmount
-1,6,466.65,1,2800.00
+transactionID,installmentTimes,balanceLeft,timesLeft,totalAmount
+1,13,0.0,0,2800.0
+7,0,1146.18,0,1146.18
+8,0,0.0,0,0.0

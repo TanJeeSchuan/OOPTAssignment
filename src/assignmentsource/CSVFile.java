@@ -7,7 +7,6 @@ package assignmentsource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  *
@@ -106,7 +105,7 @@ public class CSVFile extends FileHandler
         
         if (!fileContent.isEmpty())
         {
-            for (int i = 0; i < fileContent.size(); i++)
+            for (int i = 1; i < fileContent.size(); i++)
             {
                 String[] row = fileContent.get(i);
                 
@@ -123,19 +122,40 @@ public class CSVFile extends FileHandler
         return false;
     }
     
-    public static boolean updateDataByRow(String filename, ArrayList<String> oldRow, ArrayList<String> newRow)
-    {
+    public static boolean updateDataByRow(String filename, ArrayList<String> oldRow, ArrayList<String> newRow) {
         ArrayList<String[]> fileContent = FileHandler.readFileToArray(filename);
         
         if (!fileContent.isEmpty())
         {
-            for (int i = 0; i < fileContent.size(); i++)
+            for (int i = 1; i < fileContent.size(); i++)
             {
                 String[] row = fileContent.get(i);
                 
                 if(oldRow.get(0).equals(row[0]))
                 {
                     fileContent.set(i, newRow.toArray(new String[newRow.size()]));
+                    
+                    FileHandler.rewriteFile(filename, fileContent);
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public static boolean updateDataByRow(String filename, int oldRowID, String[] newRow) {
+        ArrayList<String[]> fileContent = FileHandler.readFileToArray(filename);
+        
+        if (!fileContent.isEmpty())
+        {
+            for (int i = 1; i < fileContent.size(); i++)
+            {
+                String[] row = fileContent.get(i);
+                
+                if(oldRowID == Integer.parseInt(row[0]))
+                {
+                    fileContent.set(i, newRow);
                     
                     FileHandler.rewriteFile(filename, fileContent);
                     return true;

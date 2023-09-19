@@ -58,7 +58,8 @@ public class StationaryPOS {
         
         ArrayList<SoldItem> soldItemsList = new ArrayList<>();
         
-        while(true){            
+        while(true){
+            System.out.println("");
             soldItem = ((Item)Tools.objectSelection(sPOS.inv.getItemList()));  //get Selectable object. Cast Selectable to Item class
             if(soldItem == null)
                 break;
@@ -72,7 +73,7 @@ public class StationaryPOS {
             
             boolean cont = true;
             do{
-                System.out.print("Continue Sale? (y/n): ");
+                System.out.print("\nContinue Sale? (y/n): ");
                 
                 String sel = sc.next();
                 
@@ -93,12 +94,33 @@ public class StationaryPOS {
         
         saleCust = ((Customer)Tools.objectSelection(sPOS.cust));  //get class that implements Selectable interface. Cast Selectable to Customer class
         
-        Sales newSale = new Sales(saleCust, soldItemsList);        
+        System.out.print("Installment length: ");
+        int installmentLength = sc.nextInt();
+        
+        
+        Sales newSale = new Sales(saleCust, soldItemsList, installmentLength);        
         sPOS.sales.add(newSale);
         
         System.out.println(newSale.toFormattedString());
     }
     
+    public void viewTransactionList(){
+        for(Transaction t : transaction){
+            System.out.printf("%-20s%-20s\n", "Transaction ID:", t.getTransactionID());
+            //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
+            //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
+            System.out.printf("%-20s%-20s\n", "Total Amount:", t.getTotalAmount());
+            if (t.getInstallmentTimes() == 1) {
+                System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
+            } else {
+                System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
+                System.out.printf("%-20s%-20s\n", "Installment Period:", t.getInstallmentTimes()+" months");
+                System.out.printf("%-20s%-20s\n", "Time Left:", t.getTimesLeft());
+                System.out.printf("%-20s%-20s\n", "Balance Left:", t.getBalanceLeft());
+            }
+            System.out.println("-----------------------------------\n");
+        }
+    }
     
 //    public static void main(String[] args) {
 //        
