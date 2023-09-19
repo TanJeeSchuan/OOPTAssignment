@@ -2,3 +2,4 @@ role,username,password,name,birthDate,phoneNumber
 Admin,admin,admin,admin user,1980-01-01,000000000
 Management,S007,1234,Tan Test Name,2003-08-12,0164189855
 Cashier,C001,5000,John Doe,1999-09-23,01212321312
+Cashier,1,1,John Doe,1999-09-23,01212321312

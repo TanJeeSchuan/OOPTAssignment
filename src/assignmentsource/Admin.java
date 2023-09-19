@@ -19,4 +19,7 @@ public class Admin extends User{
         System.out.println("Admin Class");
     }
     
+    public String toFormattedString(){
+        return String.format(STRING_FORMAT,"Admin",username, password, name, birthDate.toString(), phoneNumber);
+    }
 }

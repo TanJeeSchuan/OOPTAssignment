@@ -2,8 +2,12 @@ package assignmentsource;
 
 import java.util.ArrayList;
 
-public class Customer {
+public class Customer implements Selectable{
 
+    public final static String[] FILE_HEADER = {"customerID,customerName,phoneNumber,currentPoints,role"};
+    public final static String STRING_FORMAT = "%-5d%-40s%20s%15d%15s";
+    public final static String FORMAT_HEADER = String.format("%-5s%-40s%20s%15s%15s", "ID", "Name", "phoneNumber", "currentPoints", "role");
+    
     private int customerID;
     private String name;
     private String phoneNumber;
@@ -114,4 +118,22 @@ public class Customer {
         return this.customerID + "," + this.name + "," + this.phoneNumber + "," + this.currentPoints + "," + this.role;
     }
     //testing
+
+    @Override
+    public String toFormattedString() {
+        return String.format("%-5d%-40s%20s%15d%15s", customerID, name, phoneNumber, currentPoints, role);
+    }
+    
+    @Override
+    public String[] getFILEHEADER() {
+        return FILE_HEADER;
+    }
+    @Override
+    public String getSTRINGFORMAT() {
+        return STRING_FORMAT;
+    }
+    @Override
+    public String getFORMATHEADER() {
+        return FORMAT_HEADER;
+    }
 }

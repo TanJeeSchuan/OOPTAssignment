@@ -3,8 +3,13 @@ package assignmentsource;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 
-public class Sales{
-
+public class Sales implements Selectable{
+    
+    public final static String[] FILE_HEADER = {"saleID,timeOfSale,customerID"};
+    public final static String STRING_FORMAT = "%-5d%-40s%20s%15d%15s";
+    public final static String FORMAT_HEADER = String.format("%-5s%-40s%20s%15s%15s",
+                                                            "Role", "Username", "Password", "Name", "Birth Date", "Phone Number");
+    
     private int saleID;
     private String dateTimeOfSale;
     
@@ -49,7 +54,7 @@ public class Sales{
     
     //for new sales created by user?
     public Sales(Customer customer, ArrayList<SoldItem> soldItems){
-        this.saleID = CSVFile.getLastRowID(FileHandler.SALES_DB) + 1;
+        this.saleID = newSaleID();
         this.dateTimeOfSale = LocalDateTime.now().toString();
         
         this.customer = customer;
@@ -76,5 +81,25 @@ public class Sales{
         return soldItems;
     }
     
+    public static int newSaleID(){
+        return CSVFile.getLastRowID(FileHandler.SALES_DB) + 1;
+    }
 
+    @Override
+    public String toFormattedString() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public String[] getFILEHEADER() {
+        return FILE_HEADER;
+    }
+    @Override
+    public String getSTRINGFORMAT() {
+        return STRING_FORMAT;
+    }
+    @Override
+    public String getFORMATHEADER() {
+        return FORMAT_HEADER;
+    }
 }

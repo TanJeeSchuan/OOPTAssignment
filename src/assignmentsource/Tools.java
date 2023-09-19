@@ -3,6 +3,7 @@ package assignmentsource;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Tools {
 
@@ -111,5 +112,58 @@ public class Tools {
 
     public static double getItemPriceByRole(SoldItem soldItem, String role) {
         return role.equals("retailer") ? soldItem.getSoldItem().getPrice() : soldItem.getSoldItem().getBulkPrice();
+    }
+    
+    public static Selectable objectSelection(ArrayList<? extends Selectable> objectList) {
+        Scanner sc = new Scanner(System.in);
+        
+        int selection = 0;
+        int itemIndex = -1;
+        
+        for(int i = 0; i < objectList.size(); i+=10){
+            Selectable obj = objectList.get(0);
+            System.out.print(obj.getFORMATHEADER() + "\n");
+            for (int j = i; j < i + 10; j++)
+            {
+                if(j >= objectList.size())
+                    break;
+                
+                System.out.println(objectList.get(j).toFormattedString());
+            }                        
+            boolean validSelection = false;
+            do
+            {
+                System.out.printf("Enter selection (1 - 10), 11 for next page, 0 to exit: ");
+                selection = sc.nextInt();
+                
+                if (selection == 11) //next input
+                    break;
+                
+                else if (selection == 0){   //exit
+                    validSelection = true;
+                    break;
+                }
+                    
+                
+                if (selection < 1 || selection > 10)
+                {
+                    System.out.println("Enter number within range\n");
+                }
+                else
+                {
+                    validSelection = true;
+                    itemIndex = i + selection - 1;
+                }
+                
+            }while(!validSelection);
+            
+            if(validSelection == true)
+                break;
+        }
+        
+        if (selection != 0)
+            return objectList.get(itemIndex);
+        else
+            return null;
     }
 }

@@ -1,7 +1,11 @@
 package assignmentsource;
 import java.util.List;
 
-public class Item {
+public class Item implements Selectable{
+    
+    public final static String[] FILE_HEADER = Inventory.FILE_HEADER;
+    public final static String STRING_FORMAT = "%-5d%-12s%-40s%5d%15.2f%15.2f";     //"itemID,barCode,itemName,quantity,price,bulkPrice"
+    public final static String FORMAT_HEADER = String.format("%-5s%-12s%-40s%-15s%-15s%s", "ID", "barCode", "itemName", "quantity", "price", "bulkPrice");
 
     private int itemID;
     private String barCode;
@@ -122,7 +126,27 @@ public class Item {
         CSVFile.updateDataByID(FileHandler.INVENTORY_DB, String.valueOf(itemID), "quantity", String.valueOf(this.quantity));
     }
 
+    @Override
     public String toString() {
         return itemID + "," + barCode + "," + itemName + "," + quantity + "," + price + "," + bulkPrice;
+    }
+    
+    //returns string suitable for display
+    @Override
+    public String toFormattedString(){
+        return String.format(STRING_FORMAT, itemID, barCode, itemName, quantity,price, bulkPrice);
+    }
+    
+    @Override
+    public String[] getFILEHEADER() {
+        return FILE_HEADER;
+    }
+    @Override
+    public String getSTRINGFORMAT() {
+        return STRING_FORMAT;
+    }
+    @Override
+    public String getFORMATHEADER() {
+        return FORMAT_HEADER;
     }
 }

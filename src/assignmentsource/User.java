@@ -10,13 +10,17 @@ import java.time.LocalDate;
  *
  * @author Tan Jee Schuan
  */
-public abstract class User {
-    private String username;
-    private String password;
+public abstract class User implements Selectable{
+    public final static String[] FILE_HEADER = {"role,username,password,name,birthDate,phoneNumber"};
+    public final static String STRING_FORMAT = "%-15s%-20s%-20s%-30s%-15s%-15s";
+    public final static String FORMAT_HEADER = String.format(STRING_FORMAT, "Role", "Username", "Password", "Name", "Birth Date", "Phone Number");
     
-    private String name;
-    private LocalDate birthDate;
-    private String phoneNumber;
+    protected String username;
+    protected String password;
+    
+    protected String name;
+    protected LocalDate birthDate;
+    protected String phoneNumber;
     
     User(String[] data)
     {
@@ -38,6 +42,19 @@ public abstract class User {
         return username + " " + password + " " +name + " " + birthDate.toString() + " " + phoneNumber; 
     }
     
+    @Override
+    public String[] getFILEHEADER() {
+        return FILE_HEADER;
+    }
+    @Override
+    public String getSTRINGFORMAT() {
+        return STRING_FORMAT;
+    }
+    @Override
+    public String getFORMATHEADER() {
+        return FORMAT_HEADER;
+    }
+    
     public User checkLogin(String inputUsername, String inputPassword){
         if (checkUsername(inputUsername) && checkPassword(inputPassword))
             return this;
@@ -54,6 +71,5 @@ public abstract class User {
         return password.equals(inputPassword);
     }
     
-    //permissions?
     public abstract void mainMenu();
 }

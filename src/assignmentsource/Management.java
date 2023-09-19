@@ -19,4 +19,7 @@ public class Management extends User{
         System.out.println("Management Class");
     }
     
+    public String toFormattedString(){
+        return String.format(STRING_FORMAT,"Management",username, password, name, birthDate.toString(), phoneNumber);
+    }
 }

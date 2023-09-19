@@ -15,12 +15,21 @@ public class Main {
     
     public static void main(String[] args)
     {
-        StationaryPOS.getInstance();        //initialse singleton
-        
+        StationaryPOS sPOS = StationaryPOS.getInstance();        //initialse singleton
+                
         Scanner sc = new Scanner(System.in);
         
         ArrayList<User> users = Init.initUsers();
 
+        
+//        Selectable a = Tools.objectSelection(sPOS.cust);
+//        Customer i = ((Customer) a);
+//        System.out.println(i.toString());
+//        
+//        System.exit(0);
+        
+        
+        
         User foundUser = null;
         do{
             System.out.print("Username: ");
@@ -41,8 +50,4 @@ public class Main {
 
         foundUser.mainMenu();        
     }
-}
-
-class login{
-
 }

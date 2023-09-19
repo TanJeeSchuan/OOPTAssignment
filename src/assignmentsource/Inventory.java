@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Inventory implements IInventory{
     
-    public static final String[] fileHeader = {"itemID,barCode,itemName,quantity,price,bulkPrice"};
+    public static final String[] FILE_HEADER = {"itemID,barCode,itemName,quantity,price,bulkPrice"};
 
     private ArrayList<Item> itemList;
 
@@ -51,7 +51,7 @@ public class Inventory implements IInventory{
             System.out.println("Item to delete not found!");
         
         else
-            CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, fileHeader);
+            CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);
     }
     @Override
     public void removeItem(int itemID) {
@@ -91,7 +91,7 @@ public class Inventory implements IInventory{
     
     //custom
     public void updateFile(){
-        CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, fileHeader);
+        CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);
     }
     
     public Item itemSelection()
@@ -117,10 +117,17 @@ public class Inventory implements IInventory{
             boolean validSelection = false;
             do
             {
+                System.out.printf("Enter selection (1 - 10), 11 for next page, 0 to exit: ");
                 selection = sc.nextInt();
                 
-                if (selection == 0) //next input
+                if (selection == 11) //next input
                     break;
+                
+                else if (selection == 0){   //exit
+                    validSelection = true;
+                    break;
+                }
+                    
                 
                 if (selection < 1 || selection > 10)
                 {
@@ -129,8 +136,7 @@ public class Inventory implements IInventory{
                 else
                 {
                     validSelection = true;
-                    selection -= 1;
-                    itemIndex = i + selection;
+                    itemIndex = i + selection - 1;
                 }
                 
             }while(!validSelection);
@@ -139,8 +145,10 @@ public class Inventory implements IInventory{
                 break;
         }
         
-        
-        return itemList.get(itemIndex);
+        if (selection != 0)
+            return itemList.get(itemIndex);
+        else
+            return null;
     }
 
     @Override
@@ -157,13 +165,16 @@ public class Inventory implements IInventory{
     }
     
     public void displayInventory(ArrayList<Item> itemList) {
-        System.out.printf("\n%-10s%-15s%-30s%-10s%-10s%-10s\n", "Item ID", "Barcode", "Item Name", "Quantity", "Price", "Bulk Price");
+        System.out.printf("\n%-5s%-10s%-15s%-30s%-10s%-10s%-10s\n","Num", "Item ID", "Barcode", "Item Name", "Quantity", "Price", "Bulk Price");
         System.out.println("---------------------------------------------------------------------------");
+        int i = 1;
         for (Item item : itemList) {
-            System.out.printf("%-10d%-15s%-30s%-10d%-10.2f%10.2f\n",
+            System.out.printf("%-5d%-10d%-15s%-30s%-10d%-10.2f%10.2f\n",
+                    i,
                     item.getItemID(), item.getBarCode(), item.getItemName(),
                     item.getQuantity(), item.getPrice(), item.getBulkPrice()
             );
+            i++;
         }
         System.out.println("---------------------------------------------------------------------------\n");
     }
