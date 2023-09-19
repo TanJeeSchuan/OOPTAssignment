@@ -18,51 +18,27 @@ public class Cashier extends User{
     }
     
     @Override
-    public void mainMenu() {
+    public boolean mainMenu() {
         Scanner sc = new Scanner(System.in);
         
         StationaryPOS sPOS = StationaryPOS.getInstance();
         
-        System.out.print("Cashier\n1. New Sales\n2. View Items\n3. Logout\n\n");
+        System.out.print("Cashier\n1. New Sales\n2. New Customer\n3. Logout\n\n");
         switch(sc.nextInt())
         {
             case 1:
-                salesCreator();
+                sPOS.addSales();
                 break;
                 
             case 2:
-                System.out.println(sPOS.cust.toString());
+                System.out.println(sPOS.inv);
                 break;
                 
             case 3:
-                break;
-        }
-    }
-    
-    public void salesCreator() {
-        StationaryPOS sPOS = StationaryPOS.getInstance();
-        Scanner sc = new Scanner(System.in);
-        
-        Item soldItem = null;
-        int soldQty = 0;
-        
-        ArrayList<SoldItem> soldItemsList = new ArrayList<>();
-        
-        while(true){            
-            soldItem = ((Item)Tools.objectSelection(sPOS.inv.getItemList()));  //get Selectable object. Cast Selectable to Item class
-            
-            if(soldItem == null)
-                break;
-            
-            do{
-                System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
-                soldQty = sc.nextInt();
-            }while(soldQty > soldItem.getQuantity());
-            
-            soldItemsList.add(new SoldItem(Sales.newSaleID() ,soldItem, soldQty));
+                return true;
         }
         
-        System.out.println(soldItemsList);
+        return false;
     }
     
     @Override

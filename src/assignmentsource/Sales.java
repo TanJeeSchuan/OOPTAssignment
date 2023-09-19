@@ -2,13 +2,15 @@ package assignmentsource;
 
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit; 
+
+
 
 public class Sales implements Selectable{
     
     public final static String[] FILE_HEADER = {"saleID,timeOfSale,customerID"};
-    public final static String STRING_FORMAT = "%-5d%-40s%20s%15d%15s";
-    public final static String FORMAT_HEADER = String.format("%-5s%-40s%20s%15s%15s",
-                                                            "Role", "Username", "Password", "Name", "Birth Date", "Phone Number");
+    public final static String STRING_FORMAT = "%-5d%-20s";
+    public final static String FORMAT_HEADER = String.format("%-5s%-20s", "ID", "Date Time of Sale");
     
     private int saleID;
     private String dateTimeOfSale;
@@ -55,10 +57,16 @@ public class Sales implements Selectable{
     //for new sales created by user?
     public Sales(Customer customer, ArrayList<SoldItem> soldItems){
         this.saleID = newSaleID();
-        this.dateTimeOfSale = LocalDateTime.now().toString();
+        this.dateTimeOfSale = LocalDateTime.now().truncatedTo( ChronoUnit.SECONDS).toString();
         
         this.customer = customer;
-        this.soldItems = soldItems;    
+        this.soldItems = soldItems;
+        
+        for (SoldItem i : soldItems){
+            i.writeToFile();
+        }
+        
+        FileHandler.writeFile(FileHandler.SALES_DB, this.toCSV());
     }
 
     public int getSaleID() {
@@ -81,13 +89,49 @@ public class Sales implements Selectable{
         return soldItems;
     }
     
+    public double calculateTotal() {
+        double total = 0;
+        if (customer != null)
+        {
+            if ("wholesaler".equals(customer.getRole())){
+                for(SoldItem sI: soldItems){
+                    total += sI.getBulkSubTotal();
+                }
+                total += Wholesaler.getDeliveryFee();
+            }
+            
+            else {
+                for(SoldItem sI: soldItems){
+                    total += sI.getSubTotal();
+                }
+            }
+        }
+        
+        return total;
+    }
+    
+    public double calculatePoints(){
+        double points = 0;
+        if (customer != null){
+            if (!"wholesaler".equals(customer.getRole())){
+                points = calculateTotal() / 10;
+            }
+            
+            return 0;
+        }
+    }
+    
     public static int newSaleID(){
         return CSVFile.getLastRowID(FileHandler.SALES_DB) + 1;
     }
 
+    public String toCSV(){
+        return String.valueOf(saleID) + "," + dateTimeOfSale + "," + String.valueOf(customer.getCustomerID());
+    }
+    
     @Override
     public String toFormattedString() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(STRING_FORMAT + "%f", saleID, dateTimeOfSale, calculateTotal());
     }
     
     @Override

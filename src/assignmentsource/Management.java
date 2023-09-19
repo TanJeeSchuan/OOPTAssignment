@@ -4,6 +4,8 @@
  */
 package assignmentsource;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Tan Jee Schuan
@@ -15,11 +17,37 @@ public class Management extends User{
     }
     
     @Override
-    public void mainMenu() {
-        System.out.println("Management Class");
+    public boolean mainMenu() {
+        Scanner sc = new Scanner(System.in);
+        
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+        
+        System.out.print("Management\n\n1. Manage Sales\n2. Manage Customers\n3. Logout\n\n");
+        switch(sc.nextInt())
+        {
+            case 1:
+                viewSales();
+                break;
+                
+            case 2:
+                System.out.println(sPOS.inv);
+                break;
+                
+            case 3:
+                return true;
+        }    
+        
+        return false;
     }
     
     public String toFormattedString(){
         return String.format(STRING_FORMAT,"Management",username, password, name, birthDate.toString(), phoneNumber);
+    }
+
+    public static void viewSales() {
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+
+        for(Sales s: sPOS.sales)
+            System.out.println(s.toFormattedString()+ '\n');
     }
 }

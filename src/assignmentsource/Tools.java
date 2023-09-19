@@ -114,16 +114,17 @@ public class Tools {
         return role.equals("retailer") ? soldItem.getSoldItem().getPrice() : soldItem.getSoldItem().getBulkPrice();
     }
     
+    public static int ROWS_TO_SHOW = 10;
     public static Selectable objectSelection(ArrayList<? extends Selectable> objectList) {
         Scanner sc = new Scanner(System.in);
         
         int selection = 0;
         int itemIndex = -1;
         
-        for(int i = 0; i < objectList.size(); i+=10){
+        for(int i = 0; i < objectList.size(); i+=ROWS_TO_SHOW){
             Selectable obj = objectList.get(0);
             System.out.print(obj.getFORMATHEADER() + "\n");
-            for (int j = i; j < i + 10; j++)
+            for (int j = i; j < i + ROWS_TO_SHOW; j++)
             {
                 if(j >= objectList.size())
                     break;

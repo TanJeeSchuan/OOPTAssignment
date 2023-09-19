@@ -71,5 +71,5 @@ public abstract class User implements Selectable{
         return password.equals(inputPassword);
     }
     
-    public abstract void mainMenu();
+    public abstract boolean mainMenu();
 }

@@ -15,8 +15,10 @@ public class Admin extends User{
     }
     
     @Override
-    public void mainMenu() {
+    public boolean mainMenu() {
         System.out.println("Admin Class");
+        
+        return false;
     }
     
     public String toFormattedString(){

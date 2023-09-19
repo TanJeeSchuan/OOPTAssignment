@@ -26,10 +26,7 @@ public class Main {
 //        Customer i = ((Customer) a);
 //        System.out.println(i.toString());
 //        
-//        System.exit(0);
-        
-        
-        
+
         User foundUser = null;
         do{
             System.out.print("Username: ");
@@ -48,6 +45,9 @@ public class Main {
             System.out.println("Wrong Username/Password!\n");
         }while(true);
 
-        foundUser.mainMenu();        
+        while(true){
+            if(foundUser.mainMenu())
+                break;
+        }
     }
 }
