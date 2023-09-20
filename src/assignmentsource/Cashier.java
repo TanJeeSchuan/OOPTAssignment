@@ -23,20 +23,24 @@ public class Cashier extends User{
         
         StationaryPOS sPOS = StationaryPOS.getInstance();
         
-        System.out.print("Cashier\n1. New Sales\n2. New Customer\n3. Logout\n\n");
-        switch(sc.nextInt())
-        {
-            case 1:
-                sPOS.addSales();
-                break;
-                
-            case 2:
-                System.out.println(sPOS.inv);
-                break;
-                
-            case 3:
-                return true;
-        }
+        int menuSel = 0;
+        do{
+            System.out.print("\nCashier\n1. New Sales\n2. New Customer\n3. Logout\n\n");
+            switch(sc.nextInt())
+            {
+                case 1:
+                    //create a sale then make payment
+                    sPOS.salesPayment(sPOS.addSales().getTransaction());
+                    break;
+
+                case 2:
+                    sPOS.addCustomer();
+                    break;
+
+                case 3:
+                    return true;
+            }
+        }while(menuSel != 3);
         
         return false;
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Inventory implements IInventory{
+public class Inventory{
     
     public static final String[] FILE_HEADER = {"itemID,barCode,itemName,quantity,price,bulkPrice"};
 
@@ -18,12 +18,10 @@ public class Inventory implements IInventory{
         itemList = new ArrayList<Item>();
     }
 
-    @Override
     public ArrayList<Item> getItemList() {
         return itemList;
     }
 
-    @Override
     public Item getItem(int itemID) {
         for (Item item : itemList) {
             if (item.getItemID() == itemID)
@@ -39,13 +37,11 @@ public class Inventory implements IInventory{
         return null;
     }
 
-    @Override
     public void addItem(Item item) {
         itemList.add(item);
-        FileHandler.writeFile(FileHandler.INVENTORY_DB, item.toString());
+        FileHandler.writeFile(FileHandler.INVENTORY_DB, item.toCSV());
     }
 
-    @Override
     public void removeItem(Item item) {
         if(!itemList.remove(item))
             System.out.println("Item to delete not found!");
@@ -53,7 +49,7 @@ public class Inventory implements IInventory{
         else
             CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);
     }
-    @Override
+    
     public void removeItem(int itemID) {
         if (isItemExist(itemID)) {
             removeItem(getItem(itemID));
@@ -71,8 +67,6 @@ public class Inventory implements IInventory{
         }
     }
    
-
-    @Override
     public boolean isItemExist(int itemID){
         for (Item item : itemList) {
             if (item.getItemID() == itemID) {
@@ -151,7 +145,6 @@ public class Inventory implements IInventory{
             return null;
     }
 
-    @Override
     public void displayInventory() {
         System.out.printf("\n%-10s%-15s%-20s%-10s%-10s%-10s\n", "Item ID", "Barcode", "Item Name", "Quantity", "Price", "Bulk Price");
         System.out.println("---------------------------------------------------------------------------");
@@ -179,7 +172,6 @@ public class Inventory implements IInventory{
         System.out.println("---------------------------------------------------------------------------\n");
     }
 
-    @Override
     public void simpleItemList(){
         System.out.printf("\n%-10s%-20s%-10s%-10s\n", "Item ID", "Item Name", "Price", "Bulk Price");
         System.out.println("-----------------------------------------------------");

@@ -32,7 +32,6 @@ public class StationaryPOS {
         itemList = Init.initItems();
         
         soldItemList = Init.initSoldItems(itemList);
-        
         inv = new Inventory(itemList);
         cust = Init.initCustomers();
         transaction = Init.initTransactions();
@@ -48,8 +47,7 @@ public class StationaryPOS {
         return sPOS;
     }
     
-    public void addSales()
-    {
+    public Sales addSales(){
         Scanner sc = new Scanner(System.in);
         
         Customer saleCust = null;
@@ -58,6 +56,7 @@ public class StationaryPOS {
         
         ArrayList<SoldItem> soldItemsList = new ArrayList<>();
         
+        //initialse list of SoldItem to use in Sales constructor
         while(true){
             System.out.println("");
             soldItem = ((Item)Tools.objectSelection(sPOS.inv.getItemList()));  //get Selectable object. Cast Selectable to Item class
@@ -92,36 +91,241 @@ public class StationaryPOS {
                 break;
         }
         
+        //selection output
         saleCust = ((Customer)Tools.objectSelection(sPOS.cust));  //get class that implements Selectable interface. Cast Selectable to Customer class
+
+        int installmentLength = 0;
         
-        System.out.print("Installment length: ");
-        int installmentLength = sc.nextInt();
-        
+        if(saleCust != null){
+            int selected = 0;
+            do{
+                System.out.println("\nPayment Type");
+                System.out.println("1)Installment\t\t2)One Time Payment\n");
+                selected = sc.nextInt();
+            }while(!(selected >= 1) && !(selected <= 2));
+
+            if (selected == 1){
+                System.out.print("Installment length: ");
+                installmentLength = sc.nextInt();
+            }
+            else if(selected == 2)
+                installmentLength = 0;
+        }
         
         Sales newSale = new Sales(saleCust, soldItemsList, installmentLength);        
         sPOS.sales.add(newSale);
         
-        System.out.println(newSale.toFormattedString());
+//        System.out.println(newSale.getTransaction().toFormattedString());
+        return newSale;
     }
     
-    public void viewTransactionList(){
-        for(Transaction t : transaction){
-            System.out.printf("%-20s%-20s\n", "Transaction ID:", t.getTransactionID());
-            //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
-            //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
-            System.out.printf("%-20s%-20s\n", "Total Amount:", t.getTotalAmount());
-            if (t.getInstallmentTimes() == 1) {
-                System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
-            } else {
-                System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
-                System.out.printf("%-20s%-20s\n", "Installment Period:", t.getInstallmentTimes()+" months");
-                System.out.printf("%-20s%-20s\n", "Time Left:", t.getTimesLeft());
-                System.out.printf("%-20s%-20s\n", "Balance Left:", t.getBalanceLeft());
+    public void salesPayment(Transaction transaction){
+        Scanner sc = new Scanner(System.in);
+        
+        viewTransaction(transaction);
+        
+        if(transaction.paymentFinished()){
+            if(transaction.isInstallment()){
+                int selected = 0;
+                do{
+                    System.out.print("Installment Payment:\n"
+                    +"1)Monthly Payment\t\t2)Pay Amount\n\n");
+
+                    selected = sc.nextInt();
+                }while(!(selected >= 1) && !(selected <= 2));
+
+                if (selected == 1){
+                    transaction.payMonthly();
+                    System.out.println("Balance: " + transaction.getBalanceLeft());
+                }
+                else if (selected == 2){
+                    System.out.print("Amount to pay: ");
+                    
+                    double payAmount;
+                    do{
+                        System.out.println("Enter amount paid: ");
+                        payAmount = sc.nextDouble();
+                    }while(payAmount < transaction.getBalanceLeft());
+                    
+                    System.out.println("\nBalance: "+transaction.pay(payAmount));
+                }
             }
-            System.out.println("-----------------------------------\n");
+        }
+        else{
+            System.out.println("Transaction finialised\n");
         }
     }
     
+    public Customer addCustomer(){
+        Scanner sc = new Scanner(System.in);
+        String name;
+        String phoneNumber;
+        String role = null;
+        
+        
+        do{
+            System.out.print("\nEnter Customer Name: ");
+            name = sc.nextLine();
+            System.out.print("\nEnter Phone Number: ");
+            phoneNumber = sc.nextLine();
+            
+            int selection = 0;
+            do{
+                System.out.print("\nSelect Role:");
+                System.out.println("1)Retailer\t\t2)Wholesaler\n");
+                
+                selection = sc.nextInt();
+            }while(!(selection >= 1) && !(selection <=2));
+            
+            switch(selection){
+                case 1:
+                    role = "retailer";
+                    break;
+                case 2:
+                    role = "wholesaler";
+            }
+            
+            switch(selection){
+                case 1:
+                    role = "retailer";
+                    break;
+                case 2:
+                    role = "wholesaler";
+            }    
+        
+            String sel = "";
+            do{
+                System.out.print("\n\nContinue adding customer?(y/n):");
+                sel = sc.next();
+            }while(!("y".equals(sel)) && !("n".equals(sel)));
+            
+            if("n".equals(sel))
+                break;
+        }while(true);
+        
+        Customer newCust = new Customer(name,phoneNumber,role);
+        cust.add(newCust);
+        return newCust;
+    }
+    
+    public Item addItem(){
+        String itemName;
+        String barcode = "";
+        int quantity;
+        double price;
+        double bulkPrice;
+        
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("\nEnter Item Name: ");
+        itemName = sc.next();
+        
+        do{
+        System.out.print("\nEnter Valid Barcode: ");
+        barcode = sc.next();
+        }while(barcode.matches(".*[a-zA-Z]+.*"));
+        
+        System.out.print("\nEnter Quantity: ");
+        quantity = sc.nextInt();
+        
+        System.out.print("\nEnter Normal Price: ");
+        price = sc.nextDouble();
+        
+        System.out.print("\nEnter Bulk Price: ");
+        bulkPrice = sc.nextDouble();
+        
+        Item i = new Item(itemName, barcode, quantity, price, bulkPrice);
+        inv.addItem(i);
+        return i;
+    }
+    
+    public void viewItemsList(){
+        System.out.println(Item.FORMAT_HEADER);
+        for(Item i: inv.getItemList()){
+            System.out.println(i.toFormattedString());
+        }
+    }
+    
+    public void viewTransactionList(){
+        System.out.println("");
+        
+        for (Sales s: sales){
+            Transaction t = null;
+            t = s.getTransaction();
+            
+            if(t != null)
+                viewTransaction(t);
+            else
+                System.out.printf("Sale ID %d has no transaction record!\n\n", s.getSaleID());
+        }
+    }
+    
+    public static void viewTransaction(Transaction transaction){
+        System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
+        //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
+        //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
+        System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
+        if (!transaction.isInstallment()) {
+            System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
+        } else {
+            System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
+            System.out.printf("%-20s%-20s\n", "Installment Period:", transaction.getInstallmentTimes()+" months");
+            System.out.printf("%-20s%-20s\n", "Time Left:", transaction.getTimesLeft());
+            System.out.printf("%-20s%-20s\n", "Balance Left:", transaction.getBalanceLeft());
+        }
+        System.out.println("-----------------------------------");
+    }
+    
+    public static void modifyItem(Item item){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("\n\nSelected Item:");
+        System.out.println(Item.FORMAT_HEADER);
+        System.out.println(item.toFormattedString());
+        
+        int selection = 0;
+        while(true){
+            do{
+                System.out.print("\nSelect field to modify:\n");
+                System.out.print("1) Barcode\n2) Item Name\n3) Quantity\n4) Price\n5) Bulk Price\n6) Exit");
+                System.out.print("\nSelection: ");
+                selection = sc.nextInt();
+
+                switch(selection){
+                    case 1:
+                        String newBarcode = "";
+                        do{
+                            System.out.print("\nEnter Valid Barcode: ");
+                            newBarcode = sc.next();
+                        }while(newBarcode.matches(".*[a-zA-Z]+.*"));
+                        item.setBarCode(newBarcode);
+                        break;
+
+                    case 2:
+                        item.setItemName(sc.next());
+                        break;
+
+                    case 3:
+                        item.setQuantity(sc.nextInt());
+                        break;
+
+                    case 4:
+                        item.setPrice(sc.nextDouble());
+                        break;
+
+                    case 5:
+                        item.setBulkPrice(sc.nextDouble());
+                        break;
+
+                    case 6:
+                        break;
+                }
+            }while(!(selection >= 1) && !(selection <= 6));
+            
+            if (selection == 6)
+                break;
+        }
+    }
 //    public static void main(String[] args) {
 //        
 //        Inventory inv = new Inventory(Init.initItems());

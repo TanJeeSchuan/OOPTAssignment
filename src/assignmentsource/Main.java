@@ -20,34 +20,43 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         ArrayList<User> users = Init.initUsers();
-
-        sPOS.sales.get(0).getTransaction().completePayment();
+//
+//        sPOS.sales.get(0).getCustomer().modifyCurrentPoints(+5);
+//        
+//        System.exit(0);
         
 //        Selectable a = Tools.objectSelection(sPOS.cust);
 //        Customer i = ((Customer) a);
 //        System.out.println(i.toString());
 //        
+        while(true){
+            User foundUser = null;
+            do{
+                System.out.print("\nUsername: ");
+                String inputUsername = sc.next();
 
-        User foundUser = null;
-        do{
-            System.out.print("Username: ");
-            String inputUsername = sc.next();
-            
-            System.out.print("Password: ");
-            String inputPassword = sc.next();
-            
-            for (User u : users){
-                foundUser = u.checkLogin(inputUsername, inputPassword);
+                System.out.print("Password: ");
+                String inputPassword = sc.next();
+                
+                for (User u : users){
+                    foundUser = u.checkLogin(inputUsername, inputPassword);
+                    if (foundUser != null)
+                        break;
+                }
                 if (foundUser != null)
                     break;
-            }
-            if (foundUser != null)
-                break;
-            System.out.println("Wrong Username/Password!\n");
-        }while(true);
+                System.out.println("Wrong Username/Password!\n");
+            }while(true);
 
-        while(true){
-            if(foundUser.mainMenu())
+            foundUser.mainMenu();
+
+            String quitSel = null;
+            do{
+                System.out.print("\nQuit Program?(y/n): ");
+                quitSel = sc.next();
+            }while(!("y".equals(quitSel)) && !("n".equals(quitSel)));
+
+            if ("y".equals(quitSel))
                 break;
         }
     }

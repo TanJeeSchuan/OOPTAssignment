@@ -3,9 +3,9 @@ package assignmentsource;
 
 public class Transaction implements Selectable{
     
-    public final static String[] FILE_HEADER = {"transactionID,customerID,installmentTimes,balanceLeft,timesLeft,totalAmount"};
-    public final static String STRING_FORMAT = "%-5d%-10d%-5d%-10d%-5d%-10d";
-    public final static String FORMAT_HEADER = String.format("%-5s%-10s%-15s%-15s%-15s%-15s", "ID", "ID", "custID", "installmentTimes", "Balance", "timesLeft", "Amount");
+    public final static String[] FILE_HEADER = {"transactionID,installmentTimes,balanceLeft,timesLeft,totalAmount"};
+    public final static String STRING_FORMAT = "%-5d%-12d%-20.2f%-15d%-15f";
+    public final static String FORMAT_HEADER = String.format("%-5s%-10s%-15s%-15s%-15s", "ID", "installmentTimes", "Balance", "timesLeft", "Amount");
     
     private int transactionID;
     private int installmentTimes;
@@ -54,9 +54,23 @@ public class Transaction implements Selectable{
     public double getTotalAmount() {
         return totalAmount;
     }
+    
+    public boolean paymentFinished(){
+        return balanceLeft <= 0;
+    }
+    
+    public boolean isInstallment(){
+        if(installmentTimes == 0)
+            return false;
+        else
+            return true;
+    }
 
     public double getMonthlyPayment(){
-        return Math.round(this.totalAmount / this.installmentTimes * 100.0) / 100.0;
+        if (installmentTimes != 0)
+            return Math.round(this.totalAmount / this.installmentTimes * 100.0) / 100.0;
+        else
+            return 0;
     }
     
     public void completePayment(){
@@ -66,18 +80,28 @@ public class Transaction implements Selectable{
     }
 
     public void payMonthly(){
-        this.timesLeft--;
-        this.balanceLeft = Math.round((this.balanceLeft - this.getMonthlyPayment()) * 100.0) / 100.0;
-        updateFile();
-    }
-    
-    public void pay(double paymentAmount){
-        this.balanceLeft -= paymentAmount;
-        if (balanceLeft <= 0){
-            completePayment();
+        if (timesLeft > 0){
+            this.timesLeft--;
+            this.balanceLeft = Math.round((this.balanceLeft - this.getMonthlyPayment()) * 100.0) / 100.0;
+            
+            if (balanceLeft > 0)
+                this.balanceLeft = 0;
+            updateFile();
         }
     }
     
+    //return balance
+    public double pay(double paymentAmount){
+        this.balanceLeft -= paymentAmount;
+        if (balanceLeft <= 0){
+            double balance = -balanceLeft;
+            completePayment();
+            return balance;
+        }
+        else
+            return 0;
+    }
+        
     public String toCSV() {
         return this.transactionID + "," + this.installmentTimes + "," + this.balanceLeft + ","  + this.timesLeft + "," + this.totalAmount;
     }
@@ -102,7 +126,7 @@ public class Transaction implements Selectable{
 
     @Override
     public String toFormattedString() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(STRING_FORMAT, transactionID, installmentTimes, balanceLeft, timesLeft, totalAmount);
     }
 
     @Override

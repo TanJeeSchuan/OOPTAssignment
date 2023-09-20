@@ -33,7 +33,7 @@ public class Customer implements Selectable{
         this.phoneNumber = phoneNumber;
         this.currentPoints = 0;
         this.role = role;
-        FileHandler.writeFile(FileHandler.CUSTOMER_DB, this.toString());
+        FileHandler.writeFile(FileHandler.CUSTOMER_DB, this.toCSV());
     }
 
     public Customer(String[] data) {
@@ -54,10 +54,6 @@ public class Customer implements Selectable{
 //getter setter
     public int getCustomerID() {
         return customerID;
-    }
-
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
     }
 
     public String getName() {
@@ -93,16 +89,11 @@ public class Customer implements Selectable{
     }
 
     //update point
-    public void updateCurrentPoints(int points) {
+    public void modifyCurrentPoints(int points) {
         this.currentPoints += points;
-
-        CSVFile.updateDataByID(
-                FileHandler.CUSTOMER_DB,
-                String.valueOf(this.customerID),
-                "currentPoints",
-                String.valueOf(this.currentPoints)
-        );
+        CSVFile.updateDataByRow(FileHandler.CUSTOMER_DB, customerID, this.toCSV().split(","));
     }
+
 //display
     public void displayCustomerInfo(){
         System.out.println("\n-----------------------------------");
@@ -114,7 +105,12 @@ public class Customer implements Selectable{
         System.out.println("-----------------------------------\n");
     }
 
+    @Override
     public String toString() {
+        return this.customerID + "," + this.name + "," + this.phoneNumber + "," + this.currentPoints + "," + this.role;
+    }
+    
+    public String toCSV() {
         return this.customerID + "," + this.name + "," + this.phoneNumber + "," + this.currentPoints + "," + this.role;
     }
     //testing

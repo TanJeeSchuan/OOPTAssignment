@@ -10,7 +10,7 @@ public class Sales implements Selectable{
     
     public final static String[] FILE_HEADER = {"saleID,timeOfSale,customerID"};
     public final static String STRING_FORMAT = "%-5d%-20s";
-    public final static String FORMAT_HEADER = String.format("%-5s%-20s", "ID", "Date Time of Sale");
+    public final static String FORMAT_HEADER = String.format("%-5s%-20s", "ID", "DateTime of Sale");
     
     private int saleID;
     private String dateTimeOfSale;
@@ -139,9 +139,24 @@ public class Sales implements Selectable{
             return String.valueOf(saleID) + "," + dateTimeOfSale + "," + "0";
     }
     
+    public String expandAllDetail(){
+        String b = "";
+        for(SoldItem s: soldItems){
+            String a = s.getSoldItem().toFormattedString() + " " + s.getQuantity() + " " + s.getSubTotal() +"\n" + b;
+            b = a;
+        }
+        
+        return FORMAT_HEADER + "Total" + "\n" 
+                + toFormattedString() + "\n"
+                + "--------------------------------------------------------------\n"
+                + transaction.toFormattedString() + "\n" 
+                + "--------------------------------------------------------------\n"
+                + b;
+    }
+    
     @Override
     public String toFormattedString() {
-        return String.format(STRING_FORMAT + "%f", saleID, dateTimeOfSale, calculateTotal());
+        return String.format(STRING_FORMAT + "%.2f", saleID, dateTimeOfSale, calculateTotal());
     }
     
     @Override
