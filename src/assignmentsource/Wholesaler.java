@@ -5,10 +5,6 @@ public class Wholesaler extends Customer {
 
     private final double points = 0.5;
 
-    public Wholesaler(int customerID) {
-        super(customerID);
-    }
-
     public Wholesaler(String name, String phoneNumber, String role) {
         super(name, phoneNumber, role);
     }

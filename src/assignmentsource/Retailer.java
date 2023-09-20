@@ -13,6 +13,10 @@ public class Retailer extends Customer {
     public Retailer(int customerID, String name, String phoneNumber, int currentPoints, String role) {
         super(customerID, name, phoneNumber, currentPoints, role);
     }
+    
+    public void addPoints(int points){
+        super.setCurrentPoints(super.getCurrentPoints() + points);
+    }
 
     public static double getDiscount(double points){
         return Math.floor(points / 200);  //each 200 points discount 1

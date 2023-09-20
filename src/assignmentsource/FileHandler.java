@@ -11,13 +11,15 @@ import java.util.Scanner;
 //id all is int only
 public class FileHandler{
     //file path
-    private static final String filePath = "src/data/";
+    protected static final String filePath = "src/data/";
     
     //textfilename
     public static final String INVENTORY_DB = "inventory";
     public static final String CUSTOMER_DB = "customers";
     public static final String SALES_DB = "sales";
     public static final String TRANSACTION_DB = "transactions";
+    public static final String USER_DB = "users";
+    public static final String SOLD_ITEM_DB = "soldItems";
  
     //reportname
     //cus activity log 
@@ -32,8 +34,8 @@ public class FileHandler{
     public static ArrayList<String> readFile(String path){
         ArrayList<String> content = new ArrayList<>();
         
-        try{
-            
+        try
+        {
             File myFile = new File(path);
             //for read file
             Scanner myReader = new Scanner(myFile);
@@ -44,12 +46,15 @@ public class FileHandler{
                 content.add(data);
             }
             myReader.close();
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
         return content;
     }
 
+    //read CSV to 2d array
     public static ArrayList<String[]> readFileToArray(String filename){
         String path = filePath + filename + ".txt";
         ArrayList<String[]> content = new ArrayList<>();
@@ -62,6 +67,8 @@ public class FileHandler{
     }
 //=====================================================    
 //write
+    
+    //write string to file, append string to file (auto newline)
     public static void writeFile(String filename, String content){
         try{
             String path = filePath + filename + ".txt";
@@ -76,70 +83,25 @@ public class FileHandler{
             //line by line content
             myWriter.write(content + "\n");
             myWriter.close();
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
     }
 
+    //wrtie array to file
     public static void writeArrToFile(String filename, String[] data){
         String content = String.join(",", data);
         writeFile(filename, content);
     }
 
+    //write 2d array to file
     public static boolean writeArrToFile(String filename, ArrayList<String[]> data){
         for(String[] ele : data){
             writeArrToFile(filename, ele);
         }
         return true;
-    }
-//=====================================================
-    public static boolean updateDataByID(String filename, String id, String type, String data){
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        String[] header = fileContent.get(0);
-        int index = getDataColumn(header, type);
-
-        for(int i = 1; i < fileContent.size(); i++){
-            if(fileContent.get(i)[0].equals(id)){
-                fileContent.get(i)[index] = data;
-                break;
-            }
-        }
-        return rewriteFile(filename, fileContent);
-    }
-
-    public static ArrayList<String> getRowByMainID(String filename, String id) {
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        ArrayList<String> row = new ArrayList<>();
-        for(int i = 1; i < fileContent.size(); i++){
-            if(fileContent.get(i)[0].equals(id)){
-                Collections.addAll(row, fileContent.get(i));
-                break;
-            }
-        }
-        return row;
-    }
-
-    public static ArrayList<String> getRowByType(String filename, String type, String value) {
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        ArrayList<String> row = new ArrayList<>();
-        int index = getDataColumn(fileContent.get(0), type);
-        for(int i = 1; i < fileContent.size(); i++){
-            if(fileContent.get(i)[index].equals(value)){
-                row.addAll(Arrays.asList(fileContent.get(i)));
-                break;
-            }
-        }
-        return row;
-    }
-
-    public static ArrayList<String> getColumnByType(String filename, String type) {
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        ArrayList<String> column = new ArrayList<>();
-        int index = getDataColumn(fileContent.get(0), type);
-        for(int i = 1; i < fileContent.size(); i++){
-            column.add(fileContent.get(i)[index]);
-        }
-        return column;
     }
 
     public static boolean rewriteFile(String filename, ArrayList<String[]> data){
@@ -147,43 +109,16 @@ public class FileHandler{
         myFile.delete();
         return writeArrToFile(filename, data);
     }
-
-    public static int getDataColumn(String[] header, String type){
-        int index = 0;
-        for(int i = 0; i < header.length; i++){
-            if(header[i].equals(type)){
-                index = i;
-                break;
-            }
+    
+    public static boolean rewriteFileString(String filename, ArrayList<String> data){
+        File myFile = new File(filePath + filename + ".txt");
+        myFile.delete();
+        
+        for(String s: data){
+            writeFile(filename, s);
         }
-        return index;
+        
+        return true;
     }
-
-    public static boolean checkIDExist(String filename, String id){
-        ArrayList<String> fileContent = getRowByMainID(filename, id);
-        return fileContent.size() > 0;
-    }
-
-    public static int getLastRowID(String filename){
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        //remove header
-        fileContent.remove(0);
-        if (fileContent.size() == 0) {
-            return 0;
-        }
-        String lastLineID = fileContent.get(fileContent.size() - 1)[0];
-        String lastID = lastLineID.replaceAll("[^0-9]", "");
-        return Integer.parseInt(lastID);
-    }
-
-    public static boolean removeRowByID(String filename, String id){
-        ArrayList<String[]> fileContent = readFileToArray(filename);
-        for(int i = 1; i < fileContent.size(); i++){
-            if(fileContent.get(i)[0].equals(id)){
-                fileContent.remove(i);
-                break;
-            }
-        }
-        return rewriteFile(filename, fileContent);
-    }
+    
 }

@@ -1,0 +1,5 @@
+customerID,customerName,phoneNumber,currentPoints,role
+1,John Doe,0123697854,100,retailer
+2,Jackson Wang,0187779632,150,wholesaler
+5,Tan Jee Schuan,0164189855,100,retailer
+4,Choi Young,0126459200,9999,wholesaler

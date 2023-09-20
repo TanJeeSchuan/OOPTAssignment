@@ -1,0 +1,94 @@
+itemID,barCode,itemName,quantity,price,bulkPrice
+1,8718114711,Apple Pencil,1199,250.0,240.0
+2,8718114712,C Coding Book,400,25.0,24.0
+7,155,Beans  Fava Canned,90,54.58,50.0
+8,194176593,Ocean Spray  Ruby Red,54,22.08,16.0
+9,934202129,Chicken  Whole Roasting,37,65.59,57.0
+10,506050827,Beer  Camerons Cream Ale,65,69.62,20.0
+11,981654185,Cup  Translucent 7 Oz Clear,35,87.29,87.0
+13,871249616,Wine  Red Cooking,22,79.75,65.0
+14,551648164,Island Oasis  Strawberry,81,9.86,70.0
+15,189608052,Soup  Campbells Beef Barley,79,93.64,10.0
+16,434144862,Eggs  Extra Large,90,53.03,45.0
+17,136290495,Energy Drink,2,97.32,94.0
+18,534876320,Carbonated Water  Blackcherry,42,98.54,50.0
+19,165941016,Coffee Cup 8oz 5338cd,8,61.52,29.0
+20,936207092,Pear  Asian,24,4.16,6.0
+21,251831925,Bread  Raisin Walnut Pull,70,46.06,5.0
+22,553269237,Towel  Roll White,45,60.04,78.0
+23,996271348,Pasta  Lasagna Noodle Frozen,9,85.7,91.0
+24,994908526,Bread  English Muffin,24,40.13,20.0
+25,723337722,Pasta  Shells Medium Dry,40,67.87,69.0
+27,398593757,Browning Caramel Glace,62,1.34,33.0
+28,951404601,Muffin Mix  Corn Harvest,8,63.57,97.0
+29,949306758,Lettuce  Radicchio,85,20.35,41.0
+31,300667184,Plasticknivesblack,78,61.88,90.0
+32,557859429,Flavouring Vanilla Artificial,42,67.11,63.0
+33,617103619,Cheese  Brie Roitelet,45,59.86,62.0
+34,188705631,Trout Rainbow Whole,26,42.33,16.0
+35,526368874,Cheese  Parmesan Cubes,49,47.04,47.0
+36,249953110,Spring Roll Veg Mini,23,40.78,64.0
+37,239457362,Cookies Oatmeal Raisin,39,51.36,58.0
+38,959935151,Berry Brulee,95,54.8,71.0
+39,100274226,Steampan  Lid For Half Size,36,1.59,75.0
+40,330899313,Pastry  Baked Cinnamon Stick,17,6.85,57.0
+41,548854444,Icecream Bar  Del Monte,23,27.11,27.0
+42,255453954,Coriander  Seed,73,75.99,2.0
+43,717631553,Mix  Cocktail Strawberry Daiquiri,9,4.74,9.0
+44,991625183,Lamb  Leg Diced,86,24.9,86.0
+45,262259036,Baking Powder,63,2.24,51.0
+46,777792852,Coconut  Shredded Sweet,22,9.31,73.0
+47,220289572,Kellogs Cereal In A Cup,96,40.44,33.0
+48,569699874,Cookies Almond Hazelnut,51,61.79,76.0
+49,813261537,Bar Special K,66,89.53,1.0
+51,754461904,Ocean Spray  Ruby Red,20,9.06,73.0
+52,837517435,Juice  Orange Concentrate,30,21.06,91.0
+53,508572008,Lettuce  Red Leaf,70,33.47,6.0
+54,371704103,Cherries  Bing Canned,49,12.86,29.0
+56,436350507,Plastic Wrap,51,9.36,87.0
+57,565464508,Coconut  Shredded Sweet,48,59.32,50.0
+58,743355058,Cranberry Foccacia,69,44.04,16.0
+59,172877288,Chips  Doritos,5,63.73,1.0
+60,411602233,Gherkin  Sour,8,67.95,31.0
+61,486705488,Raspberries  Frozen,76,59.76,51.0
+62,565089787,Lobster  Base,83,99.29,74.0
+63,255337194,Almonds Ground Blanched,90,51.89,55.0
+64,602593885,Garbage Bags  Clear,22,16.21,66.0
+65,346090262,Wine  German Riesling,61,57.85,87.0
+66,708396716,Nut  Macadamia,40,71.54,49.0
+67,118357208,Veal  Round Eye Of,49,9.08,93.0
+68,386133617,Rappini  Andy Boy,4,75.78,66.0
+69,674286481,Lettuce  Frisee,38,58.59,99.0
+70,366815649,Wine  Red Lurton Merlot De,62,52.16,74.0
+71,692497547,Juice  Lime,59,43.17,94.0
+72,974100460,Pork  Smoked Kassler,93,65.5,5.0
+73,644030751,Pork  Inside,8,38.15,69.0
+74,746858605,Veal  Insides Provini,23,31.81,52.0
+75,501048723,Cape Capensis  Fillet,51,38.45,86.0
+76,740096916,Barley  Pearl,24,23.89,94.0
+77,685697761,Seabream Whole Farmed,90,46.61,4.0
+78,793814277,Soup  Campbells Broccoli,2,15.2,23.0
+79,976213006,Pasta  Detalini White Fresh,66,85.32,15.0
+80,206163976,Cup  8oz Coffee Perforated,87,62.69,57.0
+81,920975612,Chip  Potato Dill Pickle,48,64.16,12.0
+82,281006191,Coffee  Egg Nog Capuccino,34,92.08,24.0
+83,556217814,Wine  George Duboeuf Rose,50,74.66,89.0
+84,765274320,Sobe  Berry Energy,90,85.11,65.0
+85,170043599,Soup  Knorr Chicken Gumbo,96,29.15,68.0
+86,581735337,Duck  Fat,71,1.27,30.0
+87,449262155,Praline Paste,50,15.51,96.0
+88,906540746,Bread  White Sliced,61,2.04,14.0
+89,309472592,Plasticknivesblack,86,23.1,35.0
+90,326190359,Apricots Fresh,93,58.74,7.0
+91,398316895,Cumin  Whole,33,24.66,42.0
+92,765314125,Cocoa Feuilletine,45,69.69,21.0
+93,851043352,Pepper  Yellow Bell,55,81.29,18.0
+94,133058402,Soup  French Onion,89,85.77,10.0
+95,878758695,Snapple  Iced Tea Peach,91,78.86,75.0
+96,482123658,Cookies  Assorted,3,71.09,96.0
+97,540310842,Muffin Mix  Morning Glory,60,70.26,10.0
+98,681063912,Raspberries  Fresh,32,18.4,67.0
+99,370564302,Lotus Root,26,57.13,28.0
+123,01231,Test Item,69,20.0,19.5
+124,123A,Test,1,23.0,4.0
+125,123,ABC,50,23.0,21.5

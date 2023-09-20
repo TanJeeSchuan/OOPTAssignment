@@ -1,162 +1,173 @@
 package assignmentsource;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit; 
 
-public class Sales implements ISales{
 
+
+public class Sales implements Selectable{
+    
+    public final static String[] FILE_HEADER = {"saleID,timeOfSale,customerID"};
+    public final static String STRING_FORMAT = "%-5d%-20s";
+    public final static String FORMAT_HEADER = String.format("%-5s%-20s", "ID", "DateTime of Sale");
+    
     private int saleID;
-    private String timeOfSale;
-    private int customerID;
+    private String dateTimeOfSale;
+    
     private Customer customer;
-    private List<Integer> soldItemsID;
-    private List<SoldItem> soldItems;
-    private List<Integer> soldItemsQuantity;
-
-    public Sales(){
-        this.saleID = Tools.getNewID(FileHandler.SALES_DB);
-        this.timeOfSale = Tools.getCurrentDateTime();
-        this.customerID = 0;
-        this.soldItemsID = new ArrayList<>();
-        this.soldItems = new ArrayList<>();
-        this.soldItemsQuantity = new ArrayList<>();
-    }
-
-    public Sales(int saleID) {
-        List<String> saleInfo = FileHandler.getRowByMainID(FileHandler.SALES_DB, String.valueOf(saleID));
+    private Transaction transaction;
+    private ArrayList<SoldItem> soldItems;
+    
+    public Sales(int saleID, String timeOfSale, Customer customer, ArrayList<SoldItem> soldItems) {
         this.saleID = saleID;
-        this.timeOfSale = saleInfo.get(1);
-        this.customerID = Integer.parseInt(saleInfo.get(2));
-        this.soldItemsID = Tools.stringToIntList(saleInfo.get(3));
-        this.soldItems = new ArrayList<>();
-        this.soldItemsQuantity = Tools.stringToIntList(saleInfo.get(4));
-        initSoldItems();
+        this.dateTimeOfSale = timeOfSale;
+        this.customer = customer;
+        this.soldItems = soldItems;
     }
-
-    public Sales(int saleID, String timeOfSale, int customerID, List<Integer> soldItemsID, List<Integer> soldItemsQuantity) {
-        this.saleID = saleID;
-        this.timeOfSale = timeOfSale;
-        this.customerID = customerID;
-        this.customer = Tools.getCustomerByID(customerID);
-        this.soldItemsID = soldItemsID;
-        this.soldItemsQuantity = soldItemsQuantity;
-        this.soldItems = new ArrayList<>();
-        initSoldItems();
-    }
-
-    private void initSoldItems(){
-        for (int i = 0; i < soldItemsID.size(); i++) {
-            this.soldItems.add(new SoldItem(
-                    new Item(soldItemsID.get(i)), soldItemsQuantity.get(i))
-            );
+    
+    //for initialse from file
+    public Sales(String salesString[], ArrayList<Customer> custList, ArrayList<Transaction> transactionList, ArrayList<SoldItem> soldItemsList){
+        this.saleID = Integer.parseInt(salesString[0]);
+        this.dateTimeOfSale = salesString[1];
+        
+        this.soldItems = new ArrayList();
+        //get existing customer
+        for (Customer c: custList){
+            if (c.getCustomerID() == Integer.parseInt(salesString[2])){
+                this.customer = c;
+                break;
+            }
         }
+        
+        for (Transaction t: transactionList){
+            if (t.getTransactionID() == this.saleID){
+                this.transaction = t;
+                break;
+            }
+        }
+        
+        for (SoldItem sI: soldItemsList){
+            if (sI.getSaleID() == this.saleID){
+                this.soldItems.add(sI);
+            }
+        }
+    }
+    
+    //for new sales created by user?
+    public Sales(Customer customer, ArrayList<SoldItem> soldItems, int installmentTimes){
+        this.saleID = newSaleID();
+        this.dateTimeOfSale = LocalDateTime.now().truncatedTo( ChronoUnit.SECONDS).toString();
+        
+        this.customer = customer;
+        this.soldItems = soldItems;
+        
+        for (SoldItem i : soldItems){
+            i.writeToFile();
+        }
+        
+        FileHandler.writeFile(FileHandler.SALES_DB, this.toCSV());
+        
+        //for every sale, must have transaction
+        transaction = new Transaction(this.saleID, installmentTimes, calculateTotal());
     }
 
     public int getSaleID() {
         return saleID;
     }
 
-    public void setSaleID(int saleID) {
-        this.saleID = saleID;
-    }
-
-    public String getTimeOfSale() {
-        return timeOfSale;
-    }
-
-    public void setTimeOfSale(String timeOfSale) {
-        this.timeOfSale = timeOfSale;
-    }
-
-    public int getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public String getDateTimeOfSale() {
+        return dateTimeOfSale;
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-        this.customerID = customer.getCustomerID();
+    public Transaction getTransaction() {
+        return transaction;
     }
 
-    public List<Integer> getSoldItemsID() {
-        return soldItemsID;
-    }
-
-    public void setSoldItemsID(List<Integer> soldItemsID) {
-        this.soldItemsID = soldItemsID;
-    }
-
-    public List<SoldItem> getSoldItems() {
+    public ArrayList<SoldItem> getSoldItems() {
         return soldItems;
     }
 
-    public void setSoldItems(List<SoldItem> soldItems) {
-        this.soldItems = soldItems;
-    }
-
-    public void addSoldItemID(int soldItemID){
-        this.soldItemsID.add(soldItemID);
-    }
-
-    public void addSoldItem(SoldItem soldItem){
-        this.soldItems.add(soldItem);
-    }
-
-    public List<Integer> getSoldItemsQuantity() {
-        return soldItemsQuantity;
-    }
-
-    public void setItemsQuantity(List<Integer> soldItemsQuantity) {
-        this.soldItemsQuantity = soldItemsQuantity;
-    }
-
-    public void addItemQuantity(int soldItemQuantity){
-        this.soldItemsQuantity.add(soldItemQuantity);
-    }
-
-    public double getTotalPrice() {
-        double totalPrice = 0;
-        for (SoldItem soldItem : soldItems) {
-            totalPrice += soldItem.getSubTotal();
+    
+    public double calculateTotal() {
+        double total = 0;
+        if (customer != null)
+        {
+            if ("wholesaler".equals(customer.getRole())){
+                for(SoldItem sI: soldItems){
+                    total += sI.getBulkSubTotal();
+                }
+                total += Wholesaler.getDeliveryFee();
+            }
         }
-        return totalPrice;
-    }
-
-    public double getSubTotalByRole() {
-        double totalPrice = 0;
-        for (SoldItem soldItem : soldItems) {
-            totalPrice += soldItem.getSubTotalByRole(this.customer.getRole());
+        else {
+            for(SoldItem sI: soldItems){
+                total += sI.getSubTotal();
+            }
         }
-        return totalPrice;
+        
+        return total;
     }
-
-    public int getPoints(double totalPrice) {
-        return getCustomer() instanceof Retailer ? (int) (totalPrice) : 0;
-    }
-
-    public String toString() {
-        return this.saleID + "," + this.timeOfSale + "," +
-                this.customerID + "," + Tools.intListToString(this.soldItemsID) + "," +
-                Tools.intListToString(this.soldItemsQuantity);
-    }
-
-    public void storeSale(){
-        FileHandler.writeFile(FileHandler.SALES_DB, this.toString());
-        for (SoldItem soldItem : soldItems) {
-            Tools.generateSalesLog(
-                    this.customer.getName(),
-                    this.customer.getRole(),
-                    soldItem.getSoldItem().getItemName(),
-                    soldItem.getSoldItem().getQuantity()
-            );
+    
+    public double calculatePoints(){
+        double points = 0;
+        if (customer != null){
+            if (!"wholesaler".equals(customer.getRole())){
+                points = calculateTotal() / 10;
+                return points;
+            }
+            
+            return 0;
         }
+        
+        return 0;
+    }
+    
+    public static int newSaleID(){
+        return CSVFile.getLastRowID(FileHandler.SALES_DB) + 1;
     }
 
+    public String toCSV(){
+        if(customer != null)
+            return String.valueOf(saleID) + "," + dateTimeOfSale + "," + String.valueOf(customer.getCustomerID());
+        else
+            return String.valueOf(saleID) + "," + dateTimeOfSale + "," + "0";
+    }
+    
+    public String expandAllDetail(){
+        String b = "";
+        for(SoldItem s: soldItems){
+            String a = s.getSoldItem().toFormattedString() + " " + s.getQuantity() + " " + s.getSubTotal() +"\n" + b;
+            b = a;
+        }
+        
+        return FORMAT_HEADER + "Total" + "\n" 
+                + toFormattedString() + "\n"
+                + "--------------------------------------------------------------\n"
+                + transaction.toFormattedString() + "\n" 
+                + "--------------------------------------------------------------\n"
+                + b;
+    }
+    
+    @Override
+    public String toFormattedString() {
+        return String.format(STRING_FORMAT + "%.2f", saleID, dateTimeOfSale, calculateTotal());
+    }
+    
+    @Override
+    public String[] getFILEHEADER() {
+        return FILE_HEADER;
+    }
+    @Override
+    public String getSTRINGFORMAT() {
+        return STRING_FORMAT;
+    }
+    @Override
+    public String getFORMATHEADER() {
+        return FORMAT_HEADER;
+    }
 }

@@ -1,0 +1,2 @@
+customerID,customerName,phoneNumber,currentPoints,role
+3,Mark Tuan,0193325874,0,retailer
