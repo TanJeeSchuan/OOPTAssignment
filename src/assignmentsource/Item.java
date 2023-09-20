@@ -14,16 +14,6 @@ public class Item implements Selectable{
     private double price;
     private double bulkPrice;
 
-
-    public Item(String itemName, int quantity, double price, double bulkPrice) {
-        this.itemID = Tools.getNewID(FileHandler.INVENTORY_DB);
-        this.barCode = Tools.generateBarCode();
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.price = price;
-        this.bulkPrice = bulkPrice;
-    }
-
     //for user creation
     public Item(String itemName, String barcode, int quantity, double price, double bulkPrice) {
         this.itemID = Tools.getNewID(FileHandler.INVENTORY_DB);

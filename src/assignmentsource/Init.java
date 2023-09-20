@@ -31,6 +31,24 @@ public class Init {
         }
         return customerList;
     }
+    
+    public static ArrayList<Customer> initBlacklist() {
+        //read file become 2d array
+        
+        ArrayList<String[]> customers = FileHandler.readFileToArray(FileHandler.BLACKLIST_DB);
+        customers.remove(0); // remove the header
+        
+        ArrayList<Customer> customerList = new ArrayList<>();
+        //make them become object
+        for (String[] customer : customers) {
+            if (customer[4].equals("retailer")) {
+                customerList.add(new Retailer(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+            } else {
+                customerList.add(new Wholesaler(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+            }
+        }
+        return customerList;
+    }
     //init user
 
     //init item (Parse string arrays into Item objects)
@@ -67,30 +85,6 @@ public class Init {
         return transactionList;
     }
     //init user
-
-    public static String intListToString(List<Integer> soldItemsID) {
-        StringBuilder str = new StringBuilder();
-        if (soldItemsID.size() > 0) {
-            for (int i = 0; i < soldItemsID.size() - 1; i++) {
-                str.append(soldItemsID.get(i)).append(":");
-            }
-            str.append(soldItemsID.get(soldItemsID.size() - 1));
-        }
-        return str.toString();
-    }
-    //initcustomer
-
-//    public static ArrayList<Sales> initSales() {
-//        ArrayList<String[]> sales = FileHandler.readFileToArray(FileHandler.SALES_DB);
-//        sales.remove(0); // remove the header
-//        ArrayList<Sales> salesList = new ArrayList<>();
-//        for (String[] sale : sales) {
-//            salesList.add(new Sales(Integer.parseInt(sale[0]), sale[1], Integer.parseInt(sale[2]), Tools.stringToIntList(sale[3]), Tools.stringToIntList(sale[4])));
-//        }
-//        return salesList;
-//    }
-//    public Sales a;
-    
     public static ArrayList<SoldItem> initSoldItems(ArrayList<Item> itemList)
     {
         ArrayList<String[]> soldItemsString = FileHandler.readFileToArray(FileHandler.SOLD_ITEM_DB);

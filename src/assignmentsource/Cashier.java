@@ -17,6 +17,10 @@ public class Cashier extends User{
         super(data);
     }
     
+    public Cashier (String username, String password, String name, String phoneNumber){
+        super(username, password, name, phoneNumber);
+    }
+    
     @Override
     public boolean mainMenu() {
         Scanner sc = new Scanner(System.in);
@@ -47,6 +51,10 @@ public class Cashier extends User{
     
     @Override
     public String toFormattedString(){
-        return String.format(STRING_FORMAT,"Cashier",username, password, name, birthDate.toString(), phoneNumber);
+        return String.format(STRING_FORMAT,"Cashier",username, password, name, phoneNumber);
+    }
+    
+    public String toCSV(){
+        return "Cashier," + super.toCSV();
     }
 }

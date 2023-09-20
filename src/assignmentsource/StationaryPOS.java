@@ -20,15 +20,14 @@ public class StationaryPOS {
     public Inventory inv;
     public ArrayList<Sales> sales;  
     public ArrayList<Customer> cust;
-    
-    //test
-    private ArrayList<Transaction> transaction;
-    private ArrayList<Item> itemList;
-    private ArrayList<SoldItem> soldItemList;
-    
+
     //constuction set as private, initialisation controlled by method in class
     private StationaryPOS()
     {
+        ArrayList<Transaction> transaction;
+        ArrayList<Item> itemList;
+        ArrayList<SoldItem> soldItemList;
+        
         itemList = Init.initItems();
         
         soldItemList = Init.initSoldItems(itemList);
@@ -96,21 +95,19 @@ public class StationaryPOS {
 
         int installmentLength = 0;
         
-        if(saleCust != null){
-            int selected = 0;
-            do{
-                System.out.println("\nPayment Type");
-                System.out.println("1)Installment\t\t2)One Time Payment\n");
-                selected = sc.nextInt();
-            }while(!(selected >= 1) && !(selected <= 2));
+        int selected = 0;
+        do{
+            System.out.println("\nPayment Type");
+            System.out.println("1)Installment\t\t2)One Time Payment\n");
+            selected = sc.nextInt();
+        }while(!(selected >= 1) && !(selected <= 2));
 
-            if (selected == 1){
-                System.out.print("Installment length: ");
-                installmentLength = sc.nextInt();
-            }
-            else if(selected == 2)
-                installmentLength = 0;
+        if (selected == 1){
+            System.out.print("Installment length: ");
+            installmentLength = sc.nextInt();
         }
+        else if(selected == 2)
+            installmentLength = 0;
         
         Sales newSale = new Sales(saleCust, soldItemsList, installmentLength);        
         sPOS.sales.add(newSale);
@@ -122,9 +119,10 @@ public class StationaryPOS {
     public void salesPayment(Transaction transaction){
         Scanner sc = new Scanner(System.in);
         
+        System.out.println("");
         viewTransaction(transaction);
         
-        if(transaction.paymentFinished()){
+        if(!transaction.paymentFinished()){
             if(transaction.isInstallment()){
                 int selected = 0;
                 do{
@@ -138,9 +136,7 @@ public class StationaryPOS {
                     transaction.payMonthly();
                     System.out.println("Balance: " + transaction.getBalanceLeft());
                 }
-                else if (selected == 2){
-                    System.out.print("Amount to pay: ");
-                    
+                else if (selected == 2){                    
                     double payAmount;
                     do{
                         System.out.println("Enter amount paid: ");
@@ -149,6 +145,15 @@ public class StationaryPOS {
                     
                     System.out.println("\nBalance: "+transaction.pay(payAmount));
                 }
+            }
+            else{
+                double payAmount;
+                do{
+                    System.out.print("Enter amount paid: ");
+                    payAmount = sc.nextDouble();
+                }while(payAmount < transaction.getBalanceLeft());
+
+                System.out.println("\nBalance: "+ transaction.pay(payAmount));
             }
         }
         else{
@@ -208,6 +213,63 @@ public class StationaryPOS {
         return newCust;
     }
     
+    public void modfiyCustomer(Customer cust){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("\n\nSelected Customer:");
+        System.out.println(Customer.FORMAT_HEADER);
+        System.out.println(cust.toFormattedString());
+        
+        int selection = 0;
+        while(true){
+            do{
+                System.out.print("\nSelect field to modify:\n");
+                System.out.print("1) Customer Name\n2) Phone Number\n3) Current Points\n4) Role\n5) Exit");
+                System.out.print("\nSelection: ");
+                selection = sc.nextInt();
+
+                switch(selection){
+                    case 1:
+                        cust.setName(sc.next());
+                        break;
+
+                    case 2:
+                        cust.setPhoneNumber(sc.next());
+                        break;
+
+                    case 3:
+                        cust.setCurrentPoints(sc.nextInt());
+                        break;
+
+                    case 4:
+                        int sel = 0;
+                        do{
+                            System.out.printf("\nRetailer or Wholesaler (Current Role: %s)\n1. Retailer\t\t2. Wholesaler\nSelection: ", cust.getRole());
+                            sel = sc.nextInt();
+                        }while(!(sel >= 1) && !(sel <= 2));
+                        
+                        if(sel == 1)
+                            cust.setRole("retailer");
+                        else if(sel == 2)
+                            cust.setRole("wholesaler");
+                        
+                        break;
+
+                    case 5:
+                        break;
+                }
+            }while(!(selection >= 1) && !(selection <= 5));
+            
+            if (selection == 5)
+                break;
+        }
+    }
+    
+    public void removeCustomer(Customer cust){
+        sPOS.cust.remove(cust);
+        CSVFile.removeRowByID(FileHandler.CUSTOMER_DB, String.valueOf(cust.getCustomerID()));
+    }
+    
     public Item addItem(){
         String itemName;
         String barcode = "";
@@ -239,44 +301,7 @@ public class StationaryPOS {
         return i;
     }
     
-    public void viewItemsList(){
-        System.out.println(Item.FORMAT_HEADER);
-        for(Item i: inv.getItemList()){
-            System.out.println(i.toFormattedString());
-        }
-    }
-    
-    public void viewTransactionList(){
-        System.out.println("");
-        
-        for (Sales s: sales){
-            Transaction t = null;
-            t = s.getTransaction();
-            
-            if(t != null)
-                viewTransaction(t);
-            else
-                System.out.printf("Sale ID %d has no transaction record!\n\n", s.getSaleID());
-        }
-    }
-    
-    public static void viewTransaction(Transaction transaction){
-        System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
-        //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
-        //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
-        System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
-        if (!transaction.isInstallment()) {
-            System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
-        } else {
-            System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
-            System.out.printf("%-20s%-20s\n", "Installment Period:", transaction.getInstallmentTimes()+" months");
-            System.out.printf("%-20s%-20s\n", "Time Left:", transaction.getTimesLeft());
-            System.out.printf("%-20s%-20s\n", "Balance Left:", transaction.getBalanceLeft());
-        }
-        System.out.println("-----------------------------------");
-    }
-    
-    public static void modifyItem(Item item){
+    public void modifyItem(Item item){
         Scanner sc = new Scanner(System.in);
         
         System.out.println("\n\nSelected Item:");
@@ -326,6 +351,77 @@ public class StationaryPOS {
                 break;
         }
     }
+    
+    public void viewAllItems(){
+        System.out.println(Item.FORMAT_HEADER);
+        for(Item i: inv.getItemList()){
+            System.out.println(i.toFormattedString());
+        }
+    }
+    
+    public ArrayList<Transaction> getTransactionType(ArrayList<Transaction> transactionList, boolean isCompleted){
+        ArrayList<Transaction> tList = new ArrayList<>();
+        
+        for(Transaction t: transactionList){
+            //if is completed
+            if(isCompleted){
+                if(t.paymentFinished())
+                    tList.add(t);
+            }
+            //if is not completed
+            else{
+                if(!t.paymentFinished())
+                    tList.add(t);
+            }
+        }
+        
+        return tList;
+    }
+    
+    public ArrayList<Transaction> getTransactionList(){
+        ArrayList<Transaction> tList = new ArrayList<>();
+        System.out.println("");
+        for (Sales s: sales){
+            Transaction t = null;
+            t = s.getTransaction();
+            if(t != null)
+                tList.add(t);
+//            else
+//                System.out.printf("Sale ID %d has no transaction record!\n\n", s.getSaleID());
+        }
+        return tList;
+    }
+    
+    public void viewAllTransactions(){
+        System.out.println("");
+        
+        for (Sales s: sales){
+            Transaction t = null;
+            t = s.getTransaction();
+            
+            if(t != null)
+                viewTransaction(t);
+            else
+                System.out.printf("Sale ID %d has no transaction record!\n\n", s.getSaleID());
+        }
+    }
+    
+    public static void viewTransaction(Transaction transaction){
+        System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
+        //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
+        //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
+        System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
+        if (!transaction.isInstallment()) {
+            System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
+        } else {
+            System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
+            System.out.printf("%-20s%-20s\n", "Installment Period:", transaction.getInstallmentTimes()+" months");
+            System.out.printf("%-20s%-20s\n", "Time Left:", transaction.getTimesLeft());
+            System.out.printf("%-20s%-20s\n", "Balance Left:", transaction.getBalanceLeft());
+        }
+        System.out.println("-----------------------------------");
+    }
+    
 //    public static void main(String[] args) {
 //        
 //        Inventory inv = new Inventory(Init.initItems());

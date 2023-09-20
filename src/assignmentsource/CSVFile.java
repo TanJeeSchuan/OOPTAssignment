@@ -184,15 +184,16 @@ public class CSVFile extends FileHandler
         return FileHandler.rewriteFile(filename, fileContent);
     }
     
-    public static boolean removeRow(String filename, ArrayList<String> targetRow) {
-        ArrayList<String[]> fileContent = FileHandler.readFileToArray(filename);
-        for (int i = 1; i < fileContent.size(); i++) {
-            if (fileContent.get(i)[0].equals(targetRow.get(0))) {
-                fileContent.remove(i);
+    public static boolean removeRow(String filename, String csvString) {
+        ArrayList<String> fileContent = FileHandler.readFile(filePath + filename + ".txt");
+
+        for(String fileString: fileContent){
+            if(fileString.equals(csvString)){
+                fileContent.remove(fileString);
                 break;
             }
         }
-        return FileHandler.rewriteFile(filename, fileContent);
+        return FileHandler.rewriteFileString(filename, fileContent);
     }
 
     public static boolean removeRowByID(String filename, String id) {

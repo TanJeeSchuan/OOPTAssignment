@@ -8,39 +8,39 @@ import java.util.Scanner;
 public class Tools {
 
 
-    public static String generateBarCode() {
-        //random 10 digit number
-        StringBuilder barcode = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            barcode.append((int) (Math.random() * 10));
-        }
-        return barcode.toString();
-    }
+//    public static String generateBarCode() {
+//        //random 10 digit number
+//        StringBuilder barcode = new StringBuilder();
+//        for (int i = 0; i < 10; i++) {
+//            barcode.append((int) (Math.random() * 10));
+//        }
+//        return barcode.toString();
+//    }
 
     public static int getNewID(String db) {
         return CSVFile.getLastRowID(db) + 1;
     }
 
-    public static List<Integer> stringToIntList(String str) {
-        List<Integer> intList = new ArrayList<>();
-        String[] strArr = str.split(":");
-        for (String s : strArr) {
-            intList.add(Integer.parseInt(s));
-        }
-        return intList;
-    }
+//    public static List<Integer> stringToIntList(String str) {
+//        List<Integer> intList = new ArrayList<>();
+//        String[] strArr = str.split(":");
+//        for (String s : strArr) {
+//            intList.add(Integer.parseInt(s));
+//        }
+//        return intList;
+//    }
 
-
-    public static Customer getCustomerByID(int id) {
-        ArrayList<String> customerInfo = CSVFile.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(id));
-
-        return new Customer(
-                id, customerInfo.get(1),
-                customerInfo.get(2),
-                Integer.parseInt(customerInfo.get(3)),
-                customerInfo.get(4)
-        );
-    }
+//
+//    public static Customer getCustomerByID(int id) {
+//        ArrayList<String> customerInfo = CSVFile.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(id));
+//
+//        return new Customer(
+//                id, customerInfo.get(1),
+//                customerInfo.get(2),
+//                Integer.parseInt(customerInfo.get(3)),
+//                customerInfo.get(4)
+//        );
+//    }
 
 //    public static double getCustomerTypePrice(SoldItem soldItem) {
 //        return StaticContainer.currentSale.getCustomer() instanceof Retailer
@@ -65,29 +65,28 @@ public class Tools {
         CSVFile.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(id));
     }
 
-    public static boolean checkCustomerIsBlacklisted(int id) {
-        //check the customerID exist in blacklist or not
-        ArrayList<String> result = CSVFile.getRowByMainID(FileHandler.BLACKLIST_DB, Integer.toString(id));
-        return result.size() > 0;
-    }
+//    public static boolean checkCustomerIsBlacklisted(int id) {
+//        //check the customerID exist in blacklist or not
+//        ArrayList<String> result = CSVFile.getRowByMainID(FileHandler.BLACKLIST_DB, Integer.toString(id));
+//        return result.size() > 0;
+//    }
 
-    public static void displayBlackList() {
-        ArrayList<String[]> blacklist = FileHandler.readFileToArray(FileHandler.BLACKLIST_DB);
-        blacklist.remove(0);  // remove the header
-        System.out.println("\n-----------------------------------");
-        System.out.println("\t\tBlacklisted Customer");
-        System.out.println("-----------------------------------");
-        if (blacklist.size() == 0) {
-            System.out.println("No blacklisted customer!");
-            System.out.println("-----------------------------------\n");
-            return;
-        }
-        System.out.printf("%-12s%-20s\n", "Customer ID", "Blacklisted Date");
-        for (String[] row : blacklist) {
-            System.out.printf("%-12s%-20s\n", row[0], row[1]);
-        }
-        System.out.println("-----------------------------------\n");
-    }
+//    public static void displayBlackList(ArrayList<Customer> blacklistCustomer) {
+//        ArrayList<String[]> blacklist = FileHandler.readFileToArray(FileHandler.BLACKLIST_DB);
+//        System.out.println("\n-----------------------------------");
+//        System.out.println("\t\tBlacklisted Customer");
+//        System.out.println("-----------------------------------");
+//        if (blacklist.size() == 0) {
+//            System.out.println("No blacklisted customer!");
+//            System.out.println("-----------------------------------\n");
+//            return;
+//        }
+//        System.out.printf("%-12s%-20s\n", "Customer ID", "Blacklisted Date");
+//        for (String[] row : blacklist) {
+//            System.out.printf("%-12s%-20s\n", row[0], row[1]);
+//        }
+//        System.out.println("-----------------------------------\n");
+//    }
 
     public static void generateActivityLog(String username, double spend, int points) {
         String datetime = getCurrentDateTime();
@@ -123,7 +122,7 @@ public class Tools {
         
         for(int i = 0; i < objectList.size(); i+=ROWS_TO_SHOW){
             Selectable obj = objectList.get(0);
-            System.out.print(obj.getFORMATHEADER() + "\n");
+            System.out.print("\n" + obj.getFORMATHEADER() + "\n");
             for (int j = i; j < i + ROWS_TO_SHOW; j++)
             {
                 if(j >= objectList.size())

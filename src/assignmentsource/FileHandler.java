@@ -110,4 +110,15 @@ public class FileHandler{
         return writeArrToFile(filename, data);
     }
     
+    public static boolean rewriteFileString(String filename, ArrayList<String> data){
+        File myFile = new File(filePath + filename + ".txt");
+        myFile.delete();
+        
+        for(String s: data){
+            writeFile(filename, s);
+        }
+        
+        return true;
+    }
+    
 }

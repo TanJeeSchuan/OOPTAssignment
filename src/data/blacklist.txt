@@ -1,2 +1,2 @@
-customerID,updateAt
-5,2023-09-17 21:55:43
+customerID,customerName,phoneNumber,currentPoints,role
+3,Mark Tuan,0193325874,0,retailer

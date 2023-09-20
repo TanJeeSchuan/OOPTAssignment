@@ -11,36 +11,38 @@ import java.time.LocalDate;
  * @author Tan Jee Schuan
  */
 public abstract class User implements Selectable{
-    public final static String[] FILE_HEADER = {"role,username,password,name,birthDate,phoneNumber"};
-    public final static String STRING_FORMAT = "%-15s%-20s%-20s%-30s%-15s%-15s";
-    public final static String FORMAT_HEADER = String.format(STRING_FORMAT, "Role", "Username", "Password", "Name", "Birth Date", "Phone Number");
+    public final static String[] FILE_HEADER = {"role,username,password,name,phoneNumber"};
+    public final static String STRING_FORMAT = "%-15s%-20s%-20s%-30s%-15s";
+    public final static String FORMAT_HEADER = String.format(STRING_FORMAT, "Role", "Username", "Password", "Name", "Phone Number");
     
     protected String username;
     protected String password;
     
     protected String name;
-    protected LocalDate birthDate;
     protected String phoneNumber;
     
     User(String[] data)
     {
-        this(data[1], data[2], data[3], data[4], data[5]);
+        this(data[1], data[2], data[3], data[4]);
     }
     
-    User(String username, String password, String name, String birthDate, String phoneNumber)
+    User(String username, String password, String name, String phoneNumber)
     {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.birthDate = LocalDate.parse(birthDate);
         this.phoneNumber = phoneNumber;
     }
     
     @Override
     public String toString()
     {
-        return username + " " + password + " " +name + " " + birthDate.toString() + " " + phoneNumber; 
+        return username + " " + password + " " +name + " " + phoneNumber; 
     }
+    
+    public String toCSV(){
+        return username + "," + password + "," +name + "," + phoneNumber; 
+    }   
     
     @Override
     public String[] getFILEHEADER() {

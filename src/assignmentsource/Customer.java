@@ -62,6 +62,7 @@ public class Customer implements Selectable{
 
     public void setName(String name) {
         this.name = name;
+        updateCustomer();
     }
 
     public String getPhoneNumber() {
@@ -70,6 +71,7 @@ public class Customer implements Selectable{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        updateCustomer();
     }
 
     public int getCurrentPoints() {
@@ -78,6 +80,7 @@ public class Customer implements Selectable{
 
     public void setCurrentPoints(int currentPoints) {
         this.currentPoints = currentPoints;
+        updateCustomer();
     }
 
     public String getRole() {
@@ -86,23 +89,28 @@ public class Customer implements Selectable{
 
     public void setRole(String role) {
         this.role=role;
+        updateCustomer();
     }
 
     //update point
     public void modifyCurrentPoints(int points) {
         this.currentPoints += points;
-        CSVFile.updateDataByRow(FileHandler.CUSTOMER_DB, customerID, this.toCSV().split(","));
+        updateCustomer();
     }
 
 //display
-    public void displayCustomerInfo(){
-        System.out.println("\n-----------------------------------");
-        System.out.printf("Customer ID: %d\n", this.customerID);
-        System.out.printf("Name: %s\n", this.name);
-        System.out.printf("Phone Number: %s\n", this.phoneNumber);
-        System.out.printf("Current Points: %d\n", this.currentPoints);
-        System.out.printf("Role: %s\n", this.role);
-        System.out.println("-----------------------------------\n");
+//    public void displayCustomerInfo(){
+//        System.out.println("\n-----------------------------------");
+//        System.out.printf("Customer ID: %d\n", this.customerID);
+//        System.out.printf("Name: %s\n", this.name);
+//        System.out.printf("Phone Number: %s\n", this.phoneNumber);
+//        System.out.printf("Current Points: %d\n", this.currentPoints);
+//        System.out.printf("Role: %s\n", this.role);
+//        System.out.println("-----------------------------------\n");
+//    }
+    
+    public void updateCustomer(){
+        CSVFile.updateDataByRow(FileHandler.CUSTOMER_DB, customerID, this.toCSV().split(","));
     }
 
     @Override

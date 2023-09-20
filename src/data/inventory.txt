@@ -1,7 +1,7 @@
 itemID,barCode,itemName,quantity,price,bulkPrice
 1,8718114711,Apple Pencil,1199,250.0,240.0
 2,8718114712,C Coding Book,400,25.0,24.0
-7,155,Beans  Fava Canned,91,54.58,77.0
+7,155,Beans  Fava Canned,91,54.58,50.0
 8,194176593,Ocean Spray  Ruby Red,54,22.08,16.0
 9,934202129,Chicken  Whole Roasting,37,65.59,57.0
 10,506050827,Beer  Camerons Cream Ale,65,69.62,20.0
@@ -19,7 +19,6 @@ itemID,barCode,itemName,quantity,price,bulkPrice
 23,996271348,Pasta  Lasagna Noodle Frozen,9,85.7,91.0
 24,994908526,Bread  English Muffin,24,40.13,20.0
 25,723337722,Pasta  Shells Medium Dry,40,67.87,69.0
-26,809242376,Chips  Doritos,73,19.27,65.0
 27,398593757,Browning Caramel Glace,62,1.34,33.0
 28,951404601,Muffin Mix  Corn Harvest,8,63.57,97.0
 29,949306758,Lettuce  Radicchio,85,20.35,41.0
@@ -91,6 +90,5 @@ itemID,barCode,itemName,quantity,price,bulkPrice
 98,681063912,Raspberries  Fresh,32,18.4,67.0
 99,370564302,Lotus Root,26,57.13,28.0
 123,01231,Test Item,69,20.0,19.5
-124,123A,Test,1,23.0,4.0
 124,123A,Test,1,23.0,4.0
 125,123,ABC,50,23.0,21.5

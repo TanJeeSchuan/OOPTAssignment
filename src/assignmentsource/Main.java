@@ -11,15 +11,14 @@ import java.util.Scanner;
  *
  * @author Tan Jee Schuan
  */
-public class Main {
-    
+public class Main {    
     public static void main(String[] args)
     {
         StationaryPOS sPOS = StationaryPOS.getInstance();        //initialse singleton
                 
         Scanner sc = new Scanner(System.in);
         
-        ArrayList<User> users = Init.initUsers();
+        ArrayList<User>users = Init.initUsers();
 //
 //        sPOS.sales.get(0).getCustomer().modifyCurrentPoints(+5);
 //        

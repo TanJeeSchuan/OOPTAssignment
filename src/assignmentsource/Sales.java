@@ -103,11 +103,10 @@ public class Sales implements Selectable{
                 }
                 total += Wholesaler.getDeliveryFee();
             }
-            
-            else {
-                for(SoldItem sI: soldItems){
-                    total += sI.getSubTotal();
-                }
+        }
+        else {
+            for(SoldItem sI: soldItems){
+                total += sI.getSubTotal();
             }
         }
         
@@ -119,7 +118,7 @@ public class Sales implements Selectable{
         if (customer != null){
             if (!"wholesaler".equals(customer.getRole())){
                 points = calculateTotal() / 10;
-//                ((Retailer)customer).;
+                return points;
             }
             
             return 0;

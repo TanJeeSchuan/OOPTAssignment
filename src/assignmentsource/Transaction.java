@@ -136,12 +136,12 @@ public class Transaction implements Selectable{
 
     @Override
     public String getSTRINGFORMAT() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return STRING_FORMAT;
     }
 
     @Override
     public String getFORMATHEADER() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return FORMAT_HEADER;
     }
 
 }
