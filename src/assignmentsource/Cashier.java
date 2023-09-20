@@ -34,7 +34,9 @@ public class Cashier extends User{
             {
                 case 1:
                     //create a sale then make payment
-                    sPOS.salesPayment(sPOS.addSales().getTransaction());
+                    Sales s = sPOS.addSales();
+                    sPOS.salesPayment(s.getTransaction());
+                    sPOS.updateItemQuantity(s.getSoldItems());
                     break;
 
                 case 2:

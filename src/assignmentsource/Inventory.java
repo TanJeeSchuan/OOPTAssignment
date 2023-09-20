@@ -36,7 +36,7 @@ public class Inventory{
         }
         return null;
     }
-
+    
     public void addItem(Item item) {
         itemList.add(item);
         FileHandler.writeFile(FileHandler.INVENTORY_DB, item.toCSV());
@@ -83,6 +83,11 @@ public class Inventory{
         return false;
     }
     
+    public void updateItemQty(ArrayList<SoldItem> soldItemList){
+        for (SoldItem i: soldItemList){
+            i.getSoldItem().updateQuantity(i.getQuantity());
+        }
+    }
     //custom
     public void updateFile(){
         CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);

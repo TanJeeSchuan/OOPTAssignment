@@ -80,6 +80,11 @@ public class Item implements Selectable{
         this.quantity = quantity;
         updateItem();
     }
+    
+    public void updateQuantity(int qty){
+        this.quantity -= qty;
+        updateItem();
+    }
 
     public double getPrice() {
         return price;

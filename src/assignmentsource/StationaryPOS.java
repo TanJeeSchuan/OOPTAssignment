@@ -352,6 +352,10 @@ public class StationaryPOS {
         }
     }
     
+    public void updateItemQuantity(ArrayList<SoldItem> soldItemList){
+        inv.updateItemQty(soldItemList);
+    }
+    
     public void viewAllItems(){
         System.out.println(Item.FORMAT_HEADER);
         for(Item i: inv.getItemList()){
@@ -421,35 +425,5 @@ public class StationaryPOS {
         }
         System.out.println("-----------------------------------");
     }
-    
-//    public static void main(String[] args) {
-//        
-//        Inventory inv = new Inventory(Init.initItems());
-//                
-//        Item newItem = new Item(123 ,"01231","Test Item", 69, 20.00, 19.50);
-//        
-//        inv.addItem(newItem);
-////        inv.itemSelection();
-////        System.out.println(inv.itemSelection().toString());
-////        inv.removeItem(inv.itemSelection());
-////        
-////        
-////        ArrayList<String> oldRow = CSVFile.getRowByType(FileHandler.INVENTORY_DB, 1, "8718114712");
-//////        System.out.println(inv.getItemList().get(0).toString());
-////        System.out.println(oldRow);
-////        
-////        ArrayList<String> newRow = new ArrayList<String>(oldRow);
-////        newRow.set(0, "2");
-////        
-////        CSVFile.updateDataByRow(FileHandler.INVENTORY_DB, oldRow , newRow);
-////        
-////        System.out.println(CSVFile.getRowByType(FileHandler.INVENTORY_DB, 1, "8718114712"));
-//        
-////        ArrayList<Item> items;
-////        items = inv.getItemList();
-////        
-////        inv.removeItem(123);
-//        
-////        inv.updateFile();
-//    }
+
 }
