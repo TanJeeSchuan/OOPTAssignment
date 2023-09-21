@@ -1,7 +1,7 @@
 itemID,barCode,itemName,quantity,price,bulkPrice
-1,8718114711,Apple Pencil,1199,250.0,240.0
-2,8718114712,C Coding Book,328,25.0,24.0
-7,155,Beans  Fava Canned,60,54.58,50.0
+1,8718114711,Apple Pencil,1190,250.0,240.0
+2,8718114712,C Coding Book,320,25.0,24.0
+7,155,Beans  Fava Canned,57,54.58,50.0
 8,194176593,Ocean Spray  Ruby Red,0,22.08,16.0
 9,934202129,Chicken  Whole Roasting,35,65.59,57.0
 10,506050827,Beer  Camerons Cream Ale,60,69.62,20.0

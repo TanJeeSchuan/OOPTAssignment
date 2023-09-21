@@ -2,7 +2,6 @@ package assignmentsource;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Tools {
@@ -18,7 +17,16 @@ public class Tools {
 //    }
 
     public static int getNewID(String db) {
-        return CSVFile.getLastRowID(db) + 1;
+        ArrayList<String[]> fileContents = FileHandler.readFileToArray(db);
+        
+        fileContents.remove(0);
+        int largestInt = 1;
+        for(String[] string: fileContents){
+            if(Integer.parseInt(string[0])> largestInt)
+                largestInt = Integer.parseInt(string[0]);
+        }
+        
+        return largestInt+1;
     }
 
 //    public static List<Integer> stringToIntList(String str) {

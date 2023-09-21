@@ -65,7 +65,7 @@ public class StationaryPOS {
             do{
                 System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
                 soldQty = sc.nextInt();
-            }while(soldQty > soldItem.getQuantity());
+            }while(soldQty < 1 || soldQty > soldItem.getQuantity());
             
             soldItemsList.add(new SoldItem(Sales.newSaleID() ,soldItem, soldQty));
             
@@ -109,7 +109,22 @@ public class StationaryPOS {
         else if(selected == 2)
             installmentLength = 0;
         
-        Sales newSale = new Sales(saleCust, soldItemsList, installmentLength);        
+        Sales newSale = new Sales(saleCust, soldItemsList, installmentLength);
+        
+        if(newSale.getCustomer() != null){
+            if(!"wholesaler".equals(newSale.getCustomer().getRole())){
+                while(true){
+                    System.out.printf("\nEnter amount of points to redeem (Current Points: %d): ", newSale.getCustomer().getCurrentPoints());
+                    int redeemedPoints = sc.nextInt();
+                    if(newSale.redeemPoints(redeemedPoints))
+                        break;
+                }
+            }
+            else{
+                System.out.println("Wholesaler not eligible for discount");
+            }
+        }
+        
         sPOS.sales.add(newSale);
         
 //        System.out.println(newSale.getTransaction().toFormattedString());
@@ -154,14 +169,18 @@ public class StationaryPOS {
                 }while(payAmount < transaction.getBalanceLeft());
 
                 System.out.println("\nBalance: "+ transaction.pay(payAmount));
+                
             }
         }
         else{
             System.out.println("Transaction finialised\n");
+            return;
         }
         
         System.out.println("");
         viewTransaction(transaction);
+        if(transaction.paymentFinished())
+            System.out.println("Transaction finialised\n");
     }
     
     public Customer addCustomer(){
@@ -415,8 +434,6 @@ public class StationaryPOS {
     
     public static void viewTransaction(Transaction transaction){
         System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
-        //System.out.printf("%-20s%-20s\n", "Datetime:", transaction.getSales().getTimeOfSale());
-        //System.out.printf("%-20s%-20s\n", "Customer Name:", transaction.getCustomer().getName());
         System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
         if (!transaction.isInstallment()) {
             System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
@@ -428,5 +445,4 @@ public class StationaryPOS {
         }
         System.out.println("-----------------------------------");
     }
-
 }

@@ -38,8 +38,12 @@ public class Admin extends User{
 
                 case 2:
                     User u = (User)Tools.objectSelection(users);
-                    deleteUser(u);
-                    users.remove(u);
+                    if(u != null){
+                        deleteUser(u);
+                        users.remove(u);
+                    }
+                    else
+                        System.out.println("\nNo User Selected");
                     break;
                     
                 case 3:

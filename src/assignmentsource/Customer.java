@@ -97,17 +97,9 @@ public class Customer implements Selectable{
         this.currentPoints += points;
         updateCustomer();
     }
+    
 
-//display
-//    public void displayCustomerInfo(){
-//        System.out.println("\n-----------------------------------");
-//        System.out.printf("Customer ID: %d\n", this.customerID);
-//        System.out.printf("Name: %s\n", this.name);
-//        System.out.printf("Phone Number: %s\n", this.phoneNumber);
-//        System.out.printf("Current Points: %d\n", this.currentPoints);
-//        System.out.printf("Role: %s\n", this.role);
-//        System.out.println("-----------------------------------\n");
-//    }
+
     
     public void updateCustomer(){
         CSVFile.updateDataByRow(FileHandler.CUSTOMER_DB, customerID, this.toCSV().split(","));

@@ -73,6 +73,13 @@ public class Transaction implements Selectable{
             return 0;
     }
     
+    public void discount(double amount){
+        this.totalAmount -= amount;
+        pay(amount);
+        
+        updateFile();
+    }
+    
     public void completePayment(){
         this.timesLeft = 0;
         this.balanceLeft = 0;
@@ -98,8 +105,10 @@ public class Transaction implements Selectable{
             completePayment();
             return balance;
         }
-        else
+        else{
+            updateFile();
             return 0;
+        }
     }
         
     public String toCSV() {

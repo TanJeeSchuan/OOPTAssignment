@@ -93,6 +93,33 @@ public class Sales implements Selectable{
     }
 
     
+    //return false when invalid input
+    public boolean redeemPoints(int points){
+        if (customer != null){
+            if("wholesaler".equals(customer.getRole())){
+                System.out.println("Wholesaler not eligible for discount");
+                return true;
+            }
+            else{
+                if(points > customer.getCurrentPoints()){
+                    System.out.println("Points to redeem exceed current points");
+                    return false;
+                }
+                else{
+                    double discount = Retailer.getDiscount(points);
+                    transaction.discount(discount);
+                    customer.modifyCurrentPoints(-points);
+                    System.out.println("\nDiscount Amount: " + discount);
+                    return true;
+                }
+            }
+        }
+        else{
+            System.out.println("Customer doesn't exist!");
+            return true;
+        }
+    }
+    
     public double calculateTotal() {
         double total = 0;
         if (customer != null)
@@ -105,7 +132,7 @@ public class Sales implements Selectable{
             }
             else {
                 for(SoldItem sI: soldItems){
-                    total += sI.getBulkSubTotal();
+                    total += sI.getSubTotal();
                 }
             }
         }
