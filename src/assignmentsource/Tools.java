@@ -128,7 +128,8 @@ public class Tools {
                 if(j >= objectList.size())
                     break;
                 
-                System.out.println(objectList.get(j).toFormattedString());
+                System.out.print(objectList.get(j).toFormattedString());
+                System.out.print("---------" + (j+1-i) + "\n");
             }                        
             boolean validSelection = false;
             do

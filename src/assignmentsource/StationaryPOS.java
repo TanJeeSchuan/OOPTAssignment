@@ -98,12 +98,12 @@ public class StationaryPOS {
         int selected = 0;
         do{
             System.out.println("\nPayment Type");
-            System.out.println("1)Installment\t\t2)One Time Payment\n");
+            System.out.println("1)Installment\t\t2)One Time Payment");
             selected = sc.nextInt();
         }while(!(selected >= 1) && !(selected <= 2));
 
         if (selected == 1){
-            System.out.print("Installment length: ");
+            System.out.print("\nInstallment length: ");
             installmentLength = sc.nextInt();
         }
         else if(selected == 2)
@@ -159,6 +159,9 @@ public class StationaryPOS {
         else{
             System.out.println("Transaction finialised\n");
         }
+        
+        System.out.println("");
+        viewTransaction(transaction);
     }
     
     public Customer addCustomer(){

@@ -68,7 +68,7 @@ public class Transaction implements Selectable{
 
     public double getMonthlyPayment(){
         if (installmentTimes != 0)
-            return Math.round(this.totalAmount / this.installmentTimes * 100.0) / 100.0;
+            return Math.round(this.totalAmount / this.installmentTimes);
         else
             return 0;
     }
@@ -82,9 +82,9 @@ public class Transaction implements Selectable{
     public void payMonthly(){
         if (timesLeft > 0){
             this.timesLeft--;
-            this.balanceLeft = Math.round((this.balanceLeft - this.getMonthlyPayment()) * 100.0) / 100.0;
+            this.balanceLeft -= getMonthlyPayment();
             
-            if (balanceLeft > 0)
+            if (balanceLeft < 0)
                 this.balanceLeft = 0;
             updateFile();
         }

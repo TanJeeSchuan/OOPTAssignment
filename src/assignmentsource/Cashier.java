@@ -29,24 +29,38 @@ public class Cashier extends User{
         
         int menuSel = 0;
         do{
-            System.out.print("\nCashier\n1. New Sales\n2. New Customer\n3. Logout\n\n");
+            System.out.print("\nCashier\n1. New Sales\n2. New Customer\n3. Pay Outstanding Transactions\n4. Logout\n\n");
             switch(sc.nextInt())
             {
                 case 1:
                     //create a sale then make payment
                     Sales s = sPOS.addSales();
                     sPOS.salesPayment(s.getTransaction());
+                    
+                    //update quantity
                     sPOS.updateItemQuantity(s.getSoldItems());
+                    
+                    //add points
+                    s.modifyCustomerPoints(s.calculatePoints());
                     break;
 
                 case 2:
                     sPOS.addCustomer();
                     break;
-
+                    
                 case 3:
+                    Transaction t = (Transaction)Tools.objectSelection(sPOS.getTransactionType(sPOS.getTransactionList(), false));
+                    
+                    if (t != null)
+                        sPOS.salesPayment(t);
+                    else
+                        System.out.println("No Transaction Selected");
+                    break;
+                    
+                case 4:
                     return true;
             }
-        }while(menuSel != 3);
+        }while(menuSel != 4);
         
         return false;
     }

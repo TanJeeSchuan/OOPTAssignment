@@ -5,6 +5,7 @@
 package assignmentsource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -24,12 +25,21 @@ public class Management extends User{
     @Override
     public boolean mainMenu() {
         Scanner sc = new Scanner(System.in);
-        
-        StationaryPOS sPOS = StationaryPOS.getInstance();
-        
+                
         int menuSel = 0;
         do{
-            System.out.print("\nManagement\n\n1. Manage Transactions\n2. Manage Customers\n3. Manage Inventory\n4. Logout\n\n");
+            System.out.print("""
+                             
+                             Management
+                             
+                             1. Manage Transactions
+                             2. Manage Customers
+                             3. Manage Inventory
+                             4. Sales Analysis
+                             5. Item Sale Analysis
+                             6. Logout
+                             
+                             """);
             switch(menuSel = sc.nextInt())
             {
                 case 1:
@@ -45,9 +55,17 @@ public class Management extends User{
                     break;
                     
                 case 4:
+                    customerSpendingAnalysis();
+                    break;
+                    
+                case 5:
+                    itemSaleAnalysis();
+                    break;
+                    
+                case 6:
                     return true;
             }  
-        }while(menuSel != 4);
+        }while(menuSel != 6);
         
         return false;
     }
@@ -204,6 +222,70 @@ public class Management extends User{
                     break;
             }  
         }while(sel != 5);
+    }
+    
+    public void itemSaleAnalysis(){
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+        
+        HashMap<Item, Integer> itemSoldQty = new HashMap<>();
+        
+        for (Sales sales : sPOS.sales) {
+            for(SoldItem i: sales.getSoldItems()){
+                if(!itemSoldQty.containsKey(i.getSoldItem())){
+                    itemSoldQty.put(i.getSoldItem(), i.getQuantity());
+                }
+                else{
+                    itemSoldQty.put(i.getSoldItem(), itemSoldQty.get(i.getSoldItem()) + i.getQuantity());
+                }
+            }
+        }
+        
+        System.out.println("\nItem Sale Analysis\n"
+                        +  "------------------");
+        System.out.printf("%-10s%-30s%-10s%s\n","Item ID", "Item Name", "Quantity", "Total Sale");
+        itemSoldQty.forEach((item, total) -> System.out.printf("%-10d%-30s%-10d%.2f\n", item.getItemID(), item.getItemName(),
+                total, item.getPrice()*total));
+    }
+    
+    public void customerSpendingAnalysis() {
+        
+        StationaryPOS sPOS = StationaryPOS.getInstance();
+        
+//        ArrayList<SoldItem> soldItemList = new ArrayList<>();
+        double totalPoints = 0;
+        
+        HashMap<Customer, Double> customerTotal = new HashMap<>();
+        double totalSpend = 0;
+        double nonCustSpending = 0;
+        
+        for (Sales sales : sPOS.sales) {
+//            soldItemList.addAll(sales.getSoldItems());
+            totalPoints += (sales.calculatePoints());
+            totalSpend += sales.calculateTotal();
+            
+            if (sales.getCustomer() != null) {
+                if(!customerTotal.containsKey(sales.getCustomer()))     //if key doesnt exist 
+                     // Update the existing spending value by adding the subtotal of the current sale
+                    customerTotal.put(sales.getCustomer(),sales.calculateTotal());
+                
+                else{
+                    //update value of customer if customer already exists in HashMap
+                    customerTotal.put(sales.getCustomer(), customerTotal.get(sales.getCustomer()) + sales.calculateTotal());
+                }
+            } 
+            else{
+                    nonCustSpending += sales.calculateTotal();
+            }
+            
+        }
+        
+        System.out.println("\nCustomer Spending Analysis\n"
+                        +  "--------------------------");
+        System.out.println("Total Spend By All: RM " + totalSpend);
+        System.out.printf("%-10s%-20s%-15s%s\n", "ID", "Name", "Role", "Total Spent");
+        customerTotal.forEach((cust, total) -> System.out.printf("%-10d%-20s%-15s%.2f\n",((Customer)cust).getCustomerID(), 
+                ((Customer)cust).getName(),((Customer)cust).getRole(), total));
+        System.out.println("\nTotal Spent by Non-Customer: " + nonCustSpending);
     }
     
     public static void viewSales() {

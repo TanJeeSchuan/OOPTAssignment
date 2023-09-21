@@ -1,27 +1,23 @@
-//package assignmentsource;
-//
-//public class Report implements IReport{
-//    public Report() {
-//        initialize();
-//    }
-//
-//    @Override
-//    public void initialize() {
-//
-//    }
-//
-//    @Override
-//    public void print() {
-//
-//    }
-//
-//    @Override
-//    public void template() {
-//
-//    }
-//
-//    @Override
-//    public void analyze() {
-//
-//    }
-//}
+package assignmentsource;
+
+public class Report{
+    public Report() {
+        initialize();
+    }
+
+    public void initialize() {
+
+    }
+
+    public void print() {
+
+    }
+
+    public void template() {
+
+    }
+
+    public void analyze() {
+
+    }
+}

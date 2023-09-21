@@ -103,6 +103,11 @@ public class Sales implements Selectable{
                 }
                 total += Wholesaler.getDeliveryFee();
             }
+            else {
+                for(SoldItem sI: soldItems){
+                    total += sI.getBulkSubTotal();
+                }
+            }
         }
         else {
             for(SoldItem sI: soldItems){
@@ -113,11 +118,17 @@ public class Sales implements Selectable{
         return total;
     }
     
-    public double calculatePoints(){
-        double points = 0;
+    public void modifyCustomerPoints(int points){
+        if (this.customer != null){
+            this.customer.modifyCurrentPoints(points);
+        }
+    }
+    
+    public int calculatePoints(){
+        int points = 0;
         if (customer != null){
             if (!"wholesaler".equals(customer.getRole())){
-                points = calculateTotal() / 10;
+                points = (int)calculateTotal() / 10;
                 return points;
             }
             
