@@ -138,17 +138,23 @@ public class Tools {
                 selection = sc.nextInt();
                 
                 if (selection == 11) //next input
-                    break;
+                    if ((i + 10) < objectList.size())
+                        break;
+                    else
+                        System.out.println("No Next Page!");
+                    
                 
-                else if (selection == 0){   //exit
+                if (selection == 0){   //exit
                     validSelection = true;
                     break;
                 }
-                    
                 
                 if (selection < 1 || selection > 10)
                 {
                     System.out.println("Enter number within range\n");
+                }
+                else if(i + selection - 1 >= objectList.size()){
+                    System.out.println("Selection out of range\n");
                 }
                 else
                 {
