@@ -29,34 +29,6 @@ public class Tools {
         return largestInt+1;
     }
 
-//    public static List<Integer> stringToIntList(String str) {
-//        List<Integer> intList = new ArrayList<>();
-//        String[] strArr = str.split(":");
-//        for (String s : strArr) {
-//            intList.add(Integer.parseInt(s));
-//        }
-//        return intList;
-//    }
-
-//
-//    public static Customer getCustomerByID(int id) {
-//        ArrayList<String> customerInfo = CSVFile.getRowByMainID(FileHandler.CUSTOMER_DB, String.valueOf(id));
-//
-//        return new Customer(
-//                id, customerInfo.get(1),
-//                customerInfo.get(2),
-//                Integer.parseInt(customerInfo.get(3)),
-//                customerInfo.get(4)
-//        );
-//    }
-
-//    public static double getCustomerTypePrice(SoldItem soldItem) {
-//        return StaticContainer.currentSale.getCustomer() instanceof Retailer
-//                ? soldItem.getSoldItem().getPrice()
-//                : //return normal price
-//                soldItem.getSoldItem().getBulkPrice();  //return bulk price
-//    }
-
     public static String getCurrentDateTime() {
         return java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
