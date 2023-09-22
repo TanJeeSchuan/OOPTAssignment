@@ -114,35 +114,45 @@ public class Management extends User{
         
         int sel = 0;
         do{
-            System.out.print("\nBlacklist Management\n1. Add Customer to blacklist\t\t2. Remove Customer from blacklist\nSelection: ");
-            sel = sc.nextInt();
-        }while(!(sel >= 1) && !(sel <= 2));
+            System.out.print("\nBlacklist Management\n1. Add Customer to blacklist\n2. Remove Customer from blacklist\n3. Display all blacklisted customer\n4. Exit \n\n");
+            
+            switch(sel = sc.nextInt()){
 
-        if(sel == 1){
-            Customer c = (Customer)Tools.objectSelection(sPOS.cust);
-            
-            if(c != null){
-                sPOS.removeCustomer(c);            //remove from file
-                
-                blacklistCustomers.add(c);
-                CSVFile.writeFile(FileHandler.BLACKLIST_DB, c.toCSV());
+                case 1:
+                    Customer cust = (Customer)Tools.objectSelection(sPOS.cust);
+
+                    if(cust != null){
+                        sPOS.removeCustomer(cust);            //remove from file
+
+                        blacklistCustomers.add(cust);
+                        CSVFile.writeFile(FileHandler.BLACKLIST_DB, cust.toCSV());
+                    }
+                    else
+                        System.out.println("No Customer Selected");
+                    break;
+                   
+                case 2:
+                    Customer selC = (Customer)Tools.objectSelection(blacklistCustomers);
+
+                    if(selC!= null){
+                        blacklistCustomers.remove(selC);
+                        CSVFile.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(selC.getCustomerID()));            //remove from file
+
+                        sPOS.cust.add(c);
+                        FileHandler.writeFile(FileHandler.CUSTOMER_DB, selC.toCSV());
+                    }
+                    else
+                        System.out.println("No Blacklisted Customer Selected");
+                    break;
+                    
+                case 3:
+                    displayBlackList(blacklistCustomers);
+                    break;
+                    
+                case 4:
+                    return;
             }
-            else
-                System.out.println("No Customer Selected");
-        }   
-        else if(sel == 2){
-            Customer c = (Customer)Tools.objectSelection(blacklistCustomers);
-            
-            if(c != null){
-                blacklistCustomers.remove(c);
-                CSVFile.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(c.getCustomerID()));            //remove from file
-                
-                sPOS.cust.add(c);
-                FileHandler.writeFile(FileHandler.CUSTOMER_DB, c.toCSV());
-            }
-            else
-                System.out.println("No Blacklisted Customer Selected");
-        }
+        }while(sel != 4);
     }
     
     public void transactionManagment(){
@@ -172,9 +182,26 @@ public class Management extends User{
                     }while(!"y".equals(selection) && !"n".equals(selection));
                     
                     if("y".equals(selection)){
-                        Transaction t = (Transaction)Tools.objectSelection(sPOS.getTransactionType(sPOS.getTransactionList(), false));
-                        sPOS.salesPayment(t);
-                        StationaryPOS.viewTransaction(t);
+                        ArrayList<Transaction> tList = sPOS.getTransactionList();
+                        
+                        if(!tList.isEmpty()){
+                            ArrayList<Transaction> uncompleteTList = sPOS.getTransactionType(tList, false);
+                            
+                            if(!uncompleteTList.isEmpty()){
+                                Transaction t = (Transaction)Tools.objectSelection(uncompleteTList);  //get uncomplete transactions
+                                
+                                if(t != null){
+                                    sPOS.salesPayment(t);
+                                    StationaryPOS.viewTransaction(t);
+                                }
+                                else
+                                    System.out.println("No Transaction Selected");
+                            }
+                            else
+                                System.out.println("No Uncomplete Transactions");
+                        }
+                        else
+                            System.out.println("No Transactions");
                     }
                     
                     break;
@@ -206,8 +233,14 @@ public class Management extends User{
                     break;
 
                 case 2:
-                    Item i = ((Item)Tools.objectSelection(sPOS.inv.getItemList()));
-                    sPOS.modifyItem(i);
+                    ArrayList<Item> iList = sPOS.inv.getItemList();
+                    if(!iList.isEmpty()){
+                        Item i = ((Item)Tools.objectSelection(iList));
+                        if(i != null)
+                            sPOS.modifyItem(i);
+                        else
+                            System.out.println("No Item Selected");
+                    }
                     break;
 
                 case 3:
@@ -293,6 +326,21 @@ public class Management extends User{
 
         for(Sales s: sPOS.sales)
             System.out.println(s.toFormattedString()+ '\n');
+    }
+    
+    public void displayBlackList(ArrayList<Customer> blacklistCustomers) {
+        System.out.println("\n------------------------------------------------------------------------------------------------");
+        System.out.println("\t\t\t\t\tBlacklisted Customer");
+        System.out.println(  "------------------------------------------------------------------------------------------------");
+        if (blacklistCustomers.size() == 0) {
+            System.out.println("No blacklisted customer!");
+            System.out.println("------------------------------------------------------------------------------------------------\n");
+            return;
+        }
+        for (Customer bC : blacklistCustomers){
+            System.out.println(bC.toFormattedString());
+        }
+        System.out.println("------------------------------------------------------------------------------------------------\n");
     }
     
     @Override

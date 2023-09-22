@@ -62,12 +62,18 @@ public class StationaryPOS {
             if(soldItem == null)
                 break;
             
-            do{
-                System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
-                soldQty = sc.nextInt();
-            }while(soldQty < 1 || soldQty > soldItem.getQuantity());
+            if(soldItem.getQuantity() > 0){
+                do{
+                    System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
+                    soldQty = sc.nextInt();
+                }while(soldQty < 1 || soldQty > soldItem.getQuantity());
+            }
+            else
+                System.out.println("Item Out Of Stock");
             
-            soldItemsList.add(new SoldItem(Sales.newSaleID() ,soldItem, soldQty));
+            SoldItem i = new SoldItem(Sales.newSaleID() ,soldItem, soldQty);
+            inv.updateItemQty(i);
+            soldItemsList.add(i);
             
             boolean cont = true;
             do{
@@ -100,7 +106,7 @@ public class StationaryPOS {
             System.out.println("\nPayment Type");
             System.out.println("1)Installment\t\t2)One Time Payment");
             selected = sc.nextInt();
-        }while(!(selected >= 1) && !(selected <= 2));
+        }while(selected != 1 && selected != 2);
 
         if (selected == 1){
             System.out.print("\nInstallment length: ");
@@ -145,11 +151,11 @@ public class StationaryPOS {
                     +"1)Monthly Payment\t\t2)Pay Amount\n\n");
 
                     selected = sc.nextInt();
-                }while(!(selected >= 1) && !(selected <= 2));
+                }while(selected != 1 && selected != 2);
 
                 if (selected == 1){
                     transaction.payMonthly();
-                    System.out.println("Balance: " + transaction.getBalanceLeft());
+                    System.out.printf("\nBalance: %.2f", transaction.getBalanceLeft());
                 }
                 else if (selected == 2){                    
                     double payAmount;
@@ -158,7 +164,7 @@ public class StationaryPOS {
                         payAmount = sc.nextDouble();
                     }while(payAmount < transaction.getBalanceLeft());
                     
-                    System.out.println("\nBalance: "+transaction.pay(payAmount));
+                    System.out.printf("\nBalance: %.2f", transaction.getBalanceLeft());
                 }
             }
             else{
@@ -168,7 +174,7 @@ public class StationaryPOS {
                     payAmount = sc.nextDouble();
                 }while(payAmount < transaction.getBalanceLeft());
 
-                System.out.println("\nBalance: "+ transaction.pay(payAmount));
+                System.out.printf("Balance: %.2f",  transaction.pay(payAmount));
                 
             }
         }
@@ -189,47 +195,27 @@ public class StationaryPOS {
         String phoneNumber;
         String role = null;
         
-        
+        System.out.print("\nEnter Customer Name: ");
+        name = sc.nextLine();
+        System.out.print("\nEnter Phone Number: ");
+        phoneNumber = sc.nextLine();
+
+        int selection = 0;
         do{
-            System.out.print("\nEnter Customer Name: ");
-            name = sc.nextLine();
-            System.out.print("\nEnter Phone Number: ");
-            phoneNumber = sc.nextLine();
-            
-            int selection = 0;
-            do{
-                System.out.print("\nSelect Role:");
-                System.out.println("1)Retailer\t\t2)Wholesaler\n");
-                
-                selection = sc.nextInt();
-            }while(!(selection >= 1) && !(selection <=2));
-            
-            switch(selection){
-                case 1:
-                    role = "retailer";
-                    break;
-                case 2:
-                    role = "wholesaler";
-            }
-            
-            switch(selection){
-                case 1:
-                    role = "retailer";
-                    break;
-                case 2:
-                    role = "wholesaler";
-            }    
-        
-            String sel = "";
-            do{
-                System.out.print("\n\nContinue adding customer?(y/n):");
-                sel = sc.next();
-            }while(!("y".equals(sel)) && !("n".equals(sel)));
-            
-            if("n".equals(sel))
+            System.out.print("\nSelect Role:\n");
+            System.out.println("1)Retailer\t\t2)Wholesaler\n");
+
+            selection = sc.nextInt();
+        }while(selection != 1 && selection != 2);
+
+        switch(selection){
+            case 1:
+                role = "retailer";
                 break;
-        }while(true);
-        
+            case 2:
+                role = "wholesaler";
+        }
+
         Customer newCust = new Customer(name,phoneNumber,role);
         cust.add(newCust);
         return newCust;
@@ -434,7 +420,7 @@ public class StationaryPOS {
     
     public static void viewTransaction(Transaction transaction){
         System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
-        System.out.printf("%-20s%-20s\n", "Total Amount:", transaction.getTotalAmount());
+        System.out.printf("%-20s%-20.2f\n", "Total Amount:", transaction.getTotalAmount());
         if (!transaction.isInstallment()) {
             System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
         } else {

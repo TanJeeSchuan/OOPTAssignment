@@ -45,16 +45,40 @@ public class Cashier extends User{
                     break;
 
                 case 2:
-                    sPOS.addCustomer();
+                    do{
+                        String sel = "";
+                        do{
+                            sPOS.addCustomer();
+                            System.out.print("\n\nContinue adding customer?(y/n):");
+                            sel = sc.next();
+                        }while(!("y".equals(sel)) && !("n".equals(sel)));
+
+                        if("n".equals(sel))
+                            break;
+                    }while(true);
                     break;
                     
-                case 3:
-                    Transaction t = (Transaction)Tools.objectSelection(sPOS.getTransactionType(sPOS.getTransactionList(), false));
-                    
-                    if (t != null)
-                        sPOS.salesPayment(t);
+            case 3:
+                    ArrayList<Transaction> tList = sPOS.getTransactionList();
+
+                    if(!tList.isEmpty()){
+                        ArrayList<Transaction> uncompleteTList = sPOS.getTransactionType(tList, false);
+
+                        if(!uncompleteTList.isEmpty()){
+                            Transaction t = (Transaction)Tools.objectSelection(uncompleteTList);  //get uncomplete transactions
+
+                            if(t != null){
+                                sPOS.salesPayment(t);
+                                StationaryPOS.viewTransaction(t);
+                            }
+                            else
+                                System.out.println("No Transaction Selected");
+                        }
+                        else
+                            System.out.println("No Uncomplete Transactions");
+                    }
                     else
-                        System.out.println("No Transaction Selected");
+                        System.out.println("No Transactions");
                     break;
                     
                 case 4:

@@ -43,9 +43,11 @@ public class Inventory{
     }
 
     public void removeItem(Item item) {
+        if(item == null)
+            return;
+        
         if(!itemList.remove(item))
             System.out.println("Item to delete not found!");
-        
         else
             CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);
     }
@@ -83,9 +85,13 @@ public class Inventory{
         return false;
     }
     
+    public void updateItemQty(SoldItem i){
+        i.getSoldItem().updateQuantity(i.getQuantity());
+    }
+    
     public void updateItemQty(ArrayList<SoldItem> soldItemList){
         for (SoldItem i: soldItemList){
-            i.getSoldItem().updateQuantity(i.getQuantity());
+            updateItemQty(i);
         }
     }
     //custom

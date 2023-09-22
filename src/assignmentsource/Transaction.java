@@ -4,8 +4,8 @@ package assignmentsource;
 public class Transaction implements Selectable{
     
     public final static String[] FILE_HEADER = {"transactionID,installmentTimes,balanceLeft,timesLeft,totalAmount"};
-    public final static String STRING_FORMAT = "%-5d%-12d%-20.2f%-15d%-15f";
-    public final static String FORMAT_HEADER = String.format("%-5s%-10s%-15s%-15s%-15s", "ID", "installmentTimes", "Balance", "timesLeft", "Amount");
+    public final static String STRING_FORMAT = "%-5d%-20d%-20.2f%-15d%-15f";
+    public final static String FORMAT_HEADER = String.format("%-5s%-20s%-15s%-15s%-15s", "ID", "installmentTimes", "Balance", "timesLeft", "Amount");
     
     private int transactionID;
     private int installmentTimes;

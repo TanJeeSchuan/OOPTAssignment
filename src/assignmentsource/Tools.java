@@ -128,6 +128,9 @@ public class Tools {
         int selection = 0;
         int itemIndex = -1;
         
+        if(objectList.isEmpty())
+            throw new Runtime­Exception();
+        
         for(int i = 0; i < objectList.size(); i+=ROWS_TO_SHOW){
             Selectable obj = objectList.get(0);
             System.out.print("\n" + obj.getFORMATHEADER() + "\n");

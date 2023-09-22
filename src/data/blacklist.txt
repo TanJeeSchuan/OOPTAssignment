@@ -1,2 +1,4 @@
 customerID,customerName,phoneNumber,currentPoints,role
 1,John Doe,0123697854,100,retailer
+12,123,asd,0,wholesaler
+11,123,123,0,wholesaler
