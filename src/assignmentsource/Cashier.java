@@ -29,9 +29,10 @@ public class Cashier extends User{
         
         int menuSel = 0;
         do{
-            System.out.print("\nCashier\n1. New Sales\n2. New Customer\n3. Pay Outstanding Transactions\n4. Logout\n\n");
-            switch(sc.nextInt())
-            {
+            String[] a = {"Cashier", "New Sales","New Customer", "Pay Outstanding Transactions","Logout"};
+            menuSel = Menu.menu(a);
+
+            switch(menuSel){
                 case 1:
                     //create a sale then make payment
                     Sales s = sPOS.addSales();

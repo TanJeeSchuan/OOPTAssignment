@@ -29,9 +29,10 @@ public class Admin extends User{
         
         int menuSel = 0;
         do{
-            System.out.print("\nAdmin\n1. New User\n2. Remove User\n3. Display All Users\n4. Logout\n\n");
-            switch(sc.nextInt())
-            {
+            String[] s = {"Admin", "New User","Remove User", "Display All Users","Logout"};
+            menuSel = Menu.menu(s);
+
+            switch(menuSel){
                 case 1:
                     newUser();
                     break;
@@ -82,12 +83,10 @@ public class Admin extends User{
         phoneNumber = sc.next();
         
         int selection = 0;
-        do{
-            System.out.print("\nSelect new user type\n1.Cashier\t\t2.Management\t\t3.Admin\nSelection: ");
-            selection = sc.nextInt();
-        }while(selection < 1 || selection > 3);
-        
-        switch (selection) {
+        String[] s = {"Select new user type", "Cashier","Management", "Admin"};
+        selection = Menu.menu(s);
+
+        switch(selection){
             case 1:
                 newUser = new Cashier(username, password, name, phoneNumber);
                 break;

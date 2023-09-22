@@ -98,63 +98,6 @@ public class Inventory{
     public void updateFile(){
         CSVFile.rewriteFileObj(FileHandler.INVENTORY_DB, itemList, FILE_HEADER);
     }
-    
-    public Item itemSelection()
-    {
-        Scanner sc = new Scanner(System.in);
-        
-        int selection = 0;
-        int itemIndex = -1;
-        
-        for(int i = 0; i < itemList.size(); i+=10)
-        {
-            //initialise array to display
-            ArrayList<Item> currentItems = new ArrayList<Item>();
-            for (int j = i; j < i + 10; j++)
-            {
-                if(j >= itemList.size())
-                    break;
-                currentItems.add(itemList.get(j));
-            }
-            
-            displayInventory(currentItems);
-                        
-            boolean validSelection = false;
-            do
-            {
-                System.out.printf("Enter selection (1 - 10), 11 for next page, 0 to exit: ");
-                selection = sc.nextInt();
-                
-                if (selection == 11) //next input
-                    break;
-                
-                else if (selection == 0){   //exit
-                    validSelection = true;
-                    break;
-                }
-                    
-                
-                if (selection < 1 || selection > 10)
-                {
-                    System.out.println("Enter number within range\n");
-                }
-                else
-                {
-                    validSelection = true;
-                    itemIndex = i + selection - 1;
-                }
-                
-            }while(!validSelection);
-            
-            if(validSelection == true)
-                break;
-        }
-        
-        if (selection != 0)
-            return itemList.get(itemIndex);
-        else
-            return null;
-    }
 
     public void displayInventory() {
         System.out.printf("\n%-10s%-15s%-20s%-10s%-10s%-10s\n", "Item ID", "Barcode", "Item Name", "Quantity", "Price", "Bulk Price");

@@ -28,19 +28,9 @@ public class Management extends User{
                 
         int menuSel = 0;
         do{
-            System.out.print("""
-                             
-                             Management
-                             
-                             1. Manage Transactions
-                             2. Manage Customers
-                             3. Manage Inventory
-                             4. Sales Analysis
-                             5. Item Sale Analysis
-                             6. Logout
-                             
-                             """);
-            switch(menuSel = sc.nextInt())
+            String[] s = {"Management", "Manage Transactions", "Manage Customers", "Manage Inventory", "Sales Analysis", "Item Sale Analysis", "Logout"};
+            menuSel = Menu.menu(s);
+            switch(menuSel)
             {
                 case 1:
                     transactionManagment();
@@ -77,8 +67,10 @@ public class Management extends User{
         
         int sel = 0;
         do{
-            System.out.print("\nCustomer Management\n\n1. Add Customer\n2. Modify Customer\n3. Blacklist Customer\n4. Display All Customers\n5. Exit\n\n");
-            switch(sel = sc.nextInt())
+            String[] s = {"Customer Management", "Add Customer", "Modify Customer", "Blacklist Customer", "Display All Customers", "Exit"};
+            sel = Menu.menu(s);
+            
+            switch(sel)
             {
                 case 1:
                     sPOS.addCustomer();
@@ -114,9 +106,10 @@ public class Management extends User{
         
         int sel = 0;
         do{
-            System.out.print("\nBlacklist Management\n1. Add Customer to blacklist\n2. Remove Customer from blacklist\n3. Display all blacklisted customer\n4. Exit \n\n");
-            
-            switch(sel = sc.nextInt()){
+            String[] s = {"Blacklist Management", "Add Customer to blacklist", "Remove Customer from blacklist", "Display all blacklisted customer", "Exit"};
+            sel = Menu.menu(s);
+
+            switch(sel){
 
                 case 1:
                     Customer cust = (Customer)Tools.objectSelection(sPOS.cust);
@@ -163,9 +156,10 @@ public class Management extends User{
         
         int sel = 0;
         do{
-            System.out.print("\nTransaction Management\n\n1. All Transactions\n2. Outstanding Transactions\n3. Complete Transactions\n4. Exit\n\n");
-            switch(sel = sc.nextInt())
-            {
+            String[] s = {"Transaction Management", "All Transactions","Outstanding Transactions", "Complete Transactions","Exit"};
+            sel = Menu.menu(s);
+
+            switch(sel){
                 case 1:
                     sPOS.viewAllTransactions();
                     break;
@@ -225,9 +219,10 @@ public class Management extends User{
         
         int sel = 0;
         do{
-            System.out.print("\nInventory Management\n\n1. Add Item\n2. Modify Item\n3. Remove Item\n4. Display All Items\n5. Exit\n\n");
-            switch(sel = sc.nextInt())
-            {
+            String[] s = {"Inventory Management", "Add Item", "Modify Item", "Remove Item", "Display All Items", "Exit"};
+            sel = Menu.menu(s);
+
+            switch(sel){
                 case 1:
                     sPOS.addItem();
                     break;

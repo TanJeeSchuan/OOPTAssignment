@@ -65,7 +65,7 @@ public class StationaryPOS {
             if(soldItem.getQuantity() > 0){
                 do{
                     System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
-                    soldQty = sc.nextInt();
+                    soldQty = Menu.getIntegerInput();
                 }while(soldQty < 1 || soldQty > soldItem.getQuantity());
             }
             else
@@ -105,12 +105,12 @@ public class StationaryPOS {
         do{
             System.out.println("\nPayment Type");
             System.out.println("1)Installment\t\t2)One Time Payment");
-            selected = sc.nextInt();
+            selected = Menu.getIntegerInput();
         }while(selected != 1 && selected != 2);
 
         if (selected == 1){
             System.out.print("\nInstallment length: ");
-            installmentLength = sc.nextInt();
+            installmentLength = Menu.getIntegerInput();
         }
         else if(selected == 2)
             installmentLength = 0;
@@ -121,7 +121,7 @@ public class StationaryPOS {
             if(!"wholesaler".equals(newSale.getCustomer().getRole())){
                 while(true){
                     System.out.printf("\nEnter amount of points to redeem (Current Points: %d): ", newSale.getCustomer().getCurrentPoints());
-                    int redeemedPoints = sc.nextInt();
+                    int redeemedPoints = Menu.getIntegerInput();
                     if(newSale.redeemPoints(redeemedPoints))
                         break;
                 }
@@ -150,7 +150,7 @@ public class StationaryPOS {
                     System.out.print("Installment Payment:\n"
                     +"1)Monthly Payment\t\t2)Pay Amount\n\n");
 
-                    selected = sc.nextInt();
+                    selected = Menu.getIntegerInput();
                 }while(selected != 1 && selected != 2);
 
                 if (selected == 1){
@@ -161,7 +161,7 @@ public class StationaryPOS {
                     double payAmount;
                     do{
                         System.out.println("Enter amount paid: ");
-                        payAmount = sc.nextDouble();
+                        payAmount = Menu.getDoubleInput();
                     }while(payAmount < transaction.getBalanceLeft());
                     
                     System.out.printf("\nBalance: %.2f", transaction.getBalanceLeft());
@@ -171,7 +171,7 @@ public class StationaryPOS {
                 double payAmount;
                 do{
                     System.out.print("Enter amount paid: ");
-                    payAmount = sc.nextDouble();
+                    payAmount = Menu.getDoubleInput();
                 }while(payAmount < transaction.getBalanceLeft());
 
                 System.out.printf("Balance: %.2f",  transaction.pay(payAmount));
@@ -205,7 +205,7 @@ public class StationaryPOS {
             System.out.print("\nSelect Role:\n");
             System.out.println("1)Retailer\t\t2)Wholesaler\n");
 
-            selection = sc.nextInt();
+            selection = Menu.getIntegerInput();
         }while(selection != 1 && selection != 2);
 
         switch(selection){
@@ -231,10 +231,8 @@ public class StationaryPOS {
         int selection = 0;
         while(true){
             do{
-                System.out.print("\nSelect field to modify:\n");
-                System.out.print("1) Customer Name\n2) Phone Number\n3) Current Points\n4) Role\n5) Exit");
-                System.out.print("\nSelection: ");
-                selection = sc.nextInt();
+                String[] s = {"Customer Modification", "Customer Name", "Phone Number", "Current Points", "Role", "Exit"};
+                selection = Menu.menu(s);
 
                 switch(selection){
                     case 1:
@@ -246,14 +244,14 @@ public class StationaryPOS {
                         break;
 
                     case 3:
-                        cust.setCurrentPoints(sc.nextInt());
+                        cust.setCurrentPoints(Menu.getIntegerInput());
                         break;
 
                     case 4:
                         int sel = 0;
                         do{
                             System.out.printf("\nRetailer or Wholesaler (Current Role: %s)\n1. Retailer\t\t2. Wholesaler\nSelection: ", cust.getRole());
-                            sel = sc.nextInt();
+                            sel = Menu.getIntegerInput();
                         }while(!(sel >= 1) && !(sel <= 2));
                         
                         if(sel == 1)
@@ -296,13 +294,13 @@ public class StationaryPOS {
         }while(barcode.matches(".*[a-zA-Z]+.*"));
         
         System.out.print("\nEnter Quantity: ");
-        quantity = sc.nextInt();
+        quantity = Menu.getIntegerInput();
         
         System.out.print("\nEnter Normal Price: ");
-        price = sc.nextDouble();
+        price = Menu.getDoubleInput();
         
         System.out.print("\nEnter Bulk Price: ");
-        bulkPrice = sc.nextDouble();
+        bulkPrice = Menu.getDoubleInput();
         
         Item i = new Item(itemName, barcode, quantity, price, bulkPrice);
         inv.addItem(i);
@@ -319,11 +317,8 @@ public class StationaryPOS {
         int selection = 0;
         while(true){
             do{
-                System.out.print("\nSelect field to modify:\n");
-                System.out.print("1) Barcode\n2) Item Name\n3) Quantity\n4) Price\n5) Bulk Price\n6) Exit");
-                System.out.print("\nSelection: ");
-                selection = sc.nextInt();
-
+                String[] s = {"Select field to modify:", "Barcode","Item Name", "Quantity", "Price", "Bulk Price", "Exit"};
+                selection = Menu.menu(s);
                 switch(selection){
                     case 1:
                         String newBarcode = "";
@@ -339,15 +334,15 @@ public class StationaryPOS {
                         break;
 
                     case 3:
-                        item.setQuantity(sc.nextInt());
+                        item.setQuantity(Menu.getIntegerInput());
                         break;
 
                     case 4:
-                        item.setPrice(sc.nextDouble());
+                        item.setPrice(Menu.getDoubleInput());
                         break;
 
                     case 5:
-                        item.setBulkPrice(sc.nextDouble());
+                        item.setBulkPrice(Menu.getDoubleInput());
                         break;
 
                     case 6:
