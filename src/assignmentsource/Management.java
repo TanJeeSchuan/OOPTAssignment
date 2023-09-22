@@ -138,7 +138,7 @@ public class Management extends User{
                         blacklistCustomers.remove(selC);
                         CSVFile.removeRowByID(FileHandler.BLACKLIST_DB, String.valueOf(selC.getCustomerID()));            //remove from file
 
-                        sPOS.cust.add(c);
+                        sPOS.cust.add(selC);
                         FileHandler.writeFile(FileHandler.CUSTOMER_DB, selC.toCSV());
                     }
                     else
