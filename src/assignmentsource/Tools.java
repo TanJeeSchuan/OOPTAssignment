@@ -68,27 +68,6 @@ public class Tools {
 //        System.out.println("-----------------------------------\n");
 //    }
 
-    public static void generateActivityLog(String username, double spend, int points) {
-        String datetime = getCurrentDateTime();
-        String activity = String.format("%s spent RM%.2f and earned %d points on store!", username, spend, points);
-        String result = String.format("%s,%s", datetime, activity);
-        FileHandler.writeFile(FileHandler.ACTIVITY_LOG, result);
-    }
-
-    public static void generateSalesLog(String username, String role, String itemName, int quantity) {
-        String datetime = getCurrentDateTime();
-        String activity = String.format("%s (%s) buy %d %s(s) on store!", username, role, quantity, itemName);
-        String result = String.format("%s,%s", datetime, activity);
-        FileHandler.writeFile(FileHandler.SALES_LOG, result);
-    }
-
-    public static void generatePaymentLog(String username, double amount, String paymentMethod) {
-        String datetime = getCurrentDateTime();
-        String activity = String.format("%s paid RM%.2f with payment type of %s!", username, amount, paymentMethod);
-        String result = String.format("%s,%s", datetime, activity);
-        FileHandler.writeFile(FileHandler.PAYMENTS_LOG, result);
-    }
-
     public static double getItemPriceByRole(SoldItem soldItem, String role) {
         return role.equals("retailer") ? soldItem.getSoldItem().getPrice() : soldItem.getSoldItem().getBulkPrice();
     }
