@@ -48,10 +48,10 @@ public class Cashier extends User{
                 case 2:
                     do{
                         String sel = "";
+                        sPOS.addCustomer();
                         do{
-                            sPOS.addCustomer();
                             System.out.print("\n\nContinue adding customer?(y/n):");
-                            sel = sc.next();
+                            sel = Menu.getStringInput().toLowerCase();
                         }while(!("y".equals(sel)) && !("n".equals(sel)));
 
                         if("n".equals(sel))

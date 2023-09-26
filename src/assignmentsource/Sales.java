@@ -126,9 +126,12 @@ public class Sales implements Selectable{
         {
             if ("wholesaler".equals(customer.getRole())){
                 for(SoldItem sI: soldItems){
-                    total += sI.getBulkSubTotal();
-                }
-                total += Wholesaler.getDeliveryFee();
+                        total += sI.getBulkSubTotal();
+                    }
+                if(soldItems.isEmpty())
+                    total += 0;
+                else
+                    total += Wholesaler.getDeliveryFee();
             }
             else {
                 for(SoldItem sI: soldItems){

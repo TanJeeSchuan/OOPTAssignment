@@ -97,13 +97,18 @@ public class Tools {
             do
             {
                 System.out.printf("Enter selection (1 - 10), 11 for next page, 0 to exit: ");
-                selection = sc.nextInt();
+                selection = Menu.getIntegerInput();
                 
                 if (selection == 11) //next input
                     if ((i + 10) < objectList.size())
                         break;
                     else
-                        System.out.println("No Next Page!");
+                    {
+                        validSelection = true;
+                        selection = 0;
+                        System.out.println("No Next Page!\n");
+                        break;
+                    }
                     
                 
                 if (selection == 0){   //exit

@@ -78,7 +78,8 @@ public class Management extends User{
 
                 case 2:
                     Customer c = (Customer)Tools.objectSelection(sPOS.cust);
-                    sPOS.modfiyCustomer(c);
+                    if(c != null)
+                        sPOS.modfiyCustomer(c);
                     break;
 
                 case 3:
