@@ -19,18 +19,14 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         ArrayList<User>users = Init.initUsers();
-//
-//        sPOS.sales.get(0).getCustomer().modifyCurrentPoints(+5);
-//        
-//        System.exit(0);
-        
-//        Selectable a = Tools.objectSelection(sPOS.cust);
-//        Customer i = ((Customer) a);
-//        System.out.println(i.toString());
-//        
+       
         while(true){
             User foundUser = null;
             do{
+                System.out.println("-----------------------------------");
+        System.out.println("\t   Login Menu");
+        System.out.println("-----------------------------------");
+        
                 System.out.print("\nUsername: ");
                 String inputUsername = sc.next();
 
