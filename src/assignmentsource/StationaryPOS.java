@@ -79,7 +79,7 @@ public class StationaryPOS {
             do{
                 System.out.print("\nContinue Sale? (y/n): ");
                 
-                String sel = sc.next();
+                String sel = sc.nextLine();
                 
                 if ("y".equals(sel))
                     break;
@@ -236,15 +236,22 @@ public class StationaryPOS {
 
                 switch(selection){
                     case 1:
-                        cust.setName(sc.next());
+                        System.out.print("\nEnter new customer name: ");
+                        cust.setName(sc.nextLine());
                         break;
 
                     case 2:
-                        cust.setPhoneNumber(sc.next());
+                        System.out.print("\nEnter new customer phone number: ");
+                        cust.setPhoneNumber(sc.nextLine());
                         break;
 
                     case 3:
-                        cust.setCurrentPoints(Menu.getIntegerInput());
+                        int points = -1;
+                        do{
+                            System.out.print("\nEnter customer points: ");
+                            points = Menu.getIntegerInput();
+                        }while(points < 0);
+                        cust.setCurrentPoints(points);
                         break;
 
                     case 4:
@@ -252,13 +259,12 @@ public class StationaryPOS {
                         do{
                             System.out.printf("\nRetailer or Wholesaler (Current Role: %s)\n1. Retailer\t\t2. Wholesaler\nSelection: ", cust.getRole());
                             sel = Menu.getIntegerInput();
-                        }while(!(sel >= 1) && !(sel <= 2));
+                        }while(sel != 1 && sel != 2);
                         
                         if(sel == 1)
                             cust.setRole("retailer");
                         else if(sel == 2)
                             cust.setRole("wholesaler");
-                        
                         break;
 
                     case 5:
@@ -291,16 +297,26 @@ public class StationaryPOS {
         do{
         System.out.print("\nEnter Valid Barcode: ");
         barcode = sc.next();
-        }while(barcode.matches(".*[a-zA-Z]+.*"));
+        }while(barcode.matches(".*[a-zA-Z]+.*") || barcode.length() > 9);
         
-        System.out.print("\nEnter Quantity: ");
-        quantity = Menu.getIntegerInput();
+        quantity = -1;
+        do{
+            System.out.print("\nEnter Quantity: ");
+            quantity = Menu.getIntegerInput();
+        }while(quantity < 0);
         
-        System.out.print("\nEnter Normal Price: ");
-        price = Menu.getDoubleInput();
+        price = -1;
+        do{
+            System.out.print("\nEnter Normal Price: ");                        
+            price = Menu.getDoubleInput();
+        }while(price <= 0);
         
-        System.out.print("\nEnter Bulk Price: ");
-        bulkPrice = Menu.getDoubleInput();
+        
+        bulkPrice = -1;
+        do{
+            System.out.print("\nEnter Bulk Price: ");                        
+            bulkPrice = Menu.getDoubleInput();
+        }while(bulkPrice <= 0);
         
         Item i = new Item(itemName, barcode, quantity, price, bulkPrice);
         inv.addItem(i);
@@ -330,25 +346,41 @@ public class StationaryPOS {
                         break;
 
                     case 2:
-                        item.setItemName(sc.next());
+                        System.out.print("\nEnter Item Name: ");
+                        item.setItemName(sc.nextLine());
                         break;
 
                     case 3:
-                        item.setQuantity(Menu.getIntegerInput());
+                        System.out.print("\nEnter Item Quantity: ");
+                        int inputQty = -1;
+                        do{
+                            inputQty = Menu.getIntegerInput();
+                            item.setQuantity(inputQty);
+                        }while(inputQty < 0);
                         break;
 
                     case 4:
-                        item.setPrice(Menu.getDoubleInput());
+                        double inputPrice = -1;
+                        do{
+                            System.out.print("\nEnter Item Price: ");                        
+                            inputPrice = Menu.getDoubleInput();
+                            item.setPrice(inputPrice);
+                        }while(inputPrice < 0);
                         break;
 
                     case 5:
-                        item.setBulkPrice(Menu.getDoubleInput());
+                        double inputBulkPrice = -1;
+                        do{
+                            System.out.print("\nEnter Item Bulk Price: ");
+                            inputBulkPrice = Menu.getDoubleInput();
+                            item.setBulkPrice(inputBulkPrice);
+                        }while(inputBulkPrice < 0);
                         break;
 
                     case 6:
                         break;
                 }
-            }while(!(selection >= 1) && !(selection <= 6));
+            }while(selection != 6);
             
             if (selection == 6)
                 break;

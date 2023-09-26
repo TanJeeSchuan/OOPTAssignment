@@ -24,14 +24,14 @@ public class Main {
             User foundUser = null;
             do{
                 System.out.println("-----------------------------------");
-        System.out.println("\t   Login Menu");
-        System.out.println("-----------------------------------");
+                System.out.println("\t   Login Menu");
+                System.out.println("-----------------------------------");
         
                 System.out.print("\nUsername: ");
-                String inputUsername = sc.next();
+                String inputUsername = sc.nextLine();
 
                 System.out.print("Password: ");
-                String inputPassword = sc.next();
+                String inputPassword = sc.nextLine();
                 
                 for (User u : users){
                     foundUser = u.checkLogin(inputUsername, inputPassword);
