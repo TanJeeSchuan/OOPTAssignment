@@ -173,6 +173,7 @@ public class StationaryPOS {
                         payAmount = Menu.getDoubleInput();
                     }while(payAmount < transaction.getBalanceLeft());
                     
+                    transaction.pay(payAmount);
                     System.out.printf("\nBalance: %.2f", transaction.getBalanceLeft());
                 }
             }
