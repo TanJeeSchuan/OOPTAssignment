@@ -1,2 +1,0 @@
-datetime,description
-2023-09-16 16:51:02,Jackie Chan paid RM1250.00 with payment type of Installment!
