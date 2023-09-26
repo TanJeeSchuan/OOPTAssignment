@@ -21,7 +21,6 @@ public class FileHandler{
     public static final String USER_DB = "users";
     public static final String SOLD_ITEM_DB = "soldItems";
   
-    //customerid ,updat time
     public static final String BLACKLIST_DB = "blacklist";
 //=====================================================
 //read

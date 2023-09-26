@@ -124,14 +124,14 @@ public class Transaction implements Selectable{
         CSVFile.updateDataByRow(FileHandler.TRANSACTION_DB, transactionID, toCSV().split(","));
     }
 
-    private void generateLog(){
+//   private void generateLog(){
 //        Tools.generatePaymentLog(
 //                this.customer.getName(),
 //                getMonthlyPayment(),
 //                this.installmentTimes == 1 ? "One-time Payment" : "Installment"
 //        );
-        ;
-    }
+//       ;
+//    }
 
     @Override
     public String toFormattedString() {
