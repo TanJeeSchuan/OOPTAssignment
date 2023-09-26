@@ -26,11 +26,11 @@ public class Main {
                 System.out.println("-----------------------------------");
                 System.out.println("\t   Login Menu");
                 System.out.println("-----------------------------------");
-        
-                System.out.print("\nUsername: ");
+                        
+                System.out.print("Username: ");
                 String inputUsername = sc.nextLine();
 
-                System.out.print("Password: ");
+                System.out.print("\nPassword: ");
                 String inputPassword = sc.nextLine();
                 
                 for (User u : users){
@@ -48,7 +48,7 @@ public class Main {
             String quitSel = null;
             do{
                 System.out.print("\nDo You Want To Quit The System? (y/n): ");
-                quitSel = sc.next();
+                quitSel = sc.nextLine();
             }while(!("y".equals(quitSel)) && !("n".equals(quitSel)));
 
             if ("y".equals(quitSel))

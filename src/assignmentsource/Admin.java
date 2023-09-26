@@ -26,15 +26,16 @@ public class Admin extends User{
         Scanner sc = new Scanner(System.in);
                 
         ArrayList<User> users = Init.initUsers();
-        
+
         int menuSel = 0;
         do{
+            
             String[] s = {"Admin", "New User","Remove User", "Display All Users","Logout"};
             menuSel = Menu.menu(s);
 
             switch(menuSel){
                 case 1:
-                    newUser();
+                    users.add(newUser());
                     break;
 
                 case 2:
@@ -69,18 +70,18 @@ public class Admin extends User{
         String phoneNumber;
         
         System.out.print("\nEnter Username: ");
-        username = sc.next();
+        username = sc.nextLine();
         
         do{
             System.out.print("\nEnter Password (min length 8): ");
-            password = sc.next();
+            password = sc.nextLine();
         }while(password.length() < 8);
         
         System.out.print("\nEnter Name: ");
-        name = sc.next();
+        name = sc.nextLine();
         
         System.out.print("\nEnter Phone Number: ");
-        phoneNumber = sc.next();
+        phoneNumber = sc.nextLine();
         
         int selection = 0;
         String[] s = {"Select new user type", "Cashier","Management", "Admin"};
@@ -97,8 +98,6 @@ public class Admin extends User{
                 newUser = new Admin(username, password, name, phoneNumber);
                 break;
         }
-        
-        
         FileHandler.writeFile(FileHandler.USER_DB, newUser.toCSV());
         return newUser;
     }

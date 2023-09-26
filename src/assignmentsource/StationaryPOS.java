@@ -60,8 +60,11 @@ public class StationaryPOS {
             System.out.println("");
             soldItem = ((Item)Tools.objectSelection(sPOS.inv.getItemList()));  //get Selectable object. Cast Selectable to Item class
             if(soldItem == null)
+            {
+                System.out.println("No Item Selected!");
                 break;
-            
+            }
+                
             if(soldItem.getQuantity() > 0){
                 do{
                     System.out.printf("\nEnter sold item quantity (< %d) : ", soldItem.getQuantity());
@@ -109,8 +112,14 @@ public class StationaryPOS {
         }while(selected != 1 && selected != 2);
 
         if (selected == 1){
-            System.out.print("\nInstallment length: ");
-            installmentLength = Menu.getIntegerInput();
+            int installmentTimeSel = -1;
+            do{
+                System.out.println("\nInstallment length: ");
+                System.out.println("1. 12 Months\t2. 24 Months\t3. 36 Months");
+                installmentTimeSel = Menu.getIntegerInput();
+            }while(installmentTimeSel < 1 || installmentTimeSel > 3);
+            
+            installmentLength = installmentTimeSel*12;
         }
         else if(selected == 2)
             installmentLength = 0;
@@ -292,11 +301,11 @@ public class StationaryPOS {
         Scanner sc = new Scanner(System.in);
         
         System.out.print("\nEnter Item Name: ");
-        itemName = sc.next();
+        itemName = sc.nextLine();
         
         do{
         System.out.print("\nEnter Valid Barcode: ");
-        barcode = sc.next();
+        barcode = sc.nextLine();
         }while(barcode.matches(".*[a-zA-Z]+.*") || barcode.length() > 9);
         
         quantity = -1;
@@ -340,7 +349,7 @@ public class StationaryPOS {
                         String newBarcode = "";
                         do{
                             System.out.print("\nEnter Valid Barcode: ");
-                            newBarcode = sc.next();
+                            newBarcode = sc.nextLine();
                         }while(newBarcode.matches(".*[a-zA-Z]+.*"));
                         item.setBarCode(newBarcode);
                         break;

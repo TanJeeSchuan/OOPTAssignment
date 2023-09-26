@@ -80,6 +80,8 @@ public class Management extends User{
                     Customer c = (Customer)Tools.objectSelection(sPOS.cust);
                     if(c != null)
                         sPOS.modfiyCustomer(c);
+                    else
+                        System.out.println("No Customer Selected!");
                     break;
 
                 case 3:
