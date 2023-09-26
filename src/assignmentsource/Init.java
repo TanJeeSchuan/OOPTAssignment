@@ -22,11 +22,14 @@ public class Init {
         
         ArrayList<Customer> customerList = new ArrayList<>();
         //make them become object
-        for (String[] customer : customers) {
-            if (customer[4].equals("retailer")) {
-                customerList.add(new Retailer(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
-            } else {
-                customerList.add(new Wholesaler(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+        
+        if(!customers.isEmpty()){
+            for (String[] customer : customers) {
+                if (customer[4].equals("retailer")) {
+                    customerList.add(new Retailer(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+                } else {
+                    customerList.add(new Wholesaler(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+                }
             }
         }
         return customerList;
@@ -40,11 +43,13 @@ public class Init {
         
         ArrayList<Customer> customerList = new ArrayList<>();
         //make them become object
-        for (String[] customer : customers) {
-            if (customer[4].equals("retailer")) {
-                customerList.add(new Retailer(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
-            } else {
-                customerList.add(new Wholesaler(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+        if(!customers.isEmpty()){
+            for (String[] customer : customers) {
+                if (customer[4].equals("retailer")) {
+                    customerList.add(new Retailer(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+                } else {
+                    customerList.add(new Wholesaler(Integer.parseInt(customer[0]), customer[1], customer[2], Integer.parseInt(customer[3]), customer[4]));
+                }
             }
         }
         return customerList;
@@ -57,17 +62,20 @@ public class Init {
         items.remove(CSVFile.HEADER_INDEX); // remove the header
         
         ArrayList<Item> itemList = new ArrayList<>();
-        int i = 1;
-        for (String[] item : items) {
-            try
-            {
-                itemList.add(new Item(item));
-                i++;
+        if(!items.isEmpty())
+        {
+            int i = 1;
+            for (String[] item : items) {
+                try
+                {
+                    itemList.add(new Item(item));
+                    i++;
+                }
+                catch(Exception e)
+                {
+                    System.out.printf("Row %d is invalid\n\n", i);
+                }   
             }
-            catch(Exception e)
-            {
-                System.out.printf("Row %d is invalid\n\n", i);
-            }   
         }
         return itemList;
     }
@@ -78,9 +86,12 @@ public class Init {
         
         ArrayList<Transaction> transactionList = new ArrayList<>();
         
-        for (String[] transaction : transactions) {
-            if(transaction.length != 0)
-                transactionList.add(new Transaction(transaction));
+        if(!transactions.isEmpty())
+        {
+            for (String[] transaction : transactions) {
+                if(transaction.length != 0)
+                    transactionList.add(new Transaction(transaction));
+            }
         }
         return transactionList;
     }
@@ -92,11 +103,14 @@ public class Init {
         
         ArrayList<SoldItem> soldItemList = new ArrayList<>();
         
-        for (String[] soldItem: soldItemsString){
-            for (Item i: itemList)
-            {
-                if(i.getItemID() == Integer.parseInt(soldItem[1]))
-                    soldItemList.add(new SoldItem(Integer.parseInt(soldItem[0]), i, Integer.parseInt(soldItem[2])));
+        if(!soldItemsString.isEmpty())
+        {
+            for (String[] soldItem: soldItemsString){
+                for (Item i: itemList)
+                {
+                    if(i.getItemID() == Integer.parseInt(soldItem[1]))
+                        soldItemList.add(new SoldItem(Integer.parseInt(soldItem[0]), i, Integer.parseInt(soldItem[2])));
+                }
             }
         }
         
@@ -120,24 +134,27 @@ public class Init {
         usersString.remove(0);
         
         ArrayList<User> user = new ArrayList<>();
-        for (String[] userString: usersString)
+        
+        if(!usersString.isEmpty())
         {
-            if(null != userString[0])
-                switch (userString[0]) {
-                case "Cashier":
-                    user.add(new Cashier(userString));
-                    break;
-                case "Management":
-                    user.add(new Management(userString));
-                    break;
-                case "Admin":
-                    user.add(new Admin(userString));
-                    break;
-                default:
-                    break;
+            for (String[] userString: usersString)
+            {
+                if(null != userString[0])
+                    switch (userString[0]) {
+                    case "Cashier":
+                        user.add(new Cashier(userString));
+                        break;
+                    case "Management":
+                        user.add(new Management(userString));
+                        break;
+                    case "Admin":
+                        user.add(new Admin(userString));
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        
         return user;
     }
 }
