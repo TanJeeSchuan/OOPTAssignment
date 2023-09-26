@@ -32,10 +32,10 @@ public class Main {
             User foundUser = null;
             do{
                 System.out.print("\nUsername: ");
-                String inputUsername = sc.next();
+                String inputUsername = sc.nextLine();
 
                 System.out.print("Password: ");
-                String inputPassword = sc.next();
+                String inputPassword = sc.nextLine();
                 
                 for (User u : users){
                     foundUser = u.checkLogin(inputUsername, inputPassword);
@@ -52,7 +52,7 @@ public class Main {
             String quitSel = null;
             do{
                 System.out.print("\nQuit Program?(y/n): ");
-                quitSel = sc.next();
+                quitSel = sc.nextLine();
             }while(!("y".equals(quitSel)) && !("n".equals(quitSel)));
 
             if ("y".equals(quitSel))

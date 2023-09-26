@@ -172,7 +172,7 @@ public class Management extends User{
                     String selection = "";
                     do{
                         System.out.print("Make Payment? (y/n):");
-                        selection = sc.next();
+                        selection = sc.nextLine();
                     }while(!"y".equals(selection) && !"n".equals(selection));
                     
                     if("y".equals(selection)){

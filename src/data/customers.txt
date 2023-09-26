@@ -1,10 +1,10 @@
 customerID,customerName,phoneNumber,currentPoints,role
 2,Jackson Wang,0187779632,150,wholesaler
-5,Tan Jee Schuan,0164189855,10,retailer
+5,Tan Jee Schuan,0164189855,52,retailer
 4,Choi Young,0126459200,9999,wholesaler
 3,Mark Tuan,0193325874,12,retailer
-6,TEST,TES,0,retailer
-7,2,2,0,wholesaler
+6,lee,999,1000,wholesaler
+7,2,2,2,wholesaler
 8,Tan,999,0,wholesaler
 9,777,7767,0,wholesaler
 10,123,123,0,retailer

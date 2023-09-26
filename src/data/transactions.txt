@@ -19,3 +19,6 @@ transactionID,installmentTimes,balanceLeft,timesLeft,totalAmount
 19,0,0.0,0,54.58
 20,0,0.0,0,163.74
 21,0,109.16,0,109.16
+22,0,0.0,0,272.9
+23,16,150.0,16,150.0
+24,10,225.0,9,250.0

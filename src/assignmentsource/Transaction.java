@@ -68,7 +68,7 @@ public class Transaction implements Selectable{
 
     public double getMonthlyPayment(){
         if (installmentTimes != 0)
-            return Math.round(this.totalAmount / this.installmentTimes);
+            return (this.totalAmount / this.installmentTimes);
         else
             return 0;
     }
