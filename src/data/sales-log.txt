@@ -1,2 +1,0 @@
-datetime,description
-2023-09-15 19:30:19,Choi Young (wholesaler) buy 1199 Apple Pencil(s) on store!

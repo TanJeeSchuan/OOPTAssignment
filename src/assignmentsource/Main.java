@@ -40,14 +40,14 @@ public class Main {
                 }
                 if (foundUser != null)
                     break;
-                System.out.println("Wrong Username/Password!\n");
+                System.out.println("\nWrong Username/Password!\n");
             }while(true);
 
             foundUser.mainMenu();
 
             String quitSel = null;
             do{
-                System.out.print("\nQuit Program?(y/n): ");
+                System.out.print("\nDo You Want To Quit The System? (y/n): ");
                 quitSel = sc.next();
             }while(!("y".equals(quitSel)) && !("n".equals(quitSel)));
 

@@ -20,13 +20,7 @@ public class FileHandler{
     public static final String TRANSACTION_DB = "transactions";
     public static final String USER_DB = "users";
     public static final String SOLD_ITEM_DB = "soldItems";
- 
-    //reportname
-    //cus activity log 
-    //datetime,description 
-    public static final String ACTIVITY_LOG = "activities-log";   
-    public static final String SALES_LOG = "sales-log";   
-    public static final String PAYMENTS_LOG = "payments-log";
+  
     //customerid ,updat time
     public static final String BLACKLIST_DB = "blacklist";
 //=====================================================
