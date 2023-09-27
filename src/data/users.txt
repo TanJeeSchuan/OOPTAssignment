@@ -2,10 +2,4 @@ role,username,password,name,phoneNumber
 Admin,admin,admin,admin user,,000000000
 Management,S007,1234,Tan Test Name,0164189855
 Cashier,C001,5000,John Doe,01212321312
-Cashier,1,1,John Doe,01212321312
-Admin,Test,12345678,Test,01231
-Admin,asd,12345678,123,123
-Management,2,2,213,123
-Admin,ABC,12345678,ABC,0123456789
 
-Admin,PQR,12345678,PQR,012
