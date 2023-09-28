@@ -456,15 +456,15 @@ public class StationaryPOS {
     }
     
     public static void viewTransaction(Transaction transaction){
-        System.out.printf("%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
+        System.out.printf("\n%-20s%-20s\n", "Transaction ID:", transaction.getTransactionID());
         System.out.printf("%-20s%-20.2f\n", "Total Amount:", transaction.getTotalAmount());
         if (!transaction.isInstallment()) {
             System.out.printf("%-20s%-20s\n", "Payment Type:", "One Time Payment");
         } else {
             System.out.printf("%-20s%-20s\n", "Payment Type:", "Installment");
             System.out.printf("%-20s%-20s\n", "Installment Period:", transaction.getInstallmentTimes()+" months");
-            System.out.printf("%-20s%-20s\n", "Time Left:", transaction.getTimesLeft());
-            System.out.printf("%-20s%-20s\n", "Balance Left:", transaction.getBalanceLeft());
+            System.out.printf("%-20s%-20.2s\n", "Time Left:", transaction.getTimesLeft());
+            System.out.printf("%-20s%-20.2s\n", "Balance Left:", transaction.getBalanceLeft());
         }
         System.out.println("-----------------------------------");
     }
